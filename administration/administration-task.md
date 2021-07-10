@@ -37,5 +37,7 @@ description: All hail admin
   * Collation
   * Character Type
 
+## Query Editor
 
+![create multiple query editor](../.gitbook/assets/query-editor.gif)
 
