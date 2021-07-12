@@ -26,7 +26,7 @@ description: All hail admin
 
 ![create multiple query editor](../.gitbook/assets/query-editor.gif)
 
-### Load Data using pgAdmin4
+## Load Data using pgAdmin4
 
 ![loading data](../.gitbook/assets/output.gif)
 

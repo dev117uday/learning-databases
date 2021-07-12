@@ -2,7 +2,7 @@
 description: not file system
 ---
 
-# Working with Database
+# Databases
 
 ## Creating a database
 
@@ -21,7 +21,7 @@ description: not file system
 
 ## Dropping Database
 
-![drop database](../.gitbook/assets/output%20%281%29.gif)
+![drop database](../.gitbook/assets/output%20%284%29.gif)
 
 ## Commands
 

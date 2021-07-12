@@ -10,5 +10,6 @@
 
 * [Exercise](ddl/exercise/README.md)
   * [Movie Table](ddl/exercise/movie-table.md)
-* [Working with Database](ddl/working-with-database.md)
+* [Databases](ddl/working-with-database.md)
+* [Tables](ddl/tables.md)
 
