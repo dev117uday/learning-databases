@@ -30,6 +30,7 @@ WHERE
     officeCode = 1
 
 ------ WHERE with between
+-- same with not between
 
 SELECT 
     firstName, 
@@ -64,6 +65,24 @@ WHERE
     officeCode IN (1 , 2, 3)
 ORDER BY 
     officeCode;
+    
+------ WHERE with NOT IN 
+
+SELECT 
+    firstName, 
+    lastName, 
+    officeCode
+FROM
+    employees
+WHERE
+    officeCode NOT IN (1 , 2, 3)
+ORDER BY 
+    officeCode;
+    
+-- Querying Data with date
+select * 
+from movies 
+where release_date > '1999-12-31';
 ```
 
 * Cannot use column alias with where clause
