@@ -13,5 +13,7 @@
 * [Databases](sql/working-with-database.md)
 * [Tables](sql/tables/README.md)
   * [ORDER BY and DISTINCT](sql/tables/order-by.md)
-  * [Miscellaneous](sql/tables/miscellaneous.md)
+  * [WHERE](sql/tables/where.md)
+  * [OPERATORS](sql/tables/miscellaneous.md)
+  * [Miscellaneous](sql/tables/miscellaneous-1.md)
 
