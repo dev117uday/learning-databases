@@ -6,7 +6,7 @@ description: not file system
 
 ## Creating a database
 
-![creating database](../.gitbook/assets/create-database%20%281%29.gif)
+![creating database](../.gitbook/assets/create-database%20%281%29%20%281%29.gif)
 
 ### Options
 
@@ -31,5 +31,16 @@ create database testdb;
 drop database if exists testdb;
 ```
 
+### Connect to DB
 
+```sql
+\c test
+```
+
+### See list of tables
+
+```sql
+\d                       #to see tables
+\d <name of table>       #to see details about table
+```
 

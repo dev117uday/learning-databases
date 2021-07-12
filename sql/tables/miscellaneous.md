@@ -1,6 +1,6 @@
-# Miscellaneous
+# OPERATORS
 
-## Operators
+## Logical
 
 ```sql
 SELECT 1=1;
@@ -28,7 +28,16 @@ SELECT * FROM person WHERE email LIKE '%gmail.%;
 
 ```sql
 SELECT * FROM person WHERE last_name LIKE '__i%';
-SELECT * FROM person WHERE last_name ILIKE '__i%'; 
+
 -- to ignore the case
+SELECT * FROM person WHERE last_name ILIKE '__i%'; 
 ```
+
+### Tips
+
+* When using AND and OR in sample SQL statement, use brackets to differentiate between statements
+* AND  operator is processed before OR operator
+* SQL treats AND operator like multiplication and OR like divide
+
+
 
