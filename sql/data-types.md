@@ -104,13 +104,15 @@ select 'lorem ipsum'::text;
 | :--- | :--- | :--- | :--- |
 | numeric, decimal | variable | fixed point | 131072 digits before decimal point and 16383 digits after the decimal point |
 | real | 4 | floating point | 6 decimal digits precision |
-|  double precision | 8  | floating point | 15 decimal digits precision |
+| double precision | 8 | floating point | 15 decimal digits precision |
 
 ![table example](../.gitbook/assets/image.png)
 
 ![how data is stored](../.gitbook/assets/image%20%281%29.png)
 
-          **Hierarchical order to select best type : numeric &gt; decimal &gt; float**
+```text
+      **Hierarchical order to select best type : numeric &gt; decimal &gt; float**
+```
 
 ## Date Time Data
 
@@ -126,10 +128,10 @@ select 'lorem ipsum'::text;
 
 ```sql
 create table table_dates (
-	id serial primary key,
-	employee_name varchar(100) not null,
-	hire_date DATE NOT NULL,
-	add_date DATE DEFAULT CURRENT_DATE
+    id serial primary key,
+    employee_name varchar(100) not null,
+    hire_date DATE NOT NULL,
+    add_date DATE DEFAULT CURRENT_DATE
 );
 
 INSERT INTO table_dates (employee_name, hire_date)
@@ -146,7 +148,6 @@ select NOW();
 ![time formats](../.gitbook/assets/image%20%282%29.png)
 
 ```sql
-
 create table table_time (
     id serial primary key ,
     class_name varchar(10) not null ,
@@ -175,7 +176,7 @@ select time '12:10' - time '04:30' as RESULT;
 select CURRENT_TIME ,
     CURRENT_TIME + INTERVAL '2 hours' as RESULT;
 select CURRENT_TIME ,
-    CURRENT_TIME + INTERVAL '-2 hours' as RESULT;    
+    CURRENT_TIME + INTERVAL '-2 hours' as RESULT;
 ```
 
 ### Timestamp and Timezone
@@ -242,3 +243,121 @@ insert into products_uuid_v4 (product_name)
 
 select * from products_uuid_v4;
 ```
+
+## Array
+
+```sql
+create table table_array (
+    id SERIAL,
+    name varchar(100),
+    phones text[]
+);
+
+insert into table_array (name, phones) 
+    values ('uday',array ['999999999','000000000']);
+insert into table_array (name, phones) 
+    values ('uday1',array ['9999999990','0000000009']);
+
+select name, phones[1] from table_array;
+```
+
+## HSTORE
+
+* stores data in key-value pairs
+* key and values are text string only
+
+```sql
+create extension if not exists hstore;
+
+create table table_hstore (
+    id SERIAL PRIMARY KEY ,
+    title varchar(100) not null,
+    book_info hstore
+);
+
+insert into table_hstore (title, book_info) VALUES
+(
+    'Title 1', ' "publisher" => "ABC publisher" , 
+    "paper_cost" => "100" , "e_cost" => "5.85" '
+);
+
+select * from table_hstore;
+
+select book_info -> 'publisher' as publisher 
+from table_hstore;
+```
+
+## Json
+
+// TODO
+
+* PostgreSQL supports both 
+  * JSON
+  * BSON or JSONB \( Binary JSON \)
+* JSONB has full support for indexing
+
+```sql
+create table table_json (
+    id SERIAL PRIMARY KEY ,
+    docs json
+);
+
+insert into table_json (docs) 
+    values ('[1,2,3,4,5,6]'),('{"key":"value"}');
+
+insert into table_json (docs)
+values ('[{"key":"value"},{"key2":"value2"}]');
+
+select * from table_json;
+
+alter table table_json alter column docs type jsonb;
+
+select * from table_json where docs @> '2';
+
+create index on table_json USING GIN (docs jsonb_path_ops);
+```
+
+## Network Address Data Types
+
+| Name | Storage Size | Notes |
+| :--- | :--- | :--- |
+| cidr | 7 or 19 bytes | IPv4 and IPv6 networks |
+| inet  | 7 or 19 bytes | IPv4 and IPv6 hosts and networks |
+| macaddr | 6 bytes | MAC addresses |
+| macaddr8 | 8 bytes | MAC addresses \( EUI 64-bit \) |
+
+* It is better to use these types instead of plain text types of store network address, because  these types offer input error checking and specialised operators and functions
+* Supports indexing and advance operations
+
+```sql
+create table table_netaddr (
+    id SERIAL PRIMARY KEY ,
+    ip inet
+);
+
+insert into table_netaddr (ip)
+values ('148.77.50.74'),
+        ('110.158.172.66'),
+        ('176.103.251.175'),
+        ('84.84.14.58'),
+        ('141.122.225.161'),
+        ('78.44.113.33'),
+        ('81.236.254.9'),
+        ('82.116.85.21'),
+        ('54.64.79.223'),
+        ('162.240.78.253');
+
+select * from table_netaddr;
+
+select 
+       ip, 
+       set_masklen(ip,24) as inet_24, 
+       set_masklen(ip::cidr,24) as cidr_24 ,
+       set_masklen(ip::cidr,27) as cidr_27,
+       set_masklen(ip::cidr,28) as cidr_28 
+from 
+     table_netaddr;
+```
+
+
+
