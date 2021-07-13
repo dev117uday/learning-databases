@@ -12,7 +12,7 @@ description: not file system
 
 * **Definition**
 
-  // TODO : complete all 
+  // TODO : complete all
 
   * Template 
   * Table-space

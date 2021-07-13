@@ -29,7 +29,7 @@ INSERT INTO booltable (is_enable) VALUES (TRUE), ('true'),
     ('y') , ('yes'), ('t'), ('1');
 INSERT INTO booltable (is_enable) VALUES (FALSE), ('false'), 
     ('n') , ('no'), ('f'), ('0');
-    
+
 select * from booltable;
 
 SELECT * FROM booltable WHERE is_enable = 'y';
@@ -242,4 +242,3 @@ insert into products_uuid_v4 (product_name)
 
 select * from products_uuid_v4;
 ```
-

@@ -47,7 +47,7 @@ psql
 
 ## Getting Started
 
-#### Connect to a database
+### Connect to a database
 
 ```sql
 psql --help

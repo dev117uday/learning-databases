@@ -7,12 +7,12 @@
 3. SELECT
 4. ORDER BY
 
-### Concatenation Operator
+## Concatenation Operator
 
 ```sql
 select concat(first_name,last_name) as full_name 
     from actors limit 10;
-    
+
 select concat_ws(' ',first_name,last_name) as full_name 
     from actors limit 10;
 ```
