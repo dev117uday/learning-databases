@@ -29,7 +29,7 @@ INSERT INTO booltable (is_enable) VALUES (TRUE), ('true'),
     ('y') , ('yes'), ('t'), ('1');
 INSERT INTO booltable (is_enable) VALUES (FALSE), ('false'), 
     ('n') , ('no'), ('f'), ('0');
-    
+
 select * from booltable;
 
 SELECT * FROM booltable WHERE is_enable = 'y';
@@ -85,6 +85,4 @@ select 'lorem ipsum'::text;
 | smallserial | 2 | 1 to 32767 |
 | serial | 4 | 1 to 2147483647 |
 | bigserial | 8 | 1 to 9223372036854775807 |
-
-
 

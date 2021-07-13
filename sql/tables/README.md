@@ -4,9 +4,9 @@ description: better excel sheet
 
 # Tables
 
-## Creating Table 
+## Creating Table
 
-![](../../.gitbook/assets/output%20%281%29%20%281%29.gif)
+![](../../.gitbook/assets/output%20%281%29%20%281%29%20%282%29.gif)
 
 ## Altering Table
 
@@ -15,7 +15,7 @@ description: better excel sheet
 ```sql
 ALTER TABLE public.accounts
     ADD COLUMN is_enable boolean;
-    
+
 ALTER TABLE public.accounts
     RENAME username TO user_name;
 ```
@@ -95,7 +95,7 @@ FROM
     customer;
 ```
 
-## Insert 
+## Insert
 
 ```sql
 INSERT INTO table (col1, col2) 
@@ -144,8 +144,8 @@ INSERT INTO tablename ( col_list ) VALUES
         NOTHING 
         -- OR
         UPDATE SET col = val where condition;
-        
-        
+
+
 INSERT INTO tablename ( COL_NAME ) VALUES 
     ( value_list ) ON CONFLICT (COL_NAME)
     DO
