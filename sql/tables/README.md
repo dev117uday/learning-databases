@@ -6,7 +6,7 @@ description: better excel sheet
 
 ## Creating Table 
 
-![](../../.gitbook/assets/output%20%281%29%20%281%29.gif)
+![](../../.gitbook/assets/output%20%281%29%20%281%29%20%282%29.gif)
 
 ## Altering Table
 

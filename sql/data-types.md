@@ -86,5 +86,25 @@ select 'lorem ipsum'::text;
 | serial | 4 | 1 to 2147483647 |
 | bigserial | 8 | 1 to 9223372036854775807 |
 
+## Fixed Point Data
 
+**numeric \( precision , scale \)**
+
+* precision : max number of digits to the left and right of the decimal point
+* scale : number of digits allowable on the right of the decimal point
+
+## Floating Point Data
+
+| Type | Notes |
+| :--- | :--- |
+| Real | allows precision to six decimal digits |
+| Double precision | allows precision to 15 digits points of precision |
+
+| type | size | storage type | Range |
+| :--- | :--- | :--- | :--- |
+| numeric, decimal | variable | fixed point | 131072 digits before decimal point and 16383 digits after the decimal point |
+| real | 4 | floating point | 6 decimal digits precision |
+|  double precision | 8  | floating point | 15 decimal digits precision |
+
+![](../.gitbook/assets/image.png)
 
