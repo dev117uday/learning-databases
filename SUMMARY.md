@@ -8,6 +8,7 @@
 
 ## SQL
 
+* [Data Types](sql/data-types.md)
 * [Exercise](sql/exercise/README.md)
   * [Movie Table](sql/exercise/movie-table.md)
 * [Databases](sql/working-with-database.md)
