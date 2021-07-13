@@ -119,7 +119,7 @@ select 'lorem ipsum'::text;
 | Date | date only | 4 | 4713 BC | 294276 AD |
 | Time | time only |  | 4713 BC | 5874897 AD |
 | Timestamp | date and time |  | 4713 BC | 294276 AD |
-| Timestampz | date, time and timezone |  | 4713 BC | 294276 AD |
+| `Timestampz` | date, time and timezone |  | 4713 BC | 294276 AD |
 | Interval | difference btw time |  |  |  |
 
 ### Date type
@@ -180,8 +180,8 @@ select CURRENT_TIME ,
 
 ### Timestamp and Timezone
 
-* timestamp : stores time without time zone
-* timestamptz : timestamp with time zone , stored using UTC format
+* `timestamp` : stores time without time zone
+* `timestamptz` : timestamp with time zone , stored using UTC format
 * adding timestamp to timestamptz without mentioning the zone will result in server automatically assumes timezone to system's timezone
 * **Internally, PostgreSQL will store the timezone accurately but then outputting the data, will it be converted according to your timezone**
 
@@ -209,5 +209,37 @@ SELECT CURRENT_TIMESTAMP;
 SELECT timezone('Asia/Singapore','2020-01-01 00:00:00')
 ```
 
+## UUID
 
+* UUID : Universal Unique Identifier
+* PostgreSQL doesn't provide internal function to generate UUID's, use `uuid-ossp`
+
+```sql
+create extension if not exists "uuid-ossp";
+
+select uuid_generate_v1();
+
+-- pure randomness
+select uuid_generate_v4();
+
+create table products_uuid (
+    id uuid default uuid_generate_v1(),
+    product_name varchar(100) not null
+);
+
+insert into products_uuid (product_name) 
+    values ('ice cream'),('cake'),('candies');
+
+select * from products_uuid;
+
+create table products_uuid_v4 (
+    id uuid default uuid_generate_v4(),
+    product_name varchar(100) not null
+);
+
+insert into products_uuid_v4 (product_name) 
+    values ('ice cream'),('cake'),('candies');
+
+select * from products_uuid_v4;
+```
 
