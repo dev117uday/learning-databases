@@ -106,9 +106,9 @@ select 'lorem ipsum'::text;
 | real | 4 | floating point | 6 decimal digits precision |
 | double precision | 8 | floating point | 15 decimal digits precision |
 
-![table example](../.gitbook/assets/image.png)
+![table example](../../.gitbook/assets/image.png)
 
-![how data is stored](../.gitbook/assets/image%20%281%29.png)
+![how data is stored](../../.gitbook/assets/image%20%281%29.png)
 
 ```text
       **Hierarchical order to select best type : numeric &gt; decimal &gt; float**
@@ -145,7 +145,7 @@ select NOW();
 
 ### Time type
 
-![time formats](../.gitbook/assets/image%20%282%29.png)
+![time formats](../../.gitbook/assets/image%20%282%29.png)
 
 ```sql
 create table table_time (

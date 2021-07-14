@@ -2,7 +2,7 @@
 description: not file system
 ---
 
-# Databases
+# Database
 
 ## Creating a database
 

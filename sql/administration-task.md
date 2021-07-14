@@ -2,7 +2,7 @@
 description: All hail admin
 ---
 
-# Administration Task
+# pgAdmin Tool
 
 ## Creating New User
 

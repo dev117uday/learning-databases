@@ -1,3 +1,7 @@
+---
+description: 'one day, you will need them'
+---
+
 # Miscellaneous
 
 **Order of execution of SQL statements**
@@ -71,7 +75,9 @@ SELECT
 	'10 week'::interval, 
 	'10 month'::interval;
 	
-SELECT 20! AS "result 1" , CAST( 20 AS bigint ) ! AS "result 2";
+SELECT 
+	20! AS "result 1" , 
+	CAST( 20 AS bigint ) ! AS "result 2";
 
 SELECT 
 	ROUND(10,4) AS "result 1", 

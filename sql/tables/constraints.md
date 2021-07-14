@@ -1,3 +1,7 @@
+---
+description: follow the rules
+---
+
 # Constraints
 
 ```sql
@@ -12,17 +16,20 @@ SELECT * FROM web_links;
 ALTER TABLE web_links
 ADD CONSTRAINT unique_web_url UNIQUE (link_url);
 
-INSERT INTO web_links (link_url,link_target) VALUES ('https://www.google.com/','_blank');
+INSERT INTO web_links (link_url,link_target) 
+	VALUES ('https://www.google.com/','_blank');
 
 ALTER TABLE web_links
 ADD COLUMN is_enable VARCHAR(2);
 
-INSERT INTO web_links (link_url,link_target,is_enable) VALUES ('https://www.amazon.com/','_blank','Y');
+INSERT INTO web_links (link_url,link_target,is_enable) 
+	VALUES ('https://www.amazon.com/','_blank','Y');
 
 ALTER TABLE web_links
 ADD CHECK ( is_enable IN ('Y','N') );
 
-INSERT INTO web_links (link_url,link_target,is_enable) VALUES ('https://www.NETFLIX.com/','_blank','N');
+INSERT INTO web_links (link_url,link_target,is_enable) 
+	VALUES ('https://www.NETFLIX.com/','_blank','N');
 
 SELECT * FROM web_links;
 

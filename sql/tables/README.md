@@ -2,7 +2,7 @@
 description: better excel sheet
 ---
 
-# Tables
+# Table
 
 ## Creating Table
 
