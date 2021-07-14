@@ -2,11 +2,11 @@
 description: not file system
 ---
 
-# Databases
+# Database
 
 ## Creating a database
 
-![creating database](../.gitbook/assets/create-database%20%281%29%20%281%29%20%281%29%20%282%29%20%281%29.gif)
+![creating database](../.gitbook/assets/create-database%20%281%29%20%281%29%20%281%29%20%282%29%20%283%29%20%281%29.gif)
 
 ### Options
 

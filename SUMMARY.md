@@ -2,19 +2,18 @@
 
 * [Learning PostgreSQL](README.md)
 
-## Administration
-
-* [Administration Task](administration/administration-task.md)
-
 ## SQL
 
-* [Data Types](sql/data-types.md)
+* [pgAdmin Tool](sql/administration-task.md)
+* [Data Types](sql/data-types/README.md)
+  * [User Defined Data Types](sql/data-types/user-defined-data-types.md)
 * [Exercise](sql/exercise/README.md)
   * [Movie Table](sql/exercise/movie-table.md)
-* [Databases](sql/working-with-database.md)
-* [Tables](sql/tables/README.md)
+* [Database](sql/working-with-database.md)
+* [Table](sql/tables/README.md)
   * [ORDER BY and DISTINCT](sql/tables/order-by.md)
   * [WHERE](sql/tables/where.md)
   * [OPERATORS](sql/tables/miscellaneous.md)
+  * [Constraints](sql/tables/constraints.md)
   * [Miscellaneous](sql/tables/miscellaneous-1.md)
 

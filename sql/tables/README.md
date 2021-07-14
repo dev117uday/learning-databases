@@ -2,7 +2,7 @@
 description: better excel sheet
 ---
 
-# Tables
+# Table
 
 ## Creating Table
 
@@ -18,6 +18,62 @@ ALTER TABLE public.accounts
 
 ALTER TABLE public.accounts
     RENAME username TO user_name;
+    
+-- create database
+
+CREATE DATABASE mydata
+    WITH 
+    OWNER = uday
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;
+	
+-- create table
+CREATE TABLE persons (
+    person_id SERIAL PRIMARY KEY ,
+    first_name VARCHAR(100) NOT NULL ,
+    last_name VARCHAR(100) NOT NULL
+);
+
+-- add column
+ALTER TABLE users
+ADD COLUMN age INT NOT NULL ;
+
+-- add mulitple columns
+ALTER TABLE persons
+ADD COLUMN nationality VARCHAR(20) NOT NULL,
+ADD COLUMN email VARCHAR(50) UNIQUE ;
+
+SELECT * FROM persons;
+
+-- rename table
+ALTER TABLE users
+RENAME TO persons;
+
+-- rename column
+ALTER TABLE USERS
+RENAME COLUMN age TO person_age
+
+-- drop column
+ALTER TABLE users
+DROP COLUMN person_age ;
+
+-- change data type of column
+ALTER TABLE users
+ALTER COLUMN age TYPE VARCHAR(10);
+
+ALTER TABLE users
+ALTER COLUMN age TYPE INT
+USING age::integer;
+
+select * from users;
+
+-- set default  values of column
+ALTER TABLE users
+ADD COLUMN is_enable VARCHAR(1); 
+
+ALTER TABLE users
+ALTER COLUMN is_enable SET DEFAULT 'Y';
+
 ```
 
 ## Delete

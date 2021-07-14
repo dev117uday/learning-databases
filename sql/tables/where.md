@@ -1,3 +1,7 @@
+---
+description: '??'
+---
+
 # WHERE
 
 ```sql
