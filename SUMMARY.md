@@ -13,6 +13,7 @@
   * [Movie Table](sql/exercise/movie-table.md)
 * [Databases](sql/working-with-database.md)
 * [Tables](sql/tables/README.md)
+  * [Constraints](sql/tables/constraints.md)
   * [ORDER BY and DISTINCT](sql/tables/order-by.md)
   * [WHERE](sql/tables/where.md)
   * [OPERATORS](sql/tables/miscellaneous.md)
