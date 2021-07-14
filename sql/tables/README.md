@@ -152,3 +152,96 @@ INSERT INTO tablename ( COL_NAME ) VALUES
         UPDATE SET COL_NAME = EXCLUDED.COL_NAME;
 ```
 
+## Alter operations
+
+```sql
+-- create database
+
+CREATE DATABASE mydata
+    WITH 
+    OWNER = uday
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;
+	
+-- create table
+CREATE TABLE persons (
+    person_id SERIAL PRIMARY KEY ,
+    first_name VARCHAR(100) NOT NULL ,
+    last_name VARCHAR(100) NOT NULL
+);
+
+-- add column
+ALTER TABLE users
+ADD COLUMN age INT NOT NULL ;
+
+-- add mulitple columns
+ALTER TABLE persons
+ADD COLUMN nationality VARCHAR(20) NOT NULL,
+ADD COLUMN email VARCHAR(50) UNIQUE ;
+
+SELECT * FROM persons;
+
+-- rename table
+ALTER TABLE users
+RENAME TO persons;
+
+-- rename column
+ALTER TABLE USERS
+RENAME COLUMN age TO person_age
+
+-- drop column
+ALTER TABLE users
+DROP COLUMN person_age ;
+
+-- change data type of column
+ALTER TABLE users
+ALTER COLUMN age TYPE VARCHAR(10);
+
+ALTER TABLE users
+ALTER COLUMN age TYPE INT
+USING age::integer;
+
+select * from users;
+
+-- set default  values of column
+ALTER TABLE users
+ADD COLUMN is_enable VARCHAR(1); 
+
+ALTER TABLE users
+ALTER COLUMN is_enable SET DEFAULT 'Y';
+
+```
+
+## Constraints
+
+```sql
+CREATE TABLE web_links (
+	link_id SERIAL PRIMARY KEY,
+	link_url VARCHAR(255) NOT NULL,
+	link_target VARCHAR(20)
+);
+
+SELECT * FROM web_links;
+
+ALTER TABLE web_links
+ADD CONSTRAINT unique_web_url UNIQUE (link_url);
+
+INSERT INTO web_links (link_url,link_target) VALUES ('https://www.google.com/','_blank');
+
+ALTER TABLE web_links
+ADD COLUMN is_enable VARCHAR(2);
+
+INSERT INTO web_links (link_url,link_target,is_enable) VALUES ('https://www.amazon.com/','_blank','Y');
+
+ALTER TABLE web_links
+ADD CHECK ( is_enable IN ('Y','N') );
+
+INSERT INTO web_links (link_url,link_target,is_enable) VALUES ('https://www.NETFLIX.com/','_blank','N');
+
+SELECT * FROM web_links;
+
+UPDATE web_links
+SET is_enable = 'Y'
+WHERE link_id = 1
+```
+
