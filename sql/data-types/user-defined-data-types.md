@@ -97,7 +97,8 @@ CREATE TABLE person (
 	address address
 );
 
-INSERT INTO person ( address ) VALUES (ROW('London','UK')), (ROW('New York','USA'));
+INSERT INTO person ( address ) 
+	VALUES (ROW('London','UK')), (ROW('New York','USA'));
 
 select * from person;
 
@@ -123,6 +124,96 @@ insert into stocks ( symbol ) VALUES ('CHF');
 select * from stocks
 
 -- DROP TYPE currency;
+```
+
+### Alter TYPE
+
+```sql
+ALTER TYPE address RENAME TO user_address
+
+ALTER TYPE user_address OWNER TO uday
+
+ALTER TYPE user_address SET SCHEMA test_scm
+
+ALTER TYPE test_scm.user_address 
+    ADD ATTRIBUTE street_address VARCHAR(150)    
+    
+    
+CREATE TYPE mycolors AS ENUM ('green','red','blue')
+
+ALTER TYPE mycolors RENAME VALUE 'red' TO 'orange'
+
+SELECT enum_range(NULL::mycolors);
+
+ALTER TYPE mycolors ADD VALUE 'red' BEFORE 'green'
+```
+
+### ALTER ENUM
+
+```sql
+
+CREATE TYPE status_enum AS enum 
+('queued','waiting','running','done');
+
+CREATE TABLE jobs (
+	id SERIAL PRIMARY KEY,
+	job_status status_enum
+);
+
+INSERT INTO jobs ( job_status ) VALUES 
+	('queued'),('waiting'),('running'),('done');
+
+SELECT * FROM jobs
+
+-- UPDATING waiting to running
+
+UPDATE jobs SET job_status = 'running' 
+	WHERE job_status = 'waiting'
+
+ALTER TYPE status_enum RENAME TO status_enum_old;
+
+CREATE TYPE status_enum as enum 
+	('queued','running','done');
+
+ALTER TABLE jobs ALTER COLUMN job_status 
+	TYPE status_enum USING job_status::text::status_enum;
+
+DROP TYPE status_enum_old
+
+
+CREATE TYPE  status AS ENUM 
+	('PENDING','APPROVED','DECLINE')
+
+CREATE TABLE cron_jobs (
+	id SERIAL,
+	status status DEFAULT 'PENDING'
+);
+
+INSERT INTO cron_jobs ( status ) VALUES ('APPROVED');
+
+
+
+DO
+$$
+BEGIN
+	IF NOT EXISTS ( 
+			SELECT 
+				* 
+			FROM pg_type tp 
+			INNER JOIN 
+				pg_namespace nsp ON nsp.oid = typ.typnamespace
+					WHERE nsp.nspname = current_schema() 
+					AND typ.typname = 'a' 
+				) 
+		THEN
+			CREATE TYPE ai AS ( 
+				a TEXT, i INT 
+			);
+	END IF;
+END;
+$$
+LANGUAGE plpgsql;
+
 ```
 
 
