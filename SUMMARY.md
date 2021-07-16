@@ -15,7 +15,7 @@
   * [WHERE](sql/tables/where.md)
   * [OPERATORS](sql/tables/miscellaneous.md)
   * [Constraints](sql/tables/constraints.md)
-  * [Miscellaneous](sql/tables/miscellaneous-1.md)
 * [Constraints](sql/constraints.md)
 * [Sequences](sql/sequences.md)
+* [Internal Functions](sql/miscellaneous-1.md)
 
