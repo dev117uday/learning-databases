@@ -17,4 +17,5 @@
   * [Constraints](sql/tables/constraints.md)
   * [Miscellaneous](sql/tables/miscellaneous-1.md)
 * [Constraints](sql/constraints.md)
+* [Sequences](sql/sequences.md)
 
