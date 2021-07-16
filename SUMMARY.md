@@ -16,4 +16,5 @@
   * [OPERATORS](sql/tables/miscellaneous.md)
   * [Constraints](sql/tables/constraints.md)
   * [Miscellaneous](sql/tables/miscellaneous-1.md)
+* [Constraints](sql/constraints.md)
 
