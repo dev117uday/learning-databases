@@ -190,3 +190,38 @@ INSERT INTO t_products ( P_NAME, S_ID )
 -- SQL state: 23503
 ```
 
+### CHECK Constraint
+
+```sql
+CREATE TABLE table_constr (
+    id SERIAL PRIMARY KEY,
+    birth_date DATE CHECK ( birth_date > '1900-01-01' ),
+    joined_date DATE CHECK ( joined_date > birth_date ),
+    salary NUMERIC CHECK ( salary > 0 )
+);
+
+select * from table_constr;
+
+insert into table_constr (birth_date, joined_date, salary) 
+values 
+    ('2001-02-02','2019-01-10',100000);
+
+insert into table_constr (birth_date, joined_date, salary) 
+values 
+    ('2001-02-02','2000-01-10',100000);
+
+insert into table_constr (birth_date, joined_date, salary) 
+values 
+    ('2001-02-02','2000-01-10',-100000);
+
+ALTER TABLE public.table_constr
+    ADD COLUMN prices int;
+
+ALTER TABLE table_constr
+ADD CONSTRAINT price_check 
+CHECK (
+    prices > 0
+    AND salary > prices
+);
+```
+
