@@ -105,3 +105,88 @@ ALTER TABLE public.table_default
     ALTER COLUMN tag DROP DEFAULT;
 ```
 
+### Primary Key
+
+1. Uniquely identifies each record in a database table
+2. There can be more than one UNIQUE, but only one primary key
+3. A primary key is a field in a table, which uniquely identifies each row/column in a database table
+4. When multiple fields are used as a primary key, which may consist of single or multiple fields, also known 
+
+    as composite key.
+
+```sql
+CREATE TABLE table_item (
+    item_id INTEGER PRIMARY KEY,
+    item_name varchar(20) NOT NULL    
+);
+
+INSERT INTO table_item ( item_id,item_name ) 
+    VALUES (1, 'pencil'), (2, 'pen' ), (3, 'box' );
+
+INSERT INTO table_item ( item_id,item_name ) 
+    VALUES (1, 'mobile');
+
+-- ERROR:  duplicate key value violates unique constraint "table_item_pkey"
+-- DETAIL:  Key (item_id)=(1) already exists.
+-- SQL state: 23505
+
+ALTER TABLE table_item
+DROP CONSTRAINT table_item_pkey;
+
+ALTER TABLE public.table_item
+    ADD PRIMARY KEY (item_id);
+```
+
+### Composite Primary Key
+
+```sql
+CREATE TABLE table_cpk (
+    id VARCHAR(20) NOT NULL,
+    another_id VARCHAR(20) NOT NULL,
+    grade_id VARCHAR(20) NOT NULL
+);
+
+INSERT INTO table_cpk ( id, another_id, grade_id ) 
+    VALUES 
+        ('1','11','12'), 
+        ('2','21','22'), 
+        ('3','31','32');
+
+SELECT * FROM table_cpk;
+
+-- composite key = id + another_id;
+
+ALTER TABLE public.table_cpk
+    ADD CONSTRAINT cpk_comp_pkey PRIMARY KEY (id, another_id)
+```
+
+### Foreign Key
+
+```sql
+CREATE TABLE t_suppliers (
+    s_id SERIAL PRIMARY KEY,
+    s_name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE t_products (
+    p_id SERIAL PRIMARY KEY,
+    p_name  VARCHAR(10) NOT NULL,
+    s_id INT NOT NULL,
+    FOREIGN KEY (s_id) REFERENCES t_suppliers (s_id)
+);
+
+INSERT INTO t_suppliers ( s_name ) 
+    VALUES ('SUP 1'),('SUP 2'),('SUP 3'),('SUP 4');
+
+INSERT INTO t_products ( P_NAME, S_ID ) 
+    VALUES ('PRO 1',1),('PRO 2',2);
+
+INSERT INTO t_products ( P_NAME, S_ID ) 
+    VALUES ('PRO 1',9);
+
+-- ERROR:  insert or update on table "t_products" 
+-- violates foreign key constraint "t_products_s_id_fkey"
+-- DETAIL:  Key (s_id)=(9) is not present in table "t_suppliers".
+-- SQL state: 23503
+```
+
