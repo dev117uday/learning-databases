@@ -65,5 +65,44 @@ where mv.movie_lang in ('English','Chinese');
 
 ## Right Join
 
+![](../../.gitbook/assets/image%20%285%29.png)
 
+```sql
+SELECT 
+    table1.column1,
+    table2.column2
+FROM
+    table1
+RIGHT JOIN
+    table2 
+    ON table1.column1 = table2.column2
+    
+CREATE TABLE films(
+   film_id SERIAL PRIMARY KEY,
+   title varchar(255) NOT NULL
+);
+
+INSERT INTO films(title)
+VALUES('Joker'),
+      ('Avengers: Endgame'),
+      ('Parasite');
+
+CREATE TABLE film_reviews(
+   review_id SERIAL PRIMARY KEY,
+   film_id INT,
+   review VARCHAR(255) NOT NULL
+);
+
+INSERT INTO film_reviews(film_id, review)
+VALUES(1, 'Excellent'),
+      (1, 'Awesome'),
+      (2, 'Cool'),
+      (NULL, 'Beautiful');
+
+
+SELECT review, title
+FROM films
+RIGHT JOIN film_reviews using (film_id)
+WHERE title IS NULL;
+```
 
