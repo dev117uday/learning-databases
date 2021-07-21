@@ -21,4 +21,6 @@
 * [Joins](sql/joins/README.md)
   * [Inner Join](sql/joins/inner-join.md)
   * [Left and Right JOIN](sql/joins/left-and-right-join.md)
+  * [Full, Multiple & Self Joins](sql/joins/full-multiple-and-self-joins.md)
+  * [Cross Join](sql/joins/cross-join.md)
 
