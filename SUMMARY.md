@@ -20,4 +20,5 @@
   * [Constraints](sql/tables/constraints.md)
 * [Joins](sql/joins/README.md)
   * [Inner Join](sql/joins/inner-join.md)
+  * [Left and Right JOIN](sql/joins/left-and-right-join.md)
 
