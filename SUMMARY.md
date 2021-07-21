@@ -16,8 +16,13 @@
   * [WHERE](sql/tables/where.md)
   * [OPERATORS](sql/tables/miscellaneous.md)
   * [GROUP BY and HAVING](sql/tables/group-by-and-having.md)
+  * [Combining Tables](sql/tables/combining-tables.md)
   * [Aggregation](sql/tables/aggregation.md)
   * [Constraints](sql/tables/constraints.md)
 * [Joins](sql/joins/README.md)
   * [Inner Join](sql/joins/inner-join.md)
+  * [Left and Right JOIN](sql/joins/left-and-right-join.md)
+  * [Full, Multiple & Self Joins](sql/joins/full-multiple-and-self-joins.md)
+  * [Cross & Natural Joins](sql/joins/cross-join.md)
+  * [Coalesce](sql/joins/coalesce.md)
 
