@@ -5,18 +5,18 @@
   * Table 
   * Column
 
-### Types of Constraints
+## Types of Constraints
 
 | Type | Note |
 | :--- | :--- |
 | NOT NULL | Field must have values |
 | UNIQUE | Only unique value are allowed |
-| DEFAULT | Ability to SET default  |
+| DEFAULT | Ability to SET default |
 | PRIMARY KEY | Uniquely identifies each row/record |
 | FOREIGN KEY | Constraint based on Column in other table |
 | CHECK | Check all values must meet specific criteria |
 
-### NOT NULL
+## NOT NULL
 
 ```sql
 CREATE TABLE table_nn (
@@ -49,7 +49,7 @@ ALTER TABLE public.table_nn
     ALTER COLUMN is_enable SET NOT NULL;
 ```
 
-### UNIQUE
+## UNIQUE
 
 ```sql
 CREATE TABLE table_unique (
@@ -79,7 +79,7 @@ ALTER TABLE table_unique
         UNIQUE (code,code_key);
 ```
 
-### DEFAULT CONSTRAINT
+## DEFAULT CONSTRAINT
 
 ```sql
 CREATE TABLE table_default (
@@ -105,14 +105,14 @@ ALTER TABLE public.table_default
     ALTER COLUMN tag DROP DEFAULT;
 ```
 
-### Primary Key
+## Primary Key
 
 1. Uniquely identifies each record in a database table
 2. There can be more than one UNIQUE, but only one primary key
 3. A primary key is a field in a table, which uniquely identifies each row/column in a database table
-4. When multiple fields are used as a primary key, which may consist of single or multiple fields, also known 
+4. When multiple fields are used as a primary key, which may consist of single or multiple fields, also known
 
-    as composite key.
+   as composite key.
 
 ```sql
 CREATE TABLE table_item (
@@ -137,7 +137,7 @@ ALTER TABLE public.table_item
     ADD PRIMARY KEY (item_id);
 ```
 
-### Composite Primary Key
+## Composite Primary Key
 
 ```sql
 CREATE TABLE table_cpk (
@@ -160,7 +160,7 @@ ALTER TABLE public.table_cpk
     ADD CONSTRAINT cpk_comp_pkey PRIMARY KEY (id, another_id)
 ```
 
-### Foreign Key
+## Foreign Key
 
 ```sql
 CREATE TABLE t_suppliers (
@@ -190,7 +190,7 @@ INSERT INTO t_products ( P_NAME, S_ID )
 -- SQL state: 23503
 ```
 
-### CHECK Constraint
+## CHECK Constraint
 
 ```sql
 CREATE TABLE table_constr (
@@ -225,13 +225,13 @@ CHECK (
 );
 ```
 
-### Example
+## Example
 
 ```sql
 CREATE TABLE web_links (
-	link_id SERIAL PRIMARY KEY,
-	link_url VARCHAR(255) NOT NULL,
-	link_target VARCHAR(20)
+    link_id SERIAL PRIMARY KEY,
+    link_url VARCHAR(255) NOT NULL,
+    link_target VARCHAR(20)
 );
 
 SELECT * FROM web_links;
@@ -240,19 +240,19 @@ ALTER TABLE web_links
 ADD CONSTRAINT unique_web_url UNIQUE (link_url);
 
 INSERT INTO web_links (link_url,link_target) 
-	VALUES ('https://www.google.com/','_blank');
+    VALUES ('https://www.google.com/','_blank');
 
 ALTER TABLE web_links
 ADD COLUMN is_enable VARCHAR(2);
 
 INSERT INTO web_links (link_url,link_target,is_enable) 
-	VALUES ('https://www.amazon.com/','_blank','Y');
+    VALUES ('https://www.amazon.com/','_blank','Y');
 
 ALTER TABLE web_links
 ADD CHECK ( is_enable IN ('Y','N') );
 
 INSERT INTO web_links (link_url,link_target,is_enable) 
-	VALUES ('https://www.NETFLIX.com/','_blank','N');
+    VALUES ('https://www.NETFLIX.com/','_blank','N');
 
 SELECT * FROM web_links;
 

@@ -322,7 +322,7 @@ create index on table_json USING GIN (docs jsonb_path_ops);
 | Name | Storage Size | Notes |
 | :--- | :--- | :--- |
 | cidr | 7 or 19 bytes | IPv4 and IPv6 networks |
-| inet  | 7 or 19 bytes | IPv4 and IPv6 hosts and networks |
+| inet | 7 or 19 bytes | IPv4 and IPv6 hosts and networks |
 | macaddr | 6 bytes | MAC addresses |
 | macaddr8 | 8 bytes | MAC addresses \( EUI 64-bit \) |
 
@@ -358,6 +358,4 @@ select
 from 
      table_netaddr;
 ```
-
-
 

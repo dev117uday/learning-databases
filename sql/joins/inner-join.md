@@ -1,6 +1,6 @@
 # Inner Join
 
-### Basic                    
+## Basic
 
 ![](../../.gitbook/assets/image%20%283%29.png)
 
@@ -56,10 +56,9 @@ FROM
  movies as mv
 INNER JOIN directors as dir ON mv.director_id = dir.director_id
 WHERE dir.nationality = 'British'
-
 ```
 
-### Inner Join with USING
+## Inner Join with USING
 
 * we use USING  only when joining tables have the SAME column name, rather then ON !
 

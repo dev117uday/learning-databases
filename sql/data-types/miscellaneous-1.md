@@ -28,7 +28,7 @@ select concat_ws(' ',first_name,last_name) as full_name
 | Type of Conversion | Notes |
 | :--- | :--- |
 | Implicit | data conversion is done AUTOMATICALLY |
-| Explicit  | data conversion is done via 'conversion functions' eg. `CAST` or `::` |
+| Explicit | data conversion is done via 'conversion functions' eg. `CAST` or `::` |
 
 ```sql
 SELECT * FROM movies;
@@ -52,13 +52,13 @@ SELECT * FROM movies WHERE movie_id = integer '2';
 SELECT CAST ( '10' AS INTEGER );
 
 SELECT 
-	CAST ('2020-02-02' AS DATE), 
-	CAST('01-FEB-2001' AS DATE);
+    CAST ('2020-02-02' AS DATE), 
+    CAST('01-FEB-2001' AS DATE);
 
 SELECT 
-	CAST ( 'true' AS BOOLEAN ), 
-	CAST ( '1' AS BOOLEAN ), 
-	CAST ( '0' AS BOOLEAN );
+    CAST ( 'true' AS BOOLEAN ), 
+    CAST ( '1' AS BOOLEAN ), 
+    CAST ( '0' AS BOOLEAN );
 
 SELECT CAST ( '14.87789' AS DOUBLE PRECISION );
 
@@ -69,30 +69,30 @@ SELECT '2020-02-02 10:20:10.23'::TIMESTAMP;
 SELECT '2020-02-02 10:20:10.23 +05:30'::TIMESTAMPTZ;
 
 SELECT 
-	'10 minute'::interval, 
-	'10 hour'::interval, 
-	'10 day'::interval, 
-	'10 week'::interval, 
-	'10 month'::interval;
-	
-SELECT 
-	20! AS "result 1" , 
-	CAST( 20 AS bigint ) ! AS "result 2";
+    '10 minute'::interval, 
+    '10 hour'::interval, 
+    '10 day'::interval, 
+    '10 week'::interval, 
+    '10 month'::interval;
 
 SELECT 
-	ROUND(10,4) AS "result 1", 
-	ROUND ( CAST (10 AS NUMERIC) ) AS "result 2", 
-	ROUND ( CAST (10 AS NUMERIC) , 4 ) AS "result 3";
-	
+    20! AS "result 1" , 
+    CAST( 20 AS bigint ) ! AS "result 2";
+
 SELECT 
-	SUBSTR('12345',2) AS "RESULT 1", 
-	SUBSTR( CAST('12345' AS TEXT) ,2) AS "RESULT 2";
-	
-	
-	
+    ROUND(10,4) AS "result 1", 
+    ROUND ( CAST (10 AS NUMERIC) ) AS "result 2", 
+    ROUND ( CAST (10 AS NUMERIC) , 4 ) AS "result 3";
+
+SELECT 
+    SUBSTR('12345',2) AS "RESULT 1", 
+    SUBSTR( CAST('12345' AS TEXT) ,2) AS "RESULT 2";
+
+
+
 CREATE TABLE ratings (
-	rating_id SERIAL PRIMARY KEY,
-	rating VARCHAR(2) NOT NULL
+    rating_id SERIAL PRIMARY KEY,
+    rating VARCHAR(2) NOT NULL
 );
 
 SELECT * FROM ratings;
@@ -101,15 +101,15 @@ INSERT INTO ratings ( rating )
 VALUES ('A'), ('B'), ('C'), ('D'), (1), (2), (3), (4);
 
 SELECT 
-	rating_id,
-	CASE 
-		WHEN rating~E'^\\d+$' THEN
-			CAST ( rating as INTEGER )
-		ELSE
-			0
-		END AS rating
+    rating_id,
+    CASE 
+        WHEN rating~E'^\\d+$' THEN
+            CAST ( rating as INTEGER )
+        ELSE
+            0
+        END AS rating
 FROM
-	ratings;
+    ratings;
 ```
 
 ## Formatting Functions
@@ -118,39 +118,39 @@ FROM
 
 ### to\_char\(\)
 
-Refer to the documentation 
+Refer to the documentation
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to\_char/" %}
+{% embed url="https://www.postgresqltutorial.com/postgresql-to\_char/" caption="" %}
 
 ```sql
 SELECT TO_CHAR (
-	100870,
-	'9,999999'
-);	
+    100870,
+    '9,999999'
+);    
 
 SELECT 
-	release_date, 
-	TO_CHAR(release_date,'DD-MM-YYYY'),
-	TO_CHAR(release_date,'Dy, MM, YYYY') 
+    release_date, 
+    TO_CHAR(release_date,'DD-MM-YYYY'),
+    TO_CHAR(release_date,'Dy, MM, YYYY') 
 FROM 
-	movies;
-	
+    movies;
+
 SELECT 
-	TO_CHAR ( 
-		TIMESTAMP '2020-01-01 13:32:30', 
-		'HH24:MI:SS' 
-	);
-	
+    TO_CHAR ( 
+        TIMESTAMP '2020-01-01 13:32:30', 
+        'HH24:MI:SS' 
+    );
+
 SELECT 
-	movie_id, 
-	TO_CHAR ( revenues_domestic, '$99999D99' ) 
+    movie_id, 
+    TO_CHAR ( revenues_domestic, '$99999D99' ) 
 FROM 
-	movies_revenues;
+    movies_revenues;
 ```
 
 ### to\_number\(\)
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to\_number/" %}
+{% embed url="https://www.postgresqltutorial.com/postgresql-to\_number/" caption="" %}
 
 ```sql
 SELECT TO_NUMBER(
@@ -176,7 +176,7 @@ SELECT to_number(
 
 ### to\_date\(\)
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to\_date/" %}
+{% embed url="https://www.postgresqltutorial.com/postgresql-to\_date/" caption="" %}
 
 ```sql
 SELECT TO_DATE( '2020/10/22' , 'YYYY/MM/DD' );
@@ -188,7 +188,7 @@ SELECT to_date( 'March 07, 2019' , 'Month DD, YYYY' );
 
 ### to\_timestamp\(\)
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to\_timestamp/" %}
+{% embed url="https://www.postgresqltutorial.com/postgresql-to\_timestamp/" caption="" %}
 
 ```sql
 SELECT TO_TIMESTAMP(
@@ -323,6 +323,4 @@ SELECT repeat ( 'A', 4 ), repeat ( ' ', 9 ), repeat( '.', 8 );
 
 SELECT REPLACE ( 'ABC XYZ' , 'XY', 'Z' );
 ```
-
-
 

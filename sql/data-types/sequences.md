@@ -1,11 +1,11 @@
 # Sequences
 
-### Sequences
+## Sequences
 
 * Specify datatype \( SMALLINT \| INT \| BIGINT \)
 * Default is BIGINT
 
-### List all sequence 
+## List all sequence
 
 ```sql
 SELECT relname as seq_name 
@@ -13,7 +13,6 @@ SELECT relname as seq_name
 ```
 
 ```sql
-
 CREATE SEQUENCE IF NOT EXISTS test_sequence as bigint;
 
 SELECT NEXTVAL('test_sequence');
@@ -76,7 +75,7 @@ create table table_seq_share2 (
 );
 ```
 
-### Alpha-Numeric Sequence
+## Alpha-Numeric Sequence
 
 ```sql
 create sequence table_text_seq;

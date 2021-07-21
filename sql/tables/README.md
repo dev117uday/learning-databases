@@ -18,7 +18,7 @@ ALTER TABLE public.accounts
 
 ALTER TABLE public.accounts
     RENAME username TO user_name;
-    
+
 -- create database
 
 CREATE DATABASE mydata
@@ -26,7 +26,7 @@ CREATE DATABASE mydata
     OWNER = uday
     ENCODING = 'UTF8'
     CONNECTION LIMIT = -1;
-	
+
 -- create table
 CREATE TABLE persons (
     person_id SERIAL PRIMARY KEY ,
@@ -73,7 +73,6 @@ ADD COLUMN is_enable VARCHAR(1);
 
 ALTER TABLE users
 ALTER COLUMN is_enable SET DEFAULT 'Y';
-
 ```
 
 ## Delete

@@ -19,7 +19,7 @@ CREATE DOMAIN name datatype constraint
 CREATE DOMAIN addr VARCHAR(100) NOT NULL
 
 CREATE TABLE locations (
-	address addr
+    address addr
 );
 
 -- ex 2
@@ -28,10 +28,10 @@ CREATE TABLE locations (
 select * from locations;
 
 CREATE DOMAIN positive_numeric 
-	INT NOT NULL CHECK (VALUE > 0);
+    INT NOT NULL CHECK (VALUE > 0);
 
 CREATE TABLE sample (
-	number positive_numeric
+    number positive_numeric
 );
 
 INSERT INTO sample (NUMBER) VALUES (10);
@@ -43,40 +43,40 @@ SELECT * FROM sample;
 -- check email domain
 
 CREATE DOMAIN 
- 	proper_email VARCHAR(150) 
+     proper_email VARCHAR(150) 
 CHECK 
-	( VALUE ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$' );
-	
+    ( VALUE ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$' );
+
 
 CREATE TABLE email_check (
-	client_email proper_email
+    client_email proper_email
 );
 
 insert into email_check (client_email) 
-	values ('a@b.com') ;
+    values ('a@b.com') ;
 insert into email_check (client_email) 
-	values ('a@#.com') ;
-	
+    values ('a@#.com') ;
+
 
 -- enum based domain
 CREATE DOMAIN valid_color VARCHAR(10)
 CHECK (VALUE IN ('red','green','blue'))
 
 CREATE TABLE color (
-	color valid_color
+    color valid_color
 );
 
 INSERT INTO color (color) 
-	VALUES ('red'),('blue'),('green')
+    VALUES ('red'),('blue'),('green')
 INSERT INTO color (color) 
-	VALUES ('yellow')
-	
-	
+    VALUES ('yellow')
+
+
 select typname from pg_catalog.pg_type join pg_catalog.pg_namespace on pg_namespace.oid = pg_type.typnamespace
 where typtype = 'd' and nspname = 'public';
 
-drop domain proper_email;	
-drop domain proper_email CASCADE;	
+drop domain proper_email;    
+drop domain proper_email CASCADE;
 ```
 
 ## Composite Data Types
@@ -88,17 +88,17 @@ drop domain proper_email CASCADE;
 -- address type
 
 CREATE TYPE address AS (
-	city VARCHAR(50),
-	country VARCHAR(100)
+    city VARCHAR(50),
+    country VARCHAR(100)
 );
 
 CREATE TABLE person (
-	id SERIAL PRIMARY KEY,
-	address address
+    id SERIAL PRIMARY KEY,
+    address address
 );
 
 INSERT INTO person ( address ) 
-	VALUES (ROW('London','UK')), (ROW('New York','USA'));
+    VALUES (ROW('London','UK')), (ROW('New York','USA'));
 
 select * from person;
 
@@ -107,7 +107,7 @@ select (address).country from person;
 
 
 CREATE TYPE currency AS ENUM(
-	'USD','EUR','GBP','CHF'
+    'USD','EUR','GBP','CHF'
 );
 
 SELECT 'USD'::currency
@@ -115,8 +115,8 @@ SELECT 'USD'::currency
 ALTER TYPE currency ADD VALUE 'CHF' AFTER 'EUR';
 
 CREATE TABLE stocks (
-	id SERIAL PRIMARY KEY,
-	symbol currency
+    id SERIAL PRIMARY KEY,
+    symbol currency
 );
 
 insert into stocks ( symbol ) VALUES ('CHF');
@@ -137,8 +137,8 @@ ALTER TYPE user_address SET SCHEMA test_scm
 
 ALTER TYPE test_scm.user_address 
     ADD ATTRIBUTE street_address VARCHAR(150)    
-    
-    
+
+
 CREATE TYPE mycolors AS ENUM ('green','red','blue')
 
 ALTER TYPE mycolors RENAME VALUE 'red' TO 'orange'
@@ -151,42 +151,41 @@ ALTER TYPE mycolors ADD VALUE 'red' BEFORE 'green'
 ### ALTER ENUM
 
 ```sql
-
 CREATE TYPE status_enum AS enum 
 ('queued','waiting','running','done');
 
 CREATE TABLE jobs (
-	id SERIAL PRIMARY KEY,
-	job_status status_enum
+    id SERIAL PRIMARY KEY,
+    job_status status_enum
 );
 
 INSERT INTO jobs ( job_status ) VALUES 
-	('queued'),('waiting'),('running'),('done');
+    ('queued'),('waiting'),('running'),('done');
 
 SELECT * FROM jobs
 
 -- UPDATING waiting to running
 
 UPDATE jobs SET job_status = 'running' 
-	WHERE job_status = 'waiting'
+    WHERE job_status = 'waiting'
 
 ALTER TYPE status_enum RENAME TO status_enum_old;
 
 CREATE TYPE status_enum as enum 
-	('queued','running','done');
+    ('queued','running','done');
 
 ALTER TABLE jobs ALTER COLUMN job_status 
-	TYPE status_enum USING job_status::text::status_enum;
+    TYPE status_enum USING job_status::text::status_enum;
 
 DROP TYPE status_enum_old
 
 
 CREATE TYPE  status AS ENUM 
-	('PENDING','APPROVED','DECLINE')
+    ('PENDING','APPROVED','DECLINE')
 
 CREATE TABLE cron_jobs (
-	id SERIAL,
-	status status DEFAULT 'PENDING'
+    id SERIAL,
+    status status DEFAULT 'PENDING'
 );
 
 INSERT INTO cron_jobs ( status ) VALUES ('APPROVED');
@@ -196,25 +195,22 @@ INSERT INTO cron_jobs ( status ) VALUES ('APPROVED');
 DO
 $$
 BEGIN
-	IF NOT EXISTS ( 
-			SELECT 
-				* 
-			FROM pg_type tp 
-			INNER JOIN 
-				pg_namespace nsp ON nsp.oid = typ.typnamespace
-					WHERE nsp.nspname = current_schema() 
-					AND typ.typname = 'a' 
-				) 
-		THEN
-			CREATE TYPE ai AS ( 
-				a TEXT, i INT 
-			);
-	END IF;
+    IF NOT EXISTS ( 
+            SELECT 
+                * 
+            FROM pg_type tp 
+            INNER JOIN 
+                pg_namespace nsp ON nsp.oid = typ.typnamespace
+                    WHERE nsp.nspname = current_schema() 
+                    AND typ.typname = 'a' 
+                ) 
+        THEN
+            CREATE TYPE ai AS ( 
+                a TEXT, i INT 
+            );
+    END IF;
 END;
 $$
 LANGUAGE plpgsql;
-
 ```
-
-
 

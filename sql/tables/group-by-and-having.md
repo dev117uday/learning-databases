@@ -117,7 +117,3 @@ GROUP BY movie_lang
 ORDER BY 2 DESC;
 ```
 
-
-
-
-

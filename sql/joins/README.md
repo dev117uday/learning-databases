@@ -1,6 +1,6 @@
 # Joins
 
-### Types of Joins
+## Types of Joins
 
 * Inner Join
 

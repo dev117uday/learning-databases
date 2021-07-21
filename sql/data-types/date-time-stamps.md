@@ -1,6 +1,6 @@
 # Date/Time/Stamps
 
-### Set Date Time Style
+## Set Date Time Style
 
 ```sql
 -- show system date style
@@ -11,7 +11,7 @@ SET datestyle = 'ISO, DMY';
 SET datestyle = 'ISO, MDY';
 ```
 
-### Make
+## Make
 
 ```sql
 SELECT MAKE_DATE (2020,01,01);
@@ -21,7 +21,7 @@ SELECT MAKE_TIME(2,3,14.65);
 SELECT MAKE_TIMESTAMP (2020,02,02,10,20,45.44);
 ```
 
-### Make\_interval
+## Make\_interval
 
 ```sql
 SELECT MAKE_INTERVAL (2020,01,02,10,20,33);
@@ -30,7 +30,7 @@ SELECT MAKE_INTERVAL (months => 7, days => 10, mins=>35);
 SELECT MAKE_INTERVAL (weeks => 10);
 ```
 
-### Make\_timestamptz
+## Make\_timestamptz
 
 ```sql
 SELECT make_timestamptz(2020,02,02,10,30,45.55,'Asia/Calcutta');
@@ -38,13 +38,13 @@ SELECT make_timestamptz(2020,02,02,10,30,45.55,'Asia/Calcutta');
 SELECT pg_typeof(make_timestamptz(2020,02,02,10,30,45.55));
 ```
 
-### Date Value Extractor
+## Date Value Extractor
 
-{% embed url="https://www.postgresql.org/docs/8.1/functions-datetime.html" %}
+{% embed url="https://www.postgresql.org/docs/8.1/functions-datetime.html" caption="" %}
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-extract/" %}
+{% embed url="https://www.postgresqltutorial.com/postgresql-extract/" caption="" %}
 
-### Extract
+## Extract
 
 ```sql
 select
@@ -57,7 +57,7 @@ select extract('epoch' from current_timestamp);
 select extract('century' from current_timestamp);
 ```
 
-### Maths Operations on Date Time
+## Maths Operations on Date Time
 
 ```sql
 select '2020-02-02'::date + 04;
@@ -76,7 +76,7 @@ SELECT DATE '20200101' - INTERVAL '1 HOUR';
 SELECT INTERVAL '30 MINUTES' + '2 HOUR';
 ```
 
-### Overlap
+## Overlap
 
 ```sql
 select
@@ -85,7 +85,7 @@ select
     ( DATE '2020-12-30', DATE '2020-12-01' );
 ```
 
-### Current
+## Current
 
 ```sql
 select
@@ -96,17 +96,16 @@ select
     localtime,
     localtimestamp,
     localtimestamp(2);
-    
+
 select
    now(),
    transaction_timestamp(),
    clock_timestamp(),
    statement_timestamp(),
    timeofday();
-
 ```
 
-### Age
+## Age
 
 ```sql
 select age('2020-01-01', '2019-10-01');
@@ -116,7 +115,7 @@ select age(timestamp '2020-01-01');
 select age(current_date, '2020-01-01');
 ```
 
-### Epochs
+## Epochs
 
 ```sql
 select age ( timestamp '2020-12-20', timestamp '2020-10-20' );
@@ -127,7 +126,7 @@ SELECT
         AS "DIFFERENCE IN SECONDS"
 ```
 
-### Timezone
+## Timezone
 
 ```sql
 select * from pg_timezone_names;
@@ -139,7 +138,7 @@ SHOW TIME ZONE;
 SET TIME ZONE 'Asia/Calcutta';
 ```
 
-### date\_part and date\_trunc
+## date\_part and date\_trunc
 
 ```sql
 select date_part ('day', date '2021-11-07');
