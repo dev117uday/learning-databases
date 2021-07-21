@@ -16,6 +16,7 @@
   * [WHERE](sql/tables/where.md)
   * [OPERATORS](sql/tables/miscellaneous.md)
   * [GROUP BY and HAVING](sql/tables/group-by-and-having.md)
+  * [Combining Tables](sql/tables/combining-tables.md)
   * [Aggregation](sql/tables/aggregation.md)
   * [Constraints](sql/tables/constraints.md)
 * [Joins](sql/joins/README.md)
