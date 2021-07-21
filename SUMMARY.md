@@ -14,6 +14,7 @@
   * [ORDER BY and DISTINCT](sql/tables/order-by.md)
   * [WHERE](sql/tables/where.md)
   * [OPERATORS](sql/tables/miscellaneous.md)
+  * [GROUP BY and HAVING](sql/tables/group-by-and-having.md)
   * [Constraints](sql/tables/constraints.md)
 * [Constraints](sql/constraints.md)
 * [Sequences](sql/sequences.md)
