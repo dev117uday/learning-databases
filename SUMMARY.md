@@ -9,6 +9,7 @@
   * [User Defined Data Types](sql/data-types/user-defined-data-types.md)
   * [Date/Time/Stamps](sql/data-types/date-time-stamps.md)
   * [Sequences](sql/data-types/sequences.md)
+  * [Arrays](sql/data-types/arrays.md)
   * [Internal Functions](sql/data-types/miscellaneous-1.md)
 * [Database](sql/working-with-database/README.md)
   * [Schema](sql/working-with-database/schema.md)
