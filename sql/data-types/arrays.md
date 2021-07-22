@@ -1,5 +1,22 @@
 # Arrays
 
+## Sample
+
+```sql
+create table table_array (
+    id SERIAL,
+    name varchar(100),
+    phones text[]
+);
+
+insert into table_array (name, phones) 
+    values ('uday',array ['999999999','000000000']);
+insert into table_array (name, phones) 
+    values ('uday1',array ['9999999990','0000000009']);
+
+select name, phones[1] from table_array;
+```
+
 ## Ranges
 
 ![range in array](../../.gitbook/assets/image%20%286%29.png)
@@ -125,7 +142,9 @@ SELECT array_to_string(ARRAY [1,2,3,4], '|');
 SELECT array_to_string(ARRAY [1,2,3,4,NULL], '|', 'EMPTY');
 ```
 
-## Inserting data into array
+## Array in Tables
+
+### Insert
 
 * for non text data , use `{value1,value2}` or `array['value1','value2']`
 * for text data , use `{"value1","value2"}` or `array[value1,value2]`
@@ -145,4 +164,103 @@ insert into teachers (class) values (array ['english','maths']);
 
 select * from teachers;
 ```
+
+### Query
+
+```sql
+select class[1] from teachers;
+
+select * from teachers where class[1] = 'english';
+
+select * from teachers where  'english' = any (class);
+```
+
+### Update
+
+```sql
+update teachers
+set class[1] = 'dutch'
+where id = 1;
+
+select * from teachers;
+
+update teachers
+set class[3] = 'science'
+where id = 1;
+
+select * from teachers;
+```
+
+### Dimensionless
+
+```sql
+create table teacher2 (
+    id serial primary key ,
+    class text array[1]
+);
+
+insert into teacher2 (class) values (array ['english']);
+
+select * from teacher2;
+
+-- dimensions doesnt matter
+insert into teacher2 (class) values (array ['english','hindi']);
+
+```
+
+### Unnest
+
+```sql
+select id, class, unnest(class) from teacher2;
+```
+
+### Multi Dimensional Array
+
+```sql
+create table students (
+    id serial primary key ,
+    name varchar(50) not null ,
+    grade integer[][]
+);
+
+insert into students (name, grade) 
+    values ('s1','{90,2020}'),('s1','{70,2020}'),('s1','{60,2020}');
+
+select * from students;
+
+select * from students where grade @> '{90}';
+
+select * from students where '2020' = any (grade);
+
+select  * from students where grade[1] < 80;
+
+```
+
+## Array vs JSONB
+
+#### Advantages to Array
+
+* It's pretty easy to setup
+* Requires less storage than jsonb
+* It has multi dimensional support 
+* Indexing through GIN, greatly speeds up query
+* The PostgreSQL planner is likely to make better decisions with PostgreSQL array, as it collects statistics on its content, but not with JSONB.
+
+#### Disadvantages to Array
+
+* Its main advantages is that you are limited to one data type
+* Have to follow strict order of the array data input.
+
+#### Advantages to JSONB
+
+* Provides additional operators for querying
+* Support for indexing
+
+#### Disadvantages to JSONB
+
+* Has to parse the json data to binary format
+* slow in writing, but faster in reading
+* Doesn't maintain order
+
+
 
