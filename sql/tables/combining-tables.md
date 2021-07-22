@@ -14,7 +14,7 @@ order by product_id;
 select * from left_product
 union all
 select * from right_product
-order by product_id;    
+order by product_id;
 ```
 
 ## Intersect
@@ -29,7 +29,6 @@ order by product_id;
 ## Except
 
 ```sql
-
 select * from left_product
 except 
 select * from right_product

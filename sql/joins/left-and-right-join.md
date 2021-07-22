@@ -18,7 +18,7 @@ LEFT JOIN
     table2 
 ON
     table1.column1 = table2.column2
-    
+
 create table left_product (
     product_id INT PRIMARY KEY ,
     product_name VARCHAR(100)
@@ -41,7 +41,7 @@ from left_product
 left join
     right_product 
     on left_product.product_id = right_product.product_id;
-    
+
 select
     dir.first_name,
     dir.last_name,
@@ -76,7 +76,7 @@ FROM
 RIGHT JOIN
     table2 
     ON table1.column1 = table2.column2
-    
+
 CREATE TABLE films(
    film_id SERIAL PRIMARY KEY,
    title varchar(255) NOT NULL

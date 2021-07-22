@@ -3,7 +3,6 @@
 ## Full Join
 
 ```sql
-
 select * 
 from right_product 
 full join left_product 
@@ -30,7 +29,6 @@ select
 from movies mv
 JOIN directors dir on dir.director_id = mv.director_id
 JOIN movies_revenues r on r.movie_id = mv.movie_id
-
 ```
 
 ## Self Join

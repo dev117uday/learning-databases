@@ -8,7 +8,6 @@ select * from left_product cross join  right_product;
 select * from left_product , right_product;
 
 select * from left_product inner join right_product on true;
-
 ```
 
 ## Natural Join
@@ -27,10 +26,4 @@ select *
 from left_product
          NATURAL right join right_product;de
 ```
-
-
-
-
-
-
 

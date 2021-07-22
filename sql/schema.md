@@ -6,7 +6,6 @@
 * Allow access and limit database objects to be accessed by the user.
 
 ```sql
-
 CREATE SCHEMA sales;
 CREATE SCHEMA hr;
 
@@ -17,7 +16,7 @@ DROP SCHEMA hr;
 select * from hr.public.jobs;
 
 CREATE TABLE orders (
-	id SERIAL PRIMARY KEY
+    id SERIAL PRIMARY KEY
 );
 
 ALTER TABLE public.orders
@@ -29,6 +28,5 @@ show search_path;
 
 -- order to search path is important
 SET search_path to '$user', marketing, public;
-
 ```
 
