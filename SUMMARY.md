@@ -9,8 +9,10 @@
   * [User Defined Data Types](sql/data-types/user-defined-data-types.md)
   * [Date/Time/Stamps](sql/data-types/date-time-stamps.md)
   * [Sequences](sql/data-types/sequences.md)
+  * [Arrays](sql/data-types/arrays.md)
   * [Internal Functions](sql/data-types/miscellaneous-1.md)
-* [Database](sql/working-with-database.md)
+* [Database](sql/working-with-database/README.md)
+  * [Schema](sql/working-with-database/schema.md)
 * [Table](sql/tables/README.md)
   * [ORDER BY and DISTINCT](sql/tables/order-by.md)
   * [WHERE](sql/tables/where.md)
@@ -25,5 +27,4 @@
   * [Full, Multiple & Self Joins](sql/joins/full-multiple-and-self-joins.md)
   * [Cross & Natural Joins](sql/joins/cross-join.md)
   * [Coalesce](sql/joins/coalesce.md)
-* [Schema](sql/schema.md)
 

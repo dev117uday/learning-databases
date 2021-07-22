@@ -6,7 +6,7 @@ description: not file system
 
 ## Creating a database
 
-![creating database](../.gitbook/assets/create-database%20%281%29%20%281%29%20%281%29%20%282%29%20%283%29%20%283%29%20%284%29%20%285%29%20%286%29%20%287%29%20%282%29%20%281%29%20%281%29%20%284%29.gif)
+![creating database](../../.gitbook/assets/create-database%20%281%29%20%281%29%20%281%29%20%282%29%20%283%29%20%283%29%20%284%29%20%285%29%20%286%29%20%287%29%20%282%29%20%281%29%20%281%29%20%281%29%20%285%29.gif)
 
 ### Options
 
@@ -21,7 +21,7 @@ description: not file system
 
 ## Dropping Database
 
-![drop database](../.gitbook/assets/output%20%284%29.gif)
+![drop database](../../.gitbook/assets/output%20%284%29.gif)
 
 ## Commands
 
