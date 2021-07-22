@@ -111,7 +111,38 @@ select 20 = all (Array [20,22]), 20 = all (array [20,20]);
 select 20 = any (Array [1,2,25]) as "result"
 ```
 
+## STRING &lt;&gt; ARRAY
 
+```sql
+SELECT string_to_array('1,2,3,4,5', ',');
 
+SELECT string_to_array('1,2,3,4,5,ABC', ',', 'ABC');
 
+SELECT string_to_array('1,2,3,4,,6', ',', '');
+
+SELECT array_to_string(ARRAY [1,2,3,4], '|');
+
+SELECT array_to_string(ARRAY [1,2,3,4,NULL], '|', 'EMPTY');
+```
+
+## Inserting data into array
+
+* for non text data , use `{value1,value2}` or `array['value1','value2']`
+* for text data , use `{"value1","value2"}` or `array[value1,value2]`
+
+```sql
+CREATE TABLE teachers (
+    id serial primary key ,
+    class text []
+);
+
+create table teacher1 (
+    id serial primary key ,
+    class text array
+);
+
+insert into teachers (class) values (array ['english','maths']);
+
+select * from teachers;
+```
 
