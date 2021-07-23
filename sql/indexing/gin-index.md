@@ -15,7 +15,7 @@ explain select * from contacts_docs
 where body @> '{"first_name":"John"}';
 ```
 
-![](../../.gitbook/assets/image%20%2812%29.png)
+![](../../.gitbook/assets/image%20%2814%29.png)
 
 ### Creating a GIN Index
 
@@ -23,7 +23,7 @@ where body @> '{"first_name":"John"}';
 create index idx_gin_contacts_docs_body on contacts_docs USING GIN(body);
 ```
 
-![](../../.gitbook/assets/image%20%2811%29.png)
+![](../../.gitbook/assets/image%20%2813%29.png)
 
 ### Get Size of Index
 
@@ -32,7 +32,7 @@ select pg_size_pretty((pg_relation_size('idx_gin_contacts_docs_body'::regclass))
     as index_name;
 ```
 
-![](../../.gitbook/assets/image%20%289%29.png)
+![](../../.gitbook/assets/image%20%2810%29.png)
 
 ### Using JSONB\_PATH\_OPS \( better \)
 
@@ -50,7 +50,7 @@ select pg_size_pretty((pg_relation_size('idx_gin_contacts_docs_body_cool'::regcl
     as index_name;
 ```
 
-![](../../.gitbook/assets/image%20%2810%29.png)
+![](../../.gitbook/assets/image%20%2812%29.png)
 
 ### On Specific column  for smaller size \( not working \)
 
