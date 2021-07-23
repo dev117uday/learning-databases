@@ -2,7 +2,8 @@
 
 * GIN index stands for Generalised Invert Index.
 * Speeds up full text searches
-* A GIN index stores a set of \(key, posting list\) pairs, where a posting list is a set of row IDs in which the key occurs. The same row ID can appear in multiple posting lists, since an item can contain more than one key. Each key value is stored only once, so a GIN index is very compact for cases where the same key appears many times.
+* A GIN index stores a set of \(key, posting list\) pairs, where a posting list is a set of row IDs in which the key occurs. The same row ID can appear in multiple posting lists, since an item can contain more than one key. 
+* Each key value is stored only once, so a GIN index is very compact for cases where the same key appears many times.
 
 ### Query
 
@@ -15,7 +16,7 @@ explain select * from contacts_docs
 where body @> '{"first_name":"John"}';
 ```
 
-![](../../.gitbook/assets/image%20%2814%29.png)
+![](../../.gitbook/assets/image%20%2817%29.png)
 
 ### Creating a GIN Index
 
@@ -23,7 +24,7 @@ where body @> '{"first_name":"John"}';
 create index idx_gin_contacts_docs_body on contacts_docs USING GIN(body);
 ```
 
-![](../../.gitbook/assets/image%20%2813%29.png)
+![](../../.gitbook/assets/image%20%2816%29.png)
 
 ### Get Size of Index
 
@@ -32,7 +33,7 @@ select pg_size_pretty((pg_relation_size('idx_gin_contacts_docs_body'::regclass))
     as index_name;
 ```
 
-![](../../.gitbook/assets/image%20%2810%29.png)
+![](../../.gitbook/assets/image%20%2811%29.png)
 
 ### Using JSONB\_PATH\_OPS \( better \)
 
@@ -41,7 +42,7 @@ create index idx_gin_contacts_docs_body_cool
     on contacts_docs USING GIN(body jsonb_path_ops);
 ```
 
-![](../../.gitbook/assets/image%20%287%29.png)
+![](../../.gitbook/assets/image%20%288%29.png)
 
 #### Size with jsonb\__path\_ops_
 
@@ -50,7 +51,7 @@ select pg_size_pretty((pg_relation_size('idx_gin_contacts_docs_body_cool'::regcl
     as index_name;
 ```
 
-![](../../.gitbook/assets/image%20%2812%29.png)
+![](../../.gitbook/assets/image%20%2814%29.png)
 
 ### On Specific column  for smaller size \( not working \)
 
@@ -59,5 +60,5 @@ select pg_size_pretty((pg_relation_size('idx_gin_contacts_docs_body_fname'::regc
     as index_name;
 ```
 
-![](../../.gitbook/assets/image%20%288%29.png)
+![](../../.gitbook/assets/image%20%289%29.png)
 

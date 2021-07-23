@@ -34,7 +34,7 @@
 
 Performs a sequential scan on the whole table.
 
-![](../.gitbook/assets/image%20%2811%29.png)
+![](../.gitbook/assets/image%20%2812%29.png)
 
 ## Index Nodes
 
@@ -46,11 +46,30 @@ Performs a sequential scan on the whole table.
 
 #### Index Scan
 
-![](../.gitbook/assets/image%20%289%29.png)
+![](../.gitbook/assets/image%20%2810%29.png)
 
 #### Index only scan
 
-![](../.gitbook/assets/image%20%2815%29.png)
+![](../.gitbook/assets/image%20%2818%29.png)
+
+## Hash Join
+
+* Used when joining tables 
+* Joins preformed on 2 table at a time, if more tables are joined together, the output at one join in treated as input to a subsequent join
+* When joining large number of tables, the genetic query optimiser settings may effect what combinations of joins are considered.
+
+**Types**
+
+* Inner Table : Build a hash table from the inner table, keyed by the join key.
+* Outer Table : then scan the outer table checking if a corresponding value is present 
+
+Memory Size \( used by sort operation and hash table \) : `4 MB`
+
+ 
+
+![](../.gitbook/assets/image%20%287%29.png)
+
+\*\*\*\*
 
 
 

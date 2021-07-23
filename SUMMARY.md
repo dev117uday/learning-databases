@@ -30,6 +30,7 @@
   * [Cross & Natural Joins](sql/joins/cross-join.md)
   * [Coalesce](sql/joins/coalesce.md)
 * [Indexing](sql/indexing/README.md)
+  * [Indexes](sql/indexing/indexes.md)
   * [Unique Index](sql/indexing/unique-index.md)
   * [GIN Index](sql/indexing/gin-index.md)
 
