@@ -244,23 +244,6 @@ insert into products_uuid_v4 (product_name)
 select * from products_uuid_v4;
 ```
 
-## Array
-
-```sql
-create table table_array (
-    id SERIAL,
-    name varchar(100),
-    phones text[]
-);
-
-insert into table_array (name, phones) 
-    values ('uday',array ['999999999','000000000']);
-insert into table_array (name, phones) 
-    values ('uday1',array ['9999999990','0000000009']);
-
-select name, phones[1] from table_array;
-```
-
 ## HSTORE
 
 * stores data in key-value pairs

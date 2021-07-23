@@ -4,8 +4,10 @@
 
 ## SQL
 
+* [SQL](sql/sql.md)
 * [pgAdmin Tool](sql/administration-task.md)
 * [Data Types](sql/data-types/README.md)
+  * [JSON](sql/data-types/json.md)
   * [User Defined Data Types](sql/data-types/user-defined-data-types.md)
   * [Date/Time/Stamps](sql/data-types/date-time-stamps.md)
   * [Sequences](sql/data-types/sequences.md)
@@ -27,4 +29,8 @@
   * [Full, Multiple & Self Joins](sql/joins/full-multiple-and-self-joins.md)
   * [Cross & Natural Joins](sql/joins/cross-join.md)
   * [Coalesce](sql/joins/coalesce.md)
+* [Indexing](sql/indexing/README.md)
+  * [Indexes](sql/indexing/indexes.md)
+  * [Unique Index](sql/indexing/unique-index.md)
+  * [GIN Index](sql/indexing/gin-index.md)
 
