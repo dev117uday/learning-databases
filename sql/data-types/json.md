@@ -139,3 +139,95 @@ select json_build_object(1, 2, 3, 4, 5, 6, 7, 'Hi');
 select json_object('{name,email}', '{"adnan","a@b.com"}');
 ```
 
+## Json Functions
+
+```sql
+CREATE TABLE directors_docs
+(
+    id   serial primary key,
+    body jsonb
+);
+
+
+select director_id,
+       first_name,
+       last_name,
+       (
+           select json_agg(x) as all_movies
+           from (
+                    select movie_name
+                    from movies mv
+                    where mv.director_id = directors.director_id
+                ) x
+       ) :: jsonb
+from directors;
+
+
+INSERT INTO directors_docs (body)
+select row_to_json(a)
+from (
+         select director_id,
+                first_name,
+                last_name,
+                (
+                    select json_agg(x) as all_movies
+                    from (
+                             select movie_name
+                             from movies mv
+                             where mv.director_id = directors.director_id
+                         ) x
+                ) :: jsonb
+         from directors
+) as a;
+
+select *
+from directors_docs;
+
+select *, jsonb_array_length(body -> 'all_movies') as total_movies
+from directors_docs
+order by jsonb_array_length(body->'all_movies') DESC;
+
+select *,jsonb_object_keys(body) from directors_docs;
+
+select j.key, j.value
+from directors_docs,
+     jsonb_each(body) j;
+```
+
+## Existence Operators
+
+```sql
+select *
+from directors_docs
+where body -> 'first_name' ? 'John';
+```
+
+## Searching JSON
+
+```sql
+select *
+from directors_docs
+where body @> '{"first_name":"John"}';
+
+
+select *
+from directors_docs
+where body @> '{"director_id":1}';
+
+-- error
+select *
+from directors_docs
+where body -> 'first_name' LIKE 'J%';
+
+
+select *
+from directors_docs
+where body ->> 'first_name' LIKE 'J%';
+
+select *
+from directors_docs
+where (body ->> 'director_id')::integer in (1,2,3,4,5,10);
+```
+
+
+
