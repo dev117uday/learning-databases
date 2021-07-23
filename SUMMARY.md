@@ -28,4 +28,6 @@
   * [Full, Multiple & Self Joins](sql/joins/full-multiple-and-self-joins.md)
   * [Cross & Natural Joins](sql/joins/cross-join.md)
   * [Coalesce](sql/joins/coalesce.md)
+* [Indexing](sql/indexing/README.md)
+  * [GIN Index](sql/indexing/gin-index.md)
 
