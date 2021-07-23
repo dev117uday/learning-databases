@@ -6,39 +6,38 @@
 
 ```sql
 SELECT 
-	INT4RANGE(1,6)													 	
-		AS "DEFAULT [(",
-	NUMRANGE(1.432,6.238,'[]') 										 	
-		AS "[]",
-	DATERANGE('20200101','20201222','()') 							 	
-		AS "DATES ()",
-	TSRANGE(LOCALTIMESTAMP,LOCALTIMESTAMP + INTERVAL '8 DAYS', '(]') 	
-		AS "OPENED CLOSED";	
-		
-		
+    INT4RANGE(1,6)                                                         
+        AS "DEFAULT [(",
+    NUMRANGE(1.432,6.238,'[]')                                              
+        AS "[]",
+    DATERANGE('20200101','20201222','()')                                  
+        AS "DATES ()",
+    TSRANGE(LOCALTIMESTAMP,LOCALTIMESTAMP + INTERVAL '8 DAYS', '(]')     
+        AS "OPENED CLOSED";    
+
+
 select
  ARRAY [1,2,3] AS "INT ARRAYS",
  ARRAY [2.123::FLOAT]  AS "FLOATING NUMBERS",
- ARRAY [CURRENT_DATE, CURRENT_DATE + 5]		
- 
- 
-SELECT 
-	ARRAY [1,2,3,4] = ARRAY[1,2,3,4],
-	ARRAY [1,2,3,4] = ARRAY[1,1,3,4],
-	ARRAY [1,2,3,4] <> ARRAY[1,2,3,4],
-	ARRAY [1,2,3,4] < ARRAY[1,5,3,4],
-	ARRAY [1,2,3,4] <= ARRAY[1,3,3,4],
-	ARRAY [1,2,3,4] > ARRAY[1,2,3,4];
+ ARRAY [CURRENT_DATE, CURRENT_DATE + 5]        
 
+
+SELECT 
+    ARRAY [1,2,3,4] = ARRAY[1,2,3,4],
+    ARRAY [1,2,3,4] = ARRAY[1,1,3,4],
+    ARRAY [1,2,3,4] <> ARRAY[1,2,3,4],
+    ARRAY [1,2,3,4] < ARRAY[1,5,3,4],
+    ARRAY [1,2,3,4] <= ARRAY[1,3,3,4],
+    ARRAY [1,2,3,4] > ARRAY[1,2,3,4];
 ```
 
 ## Inclusion Operators
 
 ```sql
 SELECT 
-	ARRAY[1,2,3,4] @> ARRAY[2,3,4] AS "CONTAINS",
-	ARRAY['A','B'] <@ ARRAY['A','B','C'] AS "CONTAINED BY",
-	ARRAY[1,2,3,4] && ARRAY[2,3,4] AS "IS OVERLAP";
+    ARRAY[1,2,3,4] @> ARRAY[2,3,4] AS "CONTAINS",
+    ARRAY['A','B'] <@ ARRAY['A','B','C'] AS "CONTAINED BY",
+    ARRAY[1,2,3,4] && ARRAY[2,3,4] AS "IS OVERLAP";
 ```
 
 ## Length and Dimensions
