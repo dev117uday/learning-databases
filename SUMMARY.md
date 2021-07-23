@@ -6,6 +6,7 @@
 
 * [pgAdmin Tool](sql/administration-task.md)
 * [Data Types](sql/data-types/README.md)
+  * [JSON](sql/data-types/json.md)
   * [User Defined Data Types](sql/data-types/user-defined-data-types.md)
   * [Date/Time/Stamps](sql/data-types/date-time-stamps.md)
   * [Sequences](sql/data-types/sequences.md)
