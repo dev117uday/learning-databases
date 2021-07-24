@@ -86,7 +86,49 @@ from t_big
 where id = 99999;
 ```
 
+## Expression Index
+
+* PostgreSQL will use this index when WHERE clause or ORDER BY clause in statement
+* Very Expensive to use
+
+```sql
+CREATE TABLE IF NOT EXISTS t_dates AS
+SELECT d, repeat(md5(d::text),10) as padding
+    FROM generate_series
+        (timestamp '1800-01-01', timestamp '2100-01-01', interval '1 day') s(d);
+
+select * from t_dates limit 10;
+
+vacuum analyse t_dates;
+
+EXPLAIN ANALYSE
+SELECT *
+FROM t_dates
+WHERE d BETWEEN '2001-01-01' AND '2001-01-31';
 
 
+CREATE INDEX IF NOT EXISTS idx_t_dates_d on t_dates (d);
 
+ANALYSE t_dates;
+
+EXPLAIN ANALYSE
+SELECT *
+FROM t_dates
+WHERE d BETWEEN '2001-01-01' AND '2001-01-31';
+
+EXPLAIN ANALYSE
+SELECT *
+FROM t_dates
+WHERE EXTRACT(DAY FROM d) = 1;
+
+CREATE INDEX idx_expr_t_dates on t_dates (extract(day from d));
+
+ANALYSE t_dates;
+
+EXPLAIN ANALYSE
+SELECT *
+FROM t_dates
+WHERE EXTRACT(DAY FROM d) = 1;
+
+```
 

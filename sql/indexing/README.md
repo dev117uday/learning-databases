@@ -70,3 +70,9 @@ DROP INDEX [ concurrently ]
 * `RESTRICT` : It denies the user to drop the index if a dependency exists
 * `CONCURRENTLY` : PostgreSQL will require exclusive lock over the whole table and block access until index is removed
 
+## vacuum analyze
+
+```sql
+vacuum analyze table_name;
+```
+

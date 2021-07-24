@@ -204,7 +204,6 @@ select * from teacher2;
 
 -- dimensions doesnt matter
 insert into teacher2 (class) values (array ['english','hindi']);
-
 ```
 
 ### Unnest
@@ -232,7 +231,6 @@ select * from students where grade @> '{90}';
 select * from students where '2020' = any (grade);
 
 select  * from students where grade[1] < 80;
-
 ```
 
 ## Array vs JSONB
@@ -260,6 +258,4 @@ select  * from students where grade[1] < 80;
 * Has to parse the json data to binary format
 * slow in writing, but faster in reading
 * Doesn't maintain order
-
-
 
