@@ -76,3 +76,9 @@ DROP INDEX [ concurrently ]
 vacuum analyze table_name;
 ```
 
+## Rebuilding Indexes
+
+```sql
+REINDEX ( VERBOSE ) INDEX concurrently idx_orders_ship_city;
+```
+
