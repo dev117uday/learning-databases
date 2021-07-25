@@ -110,9 +110,7 @@ select 'lorem ipsum'::text;
 
 ![how data is stored](../../.gitbook/assets/image%20%281%29.png)
 
-```text
-      **Hierarchical order to select best type : numeric &gt; decimal &gt; float**
-```
+**Hierarchical order to select best type : numeric &gt; decimal &gt; float**
 
 ## Date Time Data
 

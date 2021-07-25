@@ -12,7 +12,7 @@
 * Finds all the paths and gets the path with cheapest COST
 * **LOWEST COST WINS !!**
 
-## Nodes
+## Scan Nodes
 
 * Nodes are available for :
   * every operation
@@ -36,7 +36,7 @@ Performs a sequential scan on the whole table.
 
 ![](../.gitbook/assets/image%20%2812%29.png)
 
-## Index Nodes
+### Index Scan
 
 * Index is used to access Data
 * Types
@@ -48,11 +48,11 @@ Performs a sequential scan on the whole table.
 
 ![](../.gitbook/assets/image%20%2810%29.png)
 
-#### Index only scan
+### Index only scan
 
-![](../.gitbook/assets/image%20%2819%29%20%281%29.png)
+![](../.gitbook/assets/image%20%2819%29%20%282%29%20%281%29.png)
 
-## Hash Join
+### Hash Join
 
 * Used when joining tables 
 * Joins preformed on 2 table at a time, if more tables are joined together, the output at one join in treated as input to a subsequent join
@@ -67,7 +67,7 @@ Memory Size \( used by sort operation and hash table \) : `4 MB`
 
  
 
-![](../.gitbook/assets/image%20%287%29.png)
+![](../.gitbook/assets/image%20%287%29%20%282%29.png)
 
 \*\*\*\*
 
