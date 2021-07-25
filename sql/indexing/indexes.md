@@ -13,6 +13,8 @@
 
 ## Hash Index
 
+[https://codingsight.com/hash-index-understanding-hash-indexes/](https://codingsight.com/hash-index-understanding-hash-indexes/)
+
 * for equality operators
 * not for range 
 * Larger than btree in size
@@ -129,8 +131,9 @@ EXPLAIN ANALYSE
 SELECT *
 FROM t_dates
 WHERE EXTRACT(DAY FROM d) = 1;
-
 ```
+
+## Heap Index
 
 
 
