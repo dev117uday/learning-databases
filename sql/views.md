@@ -1,5 +1,7 @@
 # Views
 
+## Plain View
+
 A **view** is a database object that is a stored query. A view is a virtual table you can create dynamically using a saved query acting as a `virtual table.`  
 
 * You can join a view to another table or view
