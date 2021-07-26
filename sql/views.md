@@ -59,7 +59,39 @@ select * from movies;
 delete from movies where movie_id = 54;
 ```
 
+## Materialized View
 
+Allows you to
+
+* store result of a query
+* update data periodically :: manual
+* used to cache result of heavy data
+
+  syntax
+
+```sql
+CREATE MATERIALIZED VIEW IF NOT EXISTS view_name AS query WITH [ NO ] DATA;
+```
+
+If you want to load data into the materialised view at the creation time, you will use WITH DATA
+
+```sql
+create materialized view if not exists mv_dir as
+select first_name, last_name
+from directors with no data ;
+
+select * from mv_dir;
+
+refresh materialized view concurrently mv_dir;
+
+select * from mv_dir;
+
+drop materialized view mv_dir;
+```
+
+* cannot change data in `materialised view` : _insert, update and delete_ 
+* **advantage** of using`materialised view` : access and update _mv_ without locking everyone else out 
+* **disadvantage** of using _mv_ : if you alter the base table , _mv_ must also me alter : delete the old _mv_ and create a new one
 
 
 
