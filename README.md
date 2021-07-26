@@ -8,8 +8,8 @@ description: The Best
 
 ```sql
 sudo docker pull postgres:13.3
-sudo docker run --name bootcamp -e POSTGRES_PASSWORD=<password> -d -p 5432:5432 postgres:13.3
-sudo docker exec -it bootcamp bash
+sudo docker run --name <docker_name> -e POSTGRES_PASSWORD=<password> -d -p 5432:5432 postgres:13.3
+sudo docker exec -it <docker_name> bash
 psql -U postgres
 ```
 
@@ -54,7 +54,7 @@ psql --help
 psql -h localhost -p 5432 -U postgres test
 ```
 
-1. Here port : 5432 is default and can be get from psql --help
-2. PostgreSQL is the super user, replace with your user
-3. test is the name of database
+1. Here port : 5432 is default and can be get from `psql --help`
+2. `postgres` is the **super user**. _Create another user and connect using that._
+3. `test` is the name of database
 
