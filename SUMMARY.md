@@ -34,4 +34,5 @@
   * [Unique Index](sql/indexing/unique-index.md)
   * [GIN Index](sql/indexing/gin-index.md)
 * [Views](sql/views.md)
+* [SubQueries](sql/subqueries.md)
 
