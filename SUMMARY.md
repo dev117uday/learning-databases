@@ -33,6 +33,8 @@
   * [Indexes](sql/indexing/indexes.md)
   * [Unique Index](sql/indexing/unique-index.md)
   * [GIN Index](sql/indexing/gin-index.md)
-* [Views](sql/views.md)
+* [Temporary Table](sql/temporary-table/README.md)
+  * [Views](sql/temporary-table/views.md)
+  * [CTE](sql/temporary-table/cte.md)
 * [SubQueries](sql/subqueries.md)
 
