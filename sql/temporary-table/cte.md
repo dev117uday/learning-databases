@@ -49,6 +49,51 @@ SELECT *
 FROM cte_film
 WHERE length = 'Long'
 ORDER BY title;
+
+WITH cte_movie_count AS
+         (
+             SELECT d.director_id,
+                    SUM(COALESCE(r.revenues_domestic, 0) + COALESCE(r.revenues_international, 0)) AS total_revenues
+             FROM directors d
+                      INNER JOIN movies mv ON mv.director_id = d.director_id
+                      INNER JOIN movies_revenues r ON r.movie_id = mv.movie_id
+             GROUP BY d.director_id
+         )
+SELECT d.director_id,
+       d.first_name,
+       d.last_name,
+       cte.total_revenues
+FROM cte_movie_count cte
+         INNER JOIN directors d ON d.director_id = cte.director_id;
+
+
+create table articles (
+    id  serial,
+    article text
+);
+
+create table deleted_articles (
+    id serial,
+    article text
+);
+
+insert into articles (article)
+values ('article 1'),
+       ('article 2'),
+       ('article 3'),
+       ('article 4'),
+       ('article 5');
+
+select * from articles;
+select *
+from deleted_articles;
+
+with cte_delete_article as (
+    delete from articles
+    where id = 1
+    returning *
+)
+insert into deleted_articles select * from cte_delete_article;
 ```
 
 
