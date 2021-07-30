@@ -38,4 +38,5 @@
   * [CTE](sql/temporary-table/cte.md)
 * [Summarization](sql/summarization.md)
 * [SubQueries](sql/subqueries.md)
+* [Window](sql/window.md)
 
