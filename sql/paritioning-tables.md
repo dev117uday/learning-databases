@@ -80,3 +80,125 @@ explain analyze select * from employees_range
 where birth_date = '2001-01-01';
 ```
 
+## List Partitioning 
+
+```sql
+create table employee_list (
+    id bigserial,
+    birth_date DATE NOT NULL ,
+    country_code VARCHAR(2) not null
+) PARTITION BY LIST ( country_code );
+
+create table employee_list_eu PARTITION of employee_list
+    for values in ('UK','DE');
+
+create table employee_list_us PARTITION of employee_list
+    for values in ('US','BZ');
+```
+
+## Hash Partitioning
+
+```sql
+create table employee_hash (
+    id bigserial,
+    birth_date DATE NOT NULL,
+    country_code varchar(2) not null
+) PARTITION BY HASH (id);
+
+create table employee_hash_0 partition of employee_hash
+for values with (modulus 3, remainder 0);
+
+create table employee_hash_1 partition of employee_hash
+for values with (modulus 3, remainder 1);
+
+create table employee_hash_2 partition of employee_hash
+for values with (modulus 3, remainder 2);
+```
+
+## Default Partitioning 
+
+```sql
+create table employee_default_part partition of employee_list default;
+```
+
+## Multilevel Partitioning
+
+```sql
+create table employee_list_master (
+    id bigserial,
+    birth_date DATE NOT NULL ,
+    country_code VARCHAR(2) not null
+) PARTITION BY LIST ( country_code );
+
+create table employee_list_eu_m PARTITION of employee_list_master
+    for values in ('UK','DE')
+    partition by hash (id);
+
+create table employee_list_us_m PARTITION of employee_list_master
+    for values in ('US','BZ');
+
+create table employee_hash_0_m partition of employee_list_eu_m
+for values with (modulus 3, remainder 0);
+
+create table employee_hash_1_m partition of employee_list_eu_m
+for values with (modulus 3, remainder 1);
+
+create table employee_hash_2_m partition of employee_list_eu_m
+for values with (modulus 3, remainder 2);
+```
+
+## Attach and DeAttach Partitions
+
+```sql
+create table employees_list_sp partition of employee_list
+ for values in ('SP');
+
+insert into employee_list (birth_date, country_code) values ('2001-01-01','SP');
+
+create table employees_list_in partition of employee_list
+ for values in ('IN');
+
+create table employees_list_default partition of employee_list default
+
+ALTER TABLE employee_list detach partition employees_list_in;
+```
+
+## Altering Partitions
+
+```sql
+create table t1
+(
+    a int,
+    b int
+) partition by range (a);
+
+create table t1p1 partition of t1 for values from (0) to (1000);
+create table t1p2 partition of t1 for values from (2000) to (3000);
+
+insert into t1 (a, b)
+values (1, 1);
+
+-- detach
+-- alter
+-- attach
+
+
+BEGIN TRANSACTION ;
+ALTER TABLE T1 DETACH PARTITION t1p1;
+ALTER TABLE t1 attach partition t1p1 for values FROM (0) to (200);
+commit TRANSACTION;
+```
+
+## Partition Indexes
+
+* Creating an index on the master/parent table will automatically create same indexes to every attached table partition
+* PostgreSQL doesnt allow a way to create a single index covering every partition of the parent table. You have to create indexes for each table
+
+```sql
+create unique index idx_u_employee_list_id_country_code on employee_list
+    (id); -- error
+
+create unique index idx_u_employee_list_id_country_code on employee_list
+    (id,country_code); -- with paritition key
+```
+
