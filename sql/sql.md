@@ -50,7 +50,7 @@ Performs a sequential scan on the whole table.
 
 ### Index only scan
 
-![](../.gitbook/assets/image%20%2819%29%20%282%29%20%282%29%20%282%29%20%283%29.png)
+![](../.gitbook/assets/image%20%2819%29%20%282%29%20%282%29%20%282%29%20%281%29%20%283%29.png)
 
 ### Hash Join
 
@@ -67,7 +67,7 @@ Memory Size \( used by sort operation and hash table \) : `4 MB`
 
  
 
-![](../.gitbook/assets/image%20%287%29%20%282%29%20%282%29%20%283%29.png)
+![](../.gitbook/assets/image%20%287%29%20%282%29%20%282%29%20%283%29%20%283%29.png)
 
 \*\*\*\*
 
