@@ -40,5 +40,6 @@
 * [SubQueries](sql/subqueries.md)
 * [Window](sql/window.md)
 * [Paritioning Tables](sql/paritioning-tables.md)
-* [Functions](sql/functions.md)
+* [Functions](sql/functions/README.md)
+  * [PL/pgSQL](sql/functions/pl-pgsql.md)
 
