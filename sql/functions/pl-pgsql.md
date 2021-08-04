@@ -162,5 +162,68 @@ $$
 $$ LANGUAGE PLPGSQL;
 
 SELECT fn_checker(30);
+
+
+DO
+$$
+
+	DECLARE 
+		i_counter integer = 0;
+	BEGIN
+		LOOP
+			RAISE NOTICE '%', i_counter;
+			i_counter := i_counter+1;
+			EXIT WHEN
+				i_counter = 5;
+		END LOOP;
+	END;
+$$ LANGUAGE PLPGSQL;
+
+DO
+$$
+
+	BEGIN
+		
+		FOR counter IN 1..5 BY 1
+		LOOP
+		
+			RAISE NOTICE 'COUNTER : %', counter;
+		
+		END LOOP;		
+	END;
+
+$$
+LANGUAGE PLPGSQL;
+
+DO
+$$
+
+	BEGIN
+		
+		FOR counter IN REVERSE 5..1 BY 1
+		LOOP
+		
+			RAISE NOTICE 'COUNTER : %', counter;
+		
+		END LOOP;		
+	END;
+
+$$
+LANGUAGE PLPGSQL;
+
+
+DO
+$$
+	DECLARE 
+		rec record ;
+	BEGIN
+		FOR rec in 
+			select order_id, customer_id from orders LIMIT 10
+		LOOP
+			RAISE NOTICE '% %', rec.order_id, rec.customer_id;
+		END LOOP; 
+	END;
+$$ LANGUAGE PLPGSQL
+
 ```
 
