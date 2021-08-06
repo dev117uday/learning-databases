@@ -225,5 +225,143 @@ $$
 	END;
 $$ LANGUAGE PLPGSQL
 
+
+DO
+$$
+	DECLARE 
+		i_counter int = 0;
+	BEGIN
+		LOOP
+			i_counter = i_counter + 1;
+		EXIT WHEN
+			i_counter > 20;
+		CONTINUE
+			WHEN MOD (i_counter,2) = 0;
+			
+		RAISE NOTICE 'COUNTER : %', i_counter;
+		END LOOP;
+	END;
+$$ LANGUAGE PLPGSQL;
+
+
+DO
+$$
+	DECLARE 
+		arr1 int[] := array[1,2,3];
+		arr2 int[] := array[4,5,6,7,8];
+		var int;
+	BEGIN
+		FOREACH var IN ARRAY arr1||ARR2
+		LOOP
+			RAISE NOTICE '%', var;
+		END LOOP;
+	END;
+$$ LANGUAGE PLPGSQL;
+
+CREATE OR REPLACE FUNCTION fn_while_loop_sum_all(x integer) 
+	returns numeric as
+$$
+	DECLARE 
+		counter integer := 1;
+		sum_all integer := 0;
+	BEGIN
+		WHILE counter <= x
+		LOOP
+			sum_all := sum_all + counter;
+			counter := counter + 1;
+		END LOOP;
+		return sum_all;
+	END;
+$$ language plpgsql
+
+select fn_while_loop_sum_all(4);
+
+CREATE OR REPLACE FUNCTION fn_api_products_by_names(p_pattern varchar)
+RETURNS TABLE ( productname varchar, unitprice real )
+AS
+$$
+	BEGIN
+		RETURN QUERY
+			SELECT product_name,unit_price from products 
+			where product_name like p_pattern;
+			
+	END;
+$$ LANGUAGE PLPGSQL;
+
+SELECT * FROM fn_api_products_by_names('A%');
+
+CREATE OR REPLACE FUNCTION fn_all_orders_greater() RETURNS SETOF order_details as 
+$$
+	DECLARE
+		r record;
+	BEGIN
+		for r in
+			select * from order_details where unit_price > 100
+		loop
+			return next r;
+		end loop;
+		return;
+	end;
+$$ language plpgsql;
+
+select * from fn_all_orders_greater();
+
+
+DO
+$$
+
+	DECLARE 
+		rec record;
+		orderid smallint = 1;
+	BEGIN
+		SELECT customer_id, order_date
+		FROM orders 
+		INTO STRICT rec
+		WHERE order_id = orderid;
+		
+		EXCEPTION
+			WHEN NO_DATA_FOUND THEN
+				RAISE EXCEPTION 'No order id was found';
+				
+	END;
+$$ LANGUAGE PLPGSQL;	
+
+
+DO
+$$
+
+	DECLARE 
+		rec record;
+		orderid smallint = 1;
+	BEGIN
+		SELECT customer_id, order_date
+		FROM orders 
+		INTO STRICT rec
+		WHERE order_id > 1000;
+		
+		EXCEPTION
+			WHEN TOO_MANY_ROWS THEN
+				RAISE EXCEPTION 'Too many rows were found';
+				
+	END;
+$$ LANGUAGE PLPGSQL;	
+
+
+CREATE OR REPLACE FUNCTION fn_div_exception (x real, y real) RETURNS real as 
+$$
+
+	DECLARE 
+		ret real;
+	BEGIN
+		ret := x / y;
+		return ret;
+	EXCEPTION
+		WHEN division_by_zero then
+			RAISE INFO 'division by zero error';
+			RAISE INFO 'ERROR % %', SQLSTATE, SQLERRM;
+	END;
+$$ LANGUAGE PLPGSQL;
+
+SELECT fn_div_exception(5,0);
 ```
 
