@@ -42,4 +42,6 @@
 * [Paritioning Tables](sql/paritioning-tables.md)
 * [Functions](sql/functions/README.md)
   * [PL/pgSQL](sql/functions/pl-pgsql.md)
+  * [Stored Procedures](sql/functions/stored-procedures.md)
+  * [Transactions](sql/functions/transactions.md)
 
