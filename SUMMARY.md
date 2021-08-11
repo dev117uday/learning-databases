@@ -44,4 +44,5 @@
   * [PL/pgSQL](sql/functions/pl-pgsql.md)
   * [Stored Procedures](sql/functions/stored-procedures.md)
   * [Transactions](sql/functions/transactions.md)
+  * [Triggers](sql/functions/triggers.md)
 
