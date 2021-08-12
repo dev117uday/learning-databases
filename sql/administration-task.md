@@ -17,10 +17,10 @@ description: All hail admin
   * Password : user password
   * Account Expires
   * Connection Limit : number of connections that user can have to DB, default -1
-* **Privileges**
-  * Update Catalog : // TODO
-  * Inherits rights from parent : includes pg\_stats, pg\_monitor etc ..
-  * streaming replication and backup : // TODO
+
+**Refer to documentation for more details**
+
+{% embed url="https://www.pgadmin.org/docs/pgadmin4/development/role\_dialog.html" %}
 
 ## Query Editor
 

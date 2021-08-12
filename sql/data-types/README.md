@@ -4,7 +4,9 @@ description: just like programming
 
 # Data Types
 
-## Boolean Data
+## Data Types
+
+### Boolean Data
 
 * TRUE
 * FALSE
@@ -30,14 +32,14 @@ INSERT INTO booltable (is_enable) VALUES (TRUE), ('true'),
 INSERT INTO booltable (is_enable) VALUES (FALSE), ('false'), 
     ('n') , ('no'), ('f'), ('0');
 
-select * from booltable;
+SELECT * FROM booltable;
 
 SELECT * FROM booltable WHERE is_enable = 'y';
 
 SELECT * FROM booltable WHERE NOT is_enable;
 ```
 
-## Character Data
+### Character Data
 
 | Character Type | Notes |
 | :--- | :--- |
@@ -48,26 +50,28 @@ SELECT * FROM booltable WHERE NOT is_enable;
 * n is default to 1
 
 ```sql
-select CAST('Uday' as character(10)) as "name";
-
--- output
+-- INPUT
+SELECT CAST('Uday' as character(10)) as "name";
+-- OUTPUT
 "Uday      "
 
-select 'Uday'::character(10) as "name";
-
--- output
+-- INPUT
+SELECT 'Uday'::character(10) as "name";
+-- OUTPUT
 "Uday      "
 
--- varchar
-select 'uday'::varchar(10);
+-- INPUT
+SELECT 'uday'::varchar(10);
+-- OUTPUT
 "uday"
 
--- text
-select 'lorem ipsum'::text;
+-- INPUT
+SELECT 'lorem ipsum'::text;
+-- OUTPUT
 "lorem ipsum"
 ```
 
-## Numeric Data
+### Numeric Data
 
 | Types | Notes |
 | :--- | :--- |
@@ -86,14 +90,14 @@ select 'lorem ipsum'::text;
 | serial | 4 | 1 to 2147483647 |
 | bigserial | 8 | 1 to 9223372036854775807 |
 
-## Fixed Point Data
+### Fixed Point Data
 
 **numeric \( precision , scale \) \| decimal \( precision , scale \)**
 
 * precision : max number of digits to the left and right of the decimal point
 * scale : number of digits allowable on the right of the decimal point
 
-## Floating Point Data
+### Floating Point Data
 
 | Type | Notes |
 | :--- | :--- |
@@ -106,26 +110,46 @@ select 'lorem ipsum'::text;
 | real | 4 | floating point | 6 decimal digits precision |
 | double precision | 8 | floating point | 15 decimal digits precision |
 
-![table example](../../.gitbook/assets/image.png)
+```sql
+CREATE TABLE table_numbers (
+    col_numeric numeric(20,5),
+    col_real real,
+    col_double double precision
+);
 
-![how data is stored](../../.gitbook/assets/image%20%281%29.png)
+INSERT INTO table_numbers (col_numeric,col_real,col_double)
+VALUES (.9,.9,.9),
+       (3.34675,3.34675,3.34675),
+       (4.2345678910,4.2345678910,4.2345678910);
 
-**Hierarchical order to select best type : numeric &gt; decimal &gt; float**
+SELECT * FROM table_numbers;
 
-## Date Time Data
+-- OUTPUT
+learning=# select * from table_numbers ;
+ col_numeric | col_real | col_double  
+-------------+----------+-------------
+     0.90000 |      0.9 |         0.9
+     3.34675 |  3.34675 |     3.34675
+     4.23457 | 4.234568 | 4.234567891
+(3 rows)
+```
 
-| type | stores | size | low | high |
-| :--- | :--- | :--- | :--- | :--- |
-| Date | date only | 4 | 4713 BC | 294276 AD |
-| Time | time only |  | 4713 BC | 5874897 AD |
-| Timestamp | date and time |  | 4713 BC | 294276 AD |
-| `Timestampz` | date, time and timezone |  | 4713 BC | 294276 AD |
-| Interval | difference btw time |  |  |  |
+**Hierarchical order to SELECT best type : numeric &gt; decimal &gt; float**
 
-### Date type
+### Date Time Data
+
+| type | stores | low | high |
+| :--- | :--- | :--- | :--- |
+| Date | date only | 4713 BC | 294276 AD |
+| Time | time only | 4713 BC | 5874897 AD |
+| Timestamp | date and time | 4713 BC | 294276 AD |
+| `Timestampz` | date, time and timezone | 4713 BC | 294276 AD |
+| Interval | difference btw time |  |  |
+
+#### Date type
 
 ```sql
-create table table_dates (
+CREATE TABLE table_dates (
     id serial primary key,
     employee_name varchar(100) not null,
     hire_date DATE NOT NULL,
@@ -133,56 +157,98 @@ create table table_dates (
 );
 
 INSERT INTO table_dates (employee_name, hire_date)
-    values ('uday','2020-02-02'),('another uday','2020-02-01');
+    VALUES ('uday','2020-02-02'),('another uday','2020-02-01');
 
-select *
-from table_dates;
+SELECT *
+FROM table_dates;
 
-select NOW();
+SELECT NOW();
 ```
 
-### Time type
-
-![time formats](../../.gitbook/assets/image%20%282%29.png)
+#### Time type
 
 ```sql
-create table table_time (
+CREATE TABLE table_time (
     id serial primary key ,
     class_name varchar(10) not null ,
     start_time time not null ,
     end_time time not null
 );
 
-insert into table_time (class_name, start_time, end_time) 
+INSERT INTO table_time (class_name, start_time, end_time) 
     VALUES ('maths','08:00:00','08:55:00'),
            ('chemistry','08:55:00','09:00:00');
 
-select * from table_time;
+SELECT * FROM table_time;
 
-select CURRENT_TIME;
+-- OUTPUT
 
-select CURRENT_TIME(2);
+ id | class_name | start_time | end_time 
+----+------------+------------+----------
+  1 | maths      | 08:00:00   | 08:55:00
+  2 | chemistry  | 08:55:00   | 09:00:00
+(2 rows)
 
-select LOCALTIME;
 
-select time '12:10' - time '04:30' as RESULT;
+SELECT CURRENT_TIME;
+
+    current_time    
+--------------------
+ 07:21:00.163354+00
+(1 row)
+
+
+SELECT CURRENT_TIME(2);
+
+  current_time  
+----------------
+ 07:21:14.96+00
+(1 row)
+
+
+SELECT LOCALTIME;
+
+    localtime    
+-----------------
+ 07:21:36.717509
+(1 row)
+
+
+SELECT time '12:10' - time '04:30' as RESULT;
+  result  
+----------
+ 07:40:00
+(1 row)
+
 
 -- format : interval 'n type'
 -- n = number
 -- type : second, minute, hours, day, month, year ....
 
-select CURRENT_TIME ,
+SELECT CURRENT_TIME ,
     CURRENT_TIME + INTERVAL '2 hours' as RESULT;
-select CURRENT_TIME ,
+
+    current_time    |       result       
+--------------------+--------------------
+ 07:22:06.241919+00 | 09:22:06.241919+00
+(1 row)
+
+
+SELECT CURRENT_TIME ,
     CURRENT_TIME + INTERVAL '-2 hours' as RESULT;
+
+    current_time    |       result       
+--------------------+--------------------
+ 07:22:16.644727+00 | 05:22:16.644727+00
+(1 row)
 ```
 
-### Timestamp and Timezone
+#### Timestamp and Timezone
 
 * `timestamp` : stores time without time zone
 * `timestamptz` : timestamp with time zone , stored using UTC format
 * adding timestamp to timestamptz without mentioning the zone will result in server automatically assumes timezone to system's timezone
-* **Internally, PostgreSQL will store the timezone accurately but then outputting the data, will it be converted according to your timezone**
+* **Internally, PostgreSQL will store the timezoneaccurately but then OUTPUTting the data, will it be converted according to your timezone**
 
 ```sql
 SELECT name FROM pg_timezone_names 
@@ -192,7 +258,13 @@ SET TIMEZONE='Asia/Calcutta';
 
 SELECT NOW()::TIMESTAMP;
 
-create table table_time_tz (
+            now             
+----------------------------
+ 2021-08-12 12:53:03.971433
+(1 row)
+
+
+CREATE TABLE table_time_tz (
     ts timestamp,
     tstz timestamptz
 );
@@ -203,74 +275,121 @@ INSERT INTO table_time_tz (ts, tstz)
 
 SELECT * FROM table_time_tz;
 
+         ts          |             tstz              
+---------------------+-------------------------------
+ 2020-12-22 10:10:10 | 2020-12-22 10:10:10.009+05:30
+(1 row)
+
+
 SELECT CURRENT_TIMESTAMP;
 
+        current_timestamp        
+---------------------------------
+ 2021-08-12 12:53:29.54762+05:30
+(1 row)
+
+
 SELECT timezone('Asia/Singapore','2020-01-01 00:00:00')
+
+      timezone       
+---------------------
+ 2020-01-01 02:30:00
+(1 row)
 ```
 
-## UUID
+### UUID
 
 * UUID : Universal Unique Identifier
 * PostgreSQL doesn't provide internal function to generate UUID's, use `uuid-ossp`
 
 ```sql
-create extension if not exists "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-select uuid_generate_v1();
+SELECT uuid_generate_v1();
+
+           uuid_generate_v1           
+--------------------------------------
+ 4d459e0c-fb3e-11eb-a638-0242ac110002
+
 
 -- pure randomness
-select uuid_generate_v4();
+SELECT uuid_generate_v4();
 
-create table products_uuid (
+           uuid_generate_v4           
+--------------------------------------
+ 418f39e5-8a46-4da2-8cea-884904f45d6f
+
+
+CREATE TABLE products_uuid (
     id uuid default uuid_generate_v1(),
     product_name varchar(100) not null
 );
 
-insert into products_uuid (product_name) 
-    values ('ice cream'),('cake'),('candies');
+INSERT INTO products_uuid (product_name) 
+    VALUES ('ice cream'),('cake'),('candies');
 
-select * from products_uuid;
+SELECT * FROM products_uuid;
 
-create table products_uuid_v4 (
+                  id                  | product_name 
+--------------------------------------+--------------
+ 5cf1dbe0-fb3e-11eb-a638-0242ac110002 | ice cream
+ 5cf1df28-fb3e-11eb-a638-0242ac110002 | cake
+ 5cf1df46-fb3e-11eb-a638-0242ac110002 | candies
+
+CREATE TABLE products_uuid_v4 (
     id uuid default uuid_generate_v4(),
     product_name varchar(100) not null
 );
 
-insert into products_uuid_v4 (product_name) 
-    values ('ice cream'),('cake'),('candies');
+INSERT INTO products_uuid_v4 (product_name) 
+    VALUES ('ice cream'),('cake'),('candies');
 
-select * from products_uuid_v4;
+SELECT * FROM products_uuid_v4;
+
+learning=# SELECT * FROM products_uuid_v4;
+                  id                  | product_name 
+--------------------------------------+--------------
+ 83b74bed-2cf8-4e26-80b0-c7c7b2e5f3e7 | ice cream
+ ac563251-7a95-408d-966b-ed5ecc1f228d | cake
+ 1079f6d3-b0c3-40ef-bd2e-da4467b63432 | candies
 ```
 
-## HSTORE
+### HSTORE
 
 * stores data in key-value pairs
-* key and values are text string only
+* key and VALUES are text string only
 
 ```sql
-create extension if not exists hstore;
+CREATE EXTENSION IF NOT EXISTS hstore;
 
-create table table_hstore (
+CREATE TABLE table_hstore (
     id SERIAL PRIMARY KEY ,
     title varchar(100) not null,
     book_info hstore
 );
 
-insert into table_hstore (title, book_info) VALUES
+INSERT INTO table_hstore (title, book_info) VALUES
 (
     'Title 1', ' "publisher" => "ABC publisher" , 
     "paper_cost" => "100" , "e_cost" => "5.85" '
 );
 
-select * from table_hstore;
+SELECT * FROM table_hstore;
 
-select book_info -> 'publisher' as publisher 
-from table_hstore;
+ id |  title  |   book_info                              
+
+  1 | Title 1 | "e_cost"=>"5.85", "publisher"=>"ABC publisher", "paper_cost"=>"100"
+
+
+SELECT book_info -> 'publisher' as publisher 
+FROM table_hstore;
+
+   publisher   
+---------------
+ ABC publisher
 ```
 
-## Json
-
-// TODO
+### Json
 
 * PostgreSQL supports both 
   * JSON
@@ -278,27 +397,39 @@ from table_hstore;
 * JSONB has full support for indexing
 
 ```sql
-create table table_json (
+CREATE TABLE table_json (
     id SERIAL PRIMARY KEY ,
     docs json
 );
 
-insert into table_json (docs) 
-    values ('[1,2,3,4,5,6]'),('{"key":"value"}');
+INSERT INTO table_json (docs) 
+    VALUES ('[1,2,3,4,5,6]'),('{"key":"value"}');
 
-insert into table_json (docs)
-values ('[{"key":"value"},{"key2":"value2"}]');
+INSERT INTO table_json (docs)
+VALUES ('[{"key":"value"},{"key2":"value2"}]');
 
-select * from table_json;
+SELECT * FROM table_json;
 
-alter table table_json alter column docs type jsonb;
+ id |                docs                 
+----+-------------------------------------
+  1 | [1,2,3,4,5,6]
+  2 | {"key":"value"}
+  3 | [{"key":"value"},{"key2":"value2"}]
 
-select * from table_json where docs @> '2';
 
-create index on table_json USING GIN (docs jsonb_path_ops);
+ALTER TABLE table_json alter column docs type jsonb;
+
+SELECT * FROM table_json where docs @> '2';
+
+ id |        docs        
+----+--------------------
+  1 | [1, 2, 3, 4, 5, 6]
+
+
+CREATE index on table_json USING GIN (docs jsonb_path_ops);
 ```
 
-## Network Address Data Types
+### Network Address Data Types
 
 | Name | Storage Size | Notes |
 | :--- | :--- | :--- |
@@ -311,13 +442,13 @@ create index on table_json USING GIN (docs jsonb_path_ops);
 * Supports indexing and advance operations
 
 ```sql
-create table table_netaddr (
+CREATE TABLE table_netaddr (
     id SERIAL PRIMARY KEY ,
     ip inet
 );
 
-insert into table_netaddr (ip)
-values ('148.77.50.74'),
+INSERT INTO table_netaddr (ip)
+VALUES ('148.77.50.74'),
         ('110.158.172.66'),
         ('176.103.251.175'),
         ('84.84.14.58'),
@@ -328,15 +459,29 @@ values ('148.77.50.74'),
         ('54.64.79.223'),
         ('162.240.78.253');
 
-select * from table_netaddr;
+SELECT * FROM table_netaddr LIMIT 5;
 
-select 
+ id |       ip        
+----+-----------------
+  1 | 148.77.50.74
+  2 | 110.158.172.66
+  3 | 176.103.251.175
+  4 | 84.84.14.58
+  5 | 141.122.225.161
+
+
+SELECT 
        ip, 
        set_masklen(ip,24) as inet_24, 
        set_masklen(ip::cidr,24) as cidr_24 ,
        set_masklen(ip::cidr,27) as cidr_27,
        set_masklen(ip::cidr,28) as cidr_28 
-from 
-     table_netaddr;
+FROM 
+     table_netaddr LIMIT 2;
+
+ ip | inet_24 | cidr_24 | cidr_27 | cidr_28 
+
+ 148.77.50.74   | 148.77.50.74/24   | 148.77.50.0/24   | 148.77.50.64/27   | 148.77.50.64/28
+ 110.158.172.66 | 110.158.172.66/24 | 110.158.172.0/24 | 110.158.172.64/27 | 110.158.172.64/28
 ```
 
