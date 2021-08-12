@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Learning PostgreSQL](README.md)
+* [Getting Started with PostgreSQL](README.md)
 
 ## SQL
 
