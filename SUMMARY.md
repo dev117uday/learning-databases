@@ -45,4 +45,5 @@
   * [Stored Procedures](sql/functions/stored-procedures.md)
   * [Transactions](sql/functions/transactions.md)
   * [Triggers](sql/functions/triggers.md)
+  * [Cursors](sql/functions/cursors.md)
 
