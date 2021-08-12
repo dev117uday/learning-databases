@@ -86,7 +86,7 @@ from (
          select *
          from movies
      ) t1;
-     
+
 -- query without from
 select (
            select avg(revenues_domestic) as "Average Revenue"
@@ -101,6 +101,4 @@ select (
            from movies_revenues
        )
 ```
-
-
 

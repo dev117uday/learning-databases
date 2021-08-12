@@ -9,7 +9,7 @@
   * Materialized
   * Not materialized
 
-### Syntax
+## Syntax
 
 ```sql
 with cte_table ( column_list ) as (
@@ -95,8 +95,4 @@ with cte_delete_article as (
 )
 insert into deleted_articles select * from cte_delete_article;
 ```
-
-
-
-
 

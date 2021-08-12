@@ -1,7 +1,5 @@
 # Window
 
-
-
 ```sql
 create table trades
 (

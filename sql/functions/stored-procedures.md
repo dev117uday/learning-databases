@@ -4,9 +4,9 @@
 
 ```sql
 CREATE TABLE t_accounts (
-	recid SERIAL PRIMARY KEY,
-	name VARCHAR NOT NULL,
-	balance dec(15,2) NOT NULL
+    recid SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    balance dec(15,2) NOT NULL
 );
 
 drop table t_accounts;
@@ -19,19 +19,19 @@ CREATE OR REPLACE PROCEDURE pr_money_transfer (sender int, receiver int, amount 
 AS
 $$
 
-	BEGIN
-		
-		UPDATE t_accounts
-		SET balance = balance - amount
-		WHERE recid = sender;
-		
-		UPDATE t_accounts
-		SET balance = balance + amount
-		WHERE recid = receiver;
-		
-		COMMIT;
-	
-	END;
+    BEGIN
+
+        UPDATE t_accounts
+        SET balance = balance - amount
+        WHERE recid = sender;
+
+        UPDATE t_accounts
+        SET balance = balance + amount
+        WHERE recid = receiver;
+
+        COMMIT;
+
+    END;
 $$
 LANGUAGE PLPGSQL;
 
@@ -40,11 +40,11 @@ select * from t_accounts;
 
 CREATE OR REPLACE PROCEDURE pr_orders_count(INOUT total_count INTEGER DEFAULT 0 ) AS
 $$
-	BEGIN
-	
-		SELECT COUNT(*)	INTO total_count FROM orders;
-	
-	END;
+    BEGIN
+
+        SELECT COUNT(*)    INTO total_count FROM orders;
+
+    END;
 $$ LANGUAGE PLPGSQL;
 
 CALL pr_orders_count();

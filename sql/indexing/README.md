@@ -8,7 +8,7 @@
 
 ```sql
 INDEX        : idx_table_name_column_name 
-UNIQUE INDEX : idx_u_table_name_column_name 
+UNIQUE INDEX : idx_u_table_name_column_name
 ```
 
 ```sql
@@ -20,8 +20,8 @@ create unique index index_name on table_name (col1,col2,.....)
 
 create index index_name on table_name [USING method]
 (
-	column_name [ASC|DESC] [NULLS {FIRST | LAST}],
-	...
+    column_name [ASC|DESC] [NULLS {FIRST | LAST}],
+    ...
 );
 
 

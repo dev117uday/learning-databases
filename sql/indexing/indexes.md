@@ -46,7 +46,7 @@ from generate_series(1, 2000000);
 CREATE INDEX CONCURRENTLY brin_index
     ON public.t_big USING brin
     (id);
-	
+
 create index btree_index on t_big(id);
 
 select pg_size_pretty(pg_total_relation_size('t_big'));
@@ -134,6 +134,4 @@ WHERE EXTRACT(DAY FROM d) = 1;
 ```
 
 ## Heap Index
-
-
 

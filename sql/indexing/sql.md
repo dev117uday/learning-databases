@@ -7,7 +7,7 @@
 * **Optimiser** : finding the fastest path to the data
 * **Executor** : responsible for effectively going to the storage  and retrieving the data from the physical storage.
 
-### Optimiser 
+### Optimiser
 
 * Finds all the paths and gets the path with cheapest COST
 * **LOWEST COST WINS !!**
@@ -65,17 +65,7 @@ Performs a sequential scan on the whole table.
 
 Memory Size \( used by sort operation and hash table \) : `4 MB`
 
- 
-
 ![](../../.gitbook/assets/image%20%287%29%20%282%29%20%282%29%20%283%29%20%283%29%20%282%29.png)
 
 \*\*\*\*
-
-
-
-
-
-
-
-
 

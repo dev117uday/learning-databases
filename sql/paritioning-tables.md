@@ -6,7 +6,7 @@
 * multiple smaller pieces
 * more manageable pieces table
 
-Partition leads to a huge performance boost. 
+Partition leads to a huge performance boost.
 
 **Types of ranges**
 
@@ -80,7 +80,7 @@ explain analyze select * from employees_range
 where birth_date = '2001-01-01';
 ```
 
-## List Partitioning 
+## List Partitioning
 
 ```sql
 create table employee_list (
@@ -115,7 +115,7 @@ create table employee_hash_2 partition of employee_hash
 for values with (modulus 3, remainder 2);
 ```
 
-## Default Partitioning 
+## Default Partitioning
 
 ```sql
 create table employee_default_part partition of employee_list default;

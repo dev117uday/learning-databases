@@ -13,7 +13,6 @@ description: '// TODO : Complete this section'
   * CLOSE
 
 ```sql
-
 DO
 $$
     DECLARE

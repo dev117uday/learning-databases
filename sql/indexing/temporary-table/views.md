@@ -2,7 +2,7 @@
 
 ## Plain View
 
-A **view** is a database object that is a stored query. A view is a virtual table you can create dynamically using a saved query acting as a `virtual table.`  
+A **view** is a database object that is a stored query. A view is a virtual table you can create dynamically using a saved query acting as a `virtual table.`
 
 * You can join a view to another table or view
 * You can query a view
@@ -94,6 +94,4 @@ drop materialized view mv_dir;
 * cannot change data in `materialised view` : _insert, update and delete_ 
 * **advantage** of using`materialised view` : access and update _mv_ without locking everyone else out 
 * **disadvantage** of using _mv_ : if you alter the base table , _mv_ must also me alter : delete the old _mv_ and create a new one
-
-
 

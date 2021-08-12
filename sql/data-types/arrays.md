@@ -284,7 +284,3 @@ SELECT array_to_string(ARRAY [1,2,3,4], '|');
 SELECT array_to_string(ARRAY [1,2,3,4,NULL], '|', 'EMPTY');
 ```
 
-
-
-
-

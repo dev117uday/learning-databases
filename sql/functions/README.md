@@ -5,13 +5,13 @@
 ```sql
 CREATE OR REPLACE FUNCTION function_name() RETURNS return_type as 
 '
-	-- SQL COMMAND 
+    -- SQL COMMAND 
 ' LANGUAGE SQL
 
 
 CREATE OR REPLACE FUNCTION fn_my_sum( int, int ) RETURNS int as 
 '
-	SELECT $1 + $2;
+    SELECT $1 + $2;
 ' LANGUAGE SQL
 
 SELECT fn_my_sum(1,2);
@@ -19,14 +19,14 @@ SELECT fn_my_sum(1,2);
 
 CREATE OR REPLACE FUNCTION fn_printer( text ) RETURNS text as 
 $$
-	SELECT 'Hello ' || $1 ;
+    SELECT 'Hello ' || $1 ;
 $$ LANGUAGE SQL
 
 SELECT fn_printer( 'Uday' );
 
 CREATE OR REPLACE FUNCTION fn_printer( text ) RETURNS text as 
 $body$
-	SELECT 'Hello ' || $1 ;
+    SELECT 'Hello ' || $1 ;
 $body$ LANGUAGE SQL
 
 SELECT fn_printer( 'Uday' );
@@ -41,9 +41,9 @@ select * from employees where employee_id = 1;
 CREATE OR REPLACE FUNCTION fn_employee_update_country () returns void AS
 $$
 
-	update employees 
-	set country = 'n/a'
-	where country is NULL
+    update employees 
+    set country = 'n/a'
+    where country is NULL
 $$ 
 LANGUAGE SQL
 
@@ -59,7 +59,7 @@ limit 1
 
 $$
     LANGUAGE SQL
-	
+
 select (fn_api_order_latest()).*;
 
 select (fn_api_order_latest()).order_date;
@@ -70,9 +70,9 @@ select order_date(fn_api_order_latest())
 CREATE OR REPLACE FUNCTION fn_employee_hire_bydate( p_year integer ) returns setof employees as 
 $$
 
-	select * from employees
-	where extract('YEAR' from hire_date) = p_year
-	
+    select * from employees
+    where extract('YEAR' from hire_date) = p_year
+
 $$
 LANGUAGE SQL
 
@@ -95,12 +95,12 @@ from orders;
 
 $$
     LANGUAGE SQL;
-	
+
 SELECT (fn_orders()).*;
 
 
 CREATE OR REPLACE FUNCTION function_name 
-	( x int default 0, y int DEFAULT 10 ) returns int as
+    ( x int default 0, y int DEFAULT 10 ) returns int as
 $$ 
 
 select x+y;
@@ -111,6 +111,6 @@ LANGUAGE SQL;
 SELECT function_name();
 
 DROP FUNCTION [ IF EXISTS ] function_name 
-	( argument_list ) ( cascade | restrict );
+    ( argument_list ) ( cascade | restrict );
 ```
 

@@ -9,9 +9,9 @@ description: the usual
 | JSON | JSONB |
 | :--- | :--- |
 | stores data in text format | stores data in binary format |
-| stores data as-is  | trims of white spaces |
+| stores data as-is | trims of white spaces |
 | slower in operations | faster in operations |
-| doesn't support full text indexing | supports full text indexing  |
+| doesn't support full text indexing | supports full text indexing |
 
 ```sql
 select '{
@@ -228,6 +228,4 @@ select *
 from directors_docs
 where (body ->> 'director_id')::integer in (1,2,3,4,5,10);
 ```
-
-
 
