@@ -4,7 +4,6 @@
 
 ## SQL
 
-* [SQL](sql/sql.md)
 * [pgAdmin Tool](sql/administration-task.md)
 * [Data Types](sql/data-types/README.md)
   * [JSON](sql/data-types/json.md)
@@ -30,12 +29,13 @@
   * [Cross & Natural Joins](sql/joins/cross-join.md)
   * [Coalesce](sql/joins/coalesce.md)
 * [Indexing](sql/indexing/README.md)
+  * [SQL](sql/indexing/sql.md)
+  * [Temporary Table](sql/indexing/temporary-table/README.md)
+    * [Views](sql/indexing/temporary-table/views.md)
+    * [CTE](sql/indexing/temporary-table/cte.md)
   * [Indexes](sql/indexing/indexes.md)
   * [Unique Index](sql/indexing/unique-index.md)
   * [GIN Index](sql/indexing/gin-index.md)
-* [Temporary Table](sql/temporary-table/README.md)
-  * [Views](sql/temporary-table/views.md)
-  * [CTE](sql/temporary-table/cte.md)
 * [Summarization](sql/summarization.md)
 * [SubQueries](sql/subqueries.md)
 * [Window](sql/window.md)
