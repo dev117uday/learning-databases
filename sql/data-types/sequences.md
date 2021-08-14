@@ -1,41 +1,69 @@
 # Sequences
 
-## Sequences
+### Sequences
 
-* Specify datatype \( SMALLINT \| INT \| BIGINT \)
-* Default is BIGINT
+* Specify datatype \( `SMALLINT | INT | BIGINT` \)
+* Default is `BIGINT`
 
-## List all sequence
+### List all sequence
 
 ```sql
-SELECT relname as seq_name 
-    from pg_class where relkind = 'S';
+SELECT relname AS seq_name 
+    FROM pg_class WHERE relkind = 'S';
 ```
 
 ```sql
-CREATE SEQUENCE IF NOT EXISTS test_sequence as bigint;
+CREATE SEQUENCE IF NOT EXISTS test_sequence AS bigint;
 
 SELECT NEXTVAL('test_sequence');
 
+ nextval 
+---------
+       1
+
+
 SELECT CURRVAL('test_sequence');
 
-SELECT setval('test_sequence',1);
+ currval 
+---------
+       1
 
-SELECT setval('test_sequence',100);
+SELECT SETVAL('test_sequence',3);
+
+ setval 
+--------
+      3
+
 
 -- set this value after the nextval is called, 
 -- check using the currval cmd
-SELECT setval('test_sequence',300,false);
+SELECT SETVAL('test_sequence',300,false);
+
+-- CHECKING CURRENT VALUE 
+SELECT CURRVAL('test_sequence');
+ currval 
+---------
+       3
+
 
 ALTER SEQUENCE test_sequence RESTART WITH 100;
 
+SELECT NEXTVAL('test_sequence');
+ nextval 
+---------
+     100
+
 CREATE SEQUENCE IF NOT EXISTS test_seq3
 INCREMENT 50
-minvalue 100
+MINVALUE 100
 MAXVALUE 1000
 START WITH 150;
 
 SELECT nextval('test_seq3');
+
+  nextval 
+---------
+     150
 
 CREATE SEQUENCE IF NOT EXISTS seq_des
 INCREMENT -1
@@ -46,49 +74,44 @@ NO CYCLE | CYCLE ;
 
 SELECT nextval('seq_des');
 
+ nextval 
+---------
+      99
+
 -- DROP SEQUENCE
 
-DROP SEQUENCE if exists seq_des;
+DROP SEQUENCE IF EXISTS seq_des;
 
-create table if not exists table_seq (
+CREATE TABLE IF NOT EXISTS table_seq (
     id INT primary key ,
-    name varchar(10)
+    name VARCHAR(10)
 );
 
-create sequence if not exists table_seq_id_seq
-start with 1 owned by table_seq.id;
+CREATE sequence IF NOT EXISTS table_seq_id_seq
+start with 1 owned BY table_seq.id;
 
 ALTER TABLE table_seq
 ALTER COLUMN id SET DEFAULT nextval('table_seq_id_seq')
-
-
-create sequence if not exists common_seq start with 100;
-
-create table table_seq_share (
-    id int default nextval('common_seq') not null ,
-    name varchar(20)
-);
-
-create table table_seq_share2 (
-    id int default nextval('common_seq') not null ,
-    name varchar(20)
-);
 ```
 
-## Alpha-Numeric Sequence
+### Alpha-Numeric Sequence
 
 ```sql
-create sequence table_text_seq;
+CREATE sequence table_text_seq;
 
-create table contacts (
-    id text not null default ('ID' || nextval('table_text_seq')),
-    name varchar(150) not null
+CREATE TABLE contacts (
+    id text NOT null default ('ID' || nextval('table_text_seq')),
+    name VARCHAR(150) NOT null
 );
 
-insert into  contacts (name) values ('uday 1'),('uday 2'),('uday 3');
+INSERT INTO  contacts (name) VALUES ('uday 1'),('uday 2'),('uday 3');
 
-select * from contacts;
+SELECT * FROM contacts;
 
-alter sequence table_text_seq owned by contacts.id
+ id  |  name  
+-----+--------
+ ID1 | uday 1
+ ID2 | uday 2
+ ID3 | uday 3
 ```
 
