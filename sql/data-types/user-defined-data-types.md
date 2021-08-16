@@ -190,8 +190,6 @@ CREATE TABLE cron_jobs (
 
 INSERT INTO cron_jobs ( status ) VALUES ('APPROVED');
 
-
-
 DO
 $$
 BEGIN
