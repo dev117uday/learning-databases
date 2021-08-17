@@ -16,16 +16,34 @@ CREATE DOMAIN name datatype constraint
 
 -- ex 1
 -- 'addr' with domain VARCHAR(100)
-CREATE DOMAIN addr VARCHAR(100) NOT NULL
+CREATE DOMAIN addr VARCHAR(100) NOT NULL;
 
 CREATE TABLE locations (
     address addr
 );
 
--- ex 2
--- 'positive_numeric' : value > 0
+            Table "public.locations"
+ Column  | Type | Collation | Nullable | Default 
+---------+------+-----------+----------+---------
+ address | addr |           |          | 
 
-select * from locations;
+
+-- Dropping Constraints
+drop domain proper_email;    
+drop domain proper_email CASCADE;
+
+-- List all domains inside a schema
+select typname from pg_catalog.pg_type 
+ join pg_catalog.pg_namespace 
+ on pg_namespace.oid = pg_type.typnamespace
+ where typtype = 'd' and nspname = 'public';
+```
+
+## Number Based Components
+
+```sql
+-- Example 2
+-- 'positive_numeric' : value > 0
 
 CREATE DOMAIN positive_numeric 
     INT NOT NULL CHECK (VALUE > 0);
@@ -35,11 +53,24 @@ CREATE TABLE sample (
 );
 
 INSERT INTO sample (NUMBER) VALUES (10);
+
+-- error
 INSERT INTO sample (NUMBER) VALUES (-10);
+
+ERROR:  value for domain positive_numeric 
+    violates check constraint "positive_numeric_check"
 
 SELECT * FROM sample;
 
--- ex 3
+ number 
+--------
+     10
+```
+
+## Text Based Domain
+
+```sql
+-- Example 3
 -- check email domain
 
 CREATE DOMAIN 
@@ -54,37 +85,38 @@ CREATE TABLE email_check (
 
 insert into email_check (client_email) 
     values ('a@b.com') ;
+    
+-- error 
 insert into email_check (client_email) 
     values ('a@#.com') ;
+```
 
+## Enum Based Domain
 
+```sql
 -- enum based domain
 CREATE DOMAIN valid_color VARCHAR(10)
-CHECK (VALUE IN ('red','green','blue'))
+CHECK (VALUE IN ('red','green','blue'));
 
 CREATE TABLE color (
     color valid_color
 );
 
 INSERT INTO color (color) 
-    VALUES ('red'),('blue'),('green')
+    VALUES ('red'),('blue'),('green');
+
+-- error
 INSERT INTO color (color) 
-    VALUES ('yellow')
-
-
-select typname from pg_catalog.pg_type join pg_catalog.pg_namespace on pg_namespace.oid = pg_type.typnamespace
-where typtype = 'd' and nspname = 'public';
-
-drop domain proper_email;    
-drop domain proper_email CASCADE;
+    VALUES ('yellow');
 ```
 
 ## Composite Data Types
 
 **Syntax :** `(composite_column).city`
 
+### Example 1
+
 ```sql
---  ex1 
 -- address type
 
 CREATE TYPE address AS (
@@ -103,8 +135,11 @@ INSERT INTO person ( address )
 select * from person;
 
 select (address).country from person;
+```
 
+### Example 2
 
+```sql
 
 CREATE TYPE currency AS ENUM(
     'USD','EUR','GBP','CHF'
@@ -126,6 +161,8 @@ select * from stocks
 -- DROP TYPE currency;
 ```
 
+## Alter
+
 ### Alter TYPE
 
 ```sql
@@ -137,7 +174,6 @@ ALTER TYPE user_address SET SCHEMA test_scm
 
 ALTER TYPE test_scm.user_address 
     ADD ATTRIBUTE street_address VARCHAR(150)    
-
 
 CREATE TYPE mycolors AS ENUM ('green','red','blue')
 
@@ -179,6 +215,7 @@ ALTER TABLE jobs ALTER COLUMN job_status
 
 DROP TYPE status_enum_old
 
+--
 
 CREATE TYPE  status AS ENUM 
     ('PENDING','APPROVED','DECLINE')
@@ -199,9 +236,9 @@ BEGIN
             FROM pg_type tp 
             INNER JOIN 
                 pg_namespace nsp ON nsp.oid = typ.typnamespace
-                    WHERE nsp.nspname = current_schema() 
-                    AND typ.typname = 'a' 
-                ) 
+                WHERE nsp.nspname = current_schema() 
+                AND typ.typname = 'a' 
+            ) 
         THEN
             CREATE TYPE ai AS ( 
                 a TEXT, i INT 
