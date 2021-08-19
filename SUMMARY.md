@@ -40,6 +40,7 @@
   * [Window](sql/summarization/window.md)
   * [SubQueries](sql/summarization/subqueries.md)
 * [Advance Tables](sql/advance-tables/README.md)
+  * [Managing Tables](sql/advance-tables/managing-tables.md)
   * [Paritioning Tables](sql/advance-tables/paritioning-tables.md)
   * [Internals](sql/advance-tables/internals.md)
   * [Pivotal or Crosstab Tables](sql/advance-tables/pivotal-or-crosstab-tables.md)
