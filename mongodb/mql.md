@@ -38,9 +38,9 @@ use sample_training
 show collections
 ```
 
-Queries
+## Queries
 
-Find
+### Find
 
 ```bash
 db.zips.find({"state": "NY"})
@@ -61,7 +61,7 @@ db.inspections.findOne();
 
 * Each Document has a unique object `_id` which is set by default if not specfied
 
-Insert
+### Insert
 
 ```bash
 db.inspections.insert({
@@ -98,7 +98,7 @@ db.inspections.insert({
 db.inspections.find({"id" : "10021-2015-ENFO", "certificate_number" : 9278806}).pretty()
 ```
 
-Insert conflicts
+### Insert conflicts
 
 ```bash
 # Insert three test documents
@@ -122,7 +122,7 @@ db.inspections.insert([{ "_id": 1, "test": 1 },{ "_id": 1, "test": 2 },
 db.inspection.insert([{ "_id": 1, "test": 1 },{ "_id": 3, "test": 3 }])`
 ```
 
-Updates
+### Updates
 
 [https://docs.mongodb.com/manual/reference/operator/update/\#id1](https://docs.mongodb.com/manual/reference/operator/update/#id1)
 
@@ -180,7 +180,7 @@ db.grades.updateOne({ "student_id": 250, "class_id": 339 },
 db.grades.find({ "student_id": 250, "class_id": 339 })
 ```
 
-Upsert
+### Upsert
 
 ```bash
 db.iot.updateOne({ "sensor": r.sensor, "date": r.date,
@@ -190,7 +190,7 @@ db.iot.updateOne({ "sensor": r.sensor, "date": r.date,
                  { "upsert": true })
 ```
 
-Delete
+### Delete
 
 ```bash
 # Look at all the docs that have test field equal to 1.
@@ -218,7 +218,7 @@ show collections
 db.inspection.drop()
 ```
 
-Operators
+### Operators
 
 ```bash
 # Find all documents where the tripduration 
@@ -262,7 +262,7 @@ db.routes.find({ "$and": [ { "$or" :[ { "dst_airport": "KZN" },
 
 * AND operator is present in your qureies when not specified
 
-EXPR
+### EXPR
 
 ```bash
 # Find all documents where the trip started
@@ -290,7 +290,7 @@ db.trips.find({ "$expr": { "$and": [ { "$gt": [ "$tripduration", 1200 ]},
                        ]}}).count()
 ```
 
-Array
+## Array
 
 ```bash
 # using ALL operator
@@ -309,7 +309,7 @@ db.listingsAndReviews.find(
     }).pretty()
 ```
 
-Array operators and Projection
+### Array operators and Projection
 
 ```bash
 # Find all documents with exactly 20 amenities which include all the amenities listed in the query array, and display their price and address:
@@ -361,7 +361,7 @@ db.grades.find({ "scores": { "$elemMatch": { "type": "extra credit" } }
 * Elematch : matches documents that contains an array field with at least one element that matches the specified query creteria
 * Elematch : Projects only the array elements with at least one element that matches the specified criteria
 
-Array Operators and Sub-Documents
+### Array Operators and Sub-Documents
 
 ```bash
 use sample_training
@@ -391,7 +391,7 @@ db.companies.find({ "relationships":
                   { "name": 1 }).count()
 ```
 
-Aggregate Framework
+## Aggregate Framework
 
 * Queries are written inside `[]` operator, denoting the order in which hey execute
 * `$group` : An operator that takes in multiple streams of data and distributes it into multiple reservoirs
@@ -435,7 +435,7 @@ db.listingsAndReviews.aggregate(
     ])
 ```
 
-Sort and Limit
+## Sort and Limit
 
 * Use sort before limit always
 

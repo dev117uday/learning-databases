@@ -61,6 +61,7 @@
 
 * [MongoDB](mongodb/mongodb.md)
 * [MQL](mongodb/mql.md)
+* [Mongo Administration](mongodb/mongo-administration.md)
 
 ## Redis
 
