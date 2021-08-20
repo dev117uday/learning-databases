@@ -36,6 +36,7 @@
   * [Indexes](sql/indexing/indexes.md)
   * [Unique Index](sql/indexing/unique-index.md)
   * [GIN Index](sql/indexing/gin-index.md)
+  * [Custom Indexes](sql/indexing/custom-indexes.md)
 * [Summarization](sql/summarization/README.md)
   * [Window](sql/summarization/window.md)
   * [SubQueries](sql/summarization/subqueries.md)
