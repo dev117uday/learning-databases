@@ -6,7 +6,7 @@ The dbpath is the directory where all the data files for your database are store
 
 ### Port
 
-The port option3XhfaAvFFNUkRy2c allows us to specify the port on which mongod will listen for client connections. If we don't specify a port, it will default to 27017. Database clients should specify the same port to connect to mongod.
+The port option allows us to specify the port on which mongod will listen for client connections. If we don't specify a port, it will default to 27017. Database clients should specify the same port to connect to mongod.
 
 ### Auth
 
@@ -322,4 +322,58 @@ stats.maxSize
 
 rs.printReplicationInfo()
 ```
+
+## Failover :
+
+* Primary node is the first point of contact from client
+* we first upgrade the secondary nodes
+* then we step down the primary node to become secondary \( using rs.stepDown\(\) \), once the election is complete, we can then safely upgrade the primary \(which is now secondary\) and connect it back to the replica set
+
+Elections :
+
+* Happens when the primary node becomes unavailable or primary node wants to step down
+* Next primary node will be elected keeping the following things in mind :
+  * Which ever node has the latest copy of data, it will run for election and automatically vote for itself
+  * If two node \( in a cluster of 3\) has same recent data, the third node will cast a vote for any one of them to become primary. This becomes a problem in even node replica set
+* priority : likelihood that a node will become primary in case of election
+  * default priority is 1
+  * priority 1 or higher will give the node a higher chance of winning the election
+  * set priority of node to 0 if we dont want node to become primary
+  * node that cannot become primary are known as passive nodes
+
+## write concerns
+
+* Commands under write concern
+  * insert
+  * update
+  * delete
+  * find or modify
+* ACK mechanism added to write ops to provide stronger durability garuntee
+* MAX : majority of nodes : roundup\(\[num of nodes\]/2\)
+* more durability requires more time to achieve
+* write concerns level
+  * 0 : dont wait for ack
+  * 1 : wait for primary to ack
+  * > =2 : wait for primary and one or more secondary to ack
+  * "majority" : wait for majority to ack
+* write concern options
+  * wtimeout : time to wait before marking operation as failed
+  * j \[true\|false\] : requires node to commit  the write operation to the journal before returning the ack
+* setting write concern higher make ops slower
+
+## read concern / preference
+
+* specifies durability during a read operation
+* read concern level
+  * local : returns from the primary node
+  * available 
+  * majority 
+* read preference allows you to redirect read operation to specific members of replica set
+* read preference may return stale data 
+* read preference modes
+  * primary : default
+  * primaryPreferred : can route read ops to secondary in case primary in not available
+  * secondary : routes read ops to sec. nodes only
+  * secondaryPreferred : if sec. not available, routes read ops to primary
+  * nearest : routes to least network latency from the host, ignores primary or secondary
 
