@@ -51,6 +51,7 @@
   * [Transactions](sql/functions/transactions.md)
   * [Triggers](sql/functions/triggers.md)
   * [Cursors](sql/functions/cursors.md)
+  * [Custom Aggregate function](sql/functions/custom-aggregate-function.md)
 
 ## Cassandra
 
