@@ -29,14 +29,24 @@ CREATE TABLE locations (
 
 
 -- Dropping Constraints
-drop domain proper_email;    
-drop domain proper_email CASCADE;
+-- if domain isnt used anywhere
+drop domain addr;    
+
+-- this will drop the column in the table it is present in
+-- use this with caution
+drop domain addr CASCADE;
 
 -- List all domains inside a schema
 select typname from pg_catalog.pg_type 
  join pg_catalog.pg_namespace 
  on pg_namespace.oid = pg_type.typnamespace
  where typtype = 'd' and nspname = 'public';
+ 
+      typname      
+------------------
+ positive_numeric
+ valid_color
+ addr
 ```
 
 ## Number Based Components
@@ -57,8 +67,8 @@ INSERT INTO sample (NUMBER) VALUES (10);
 -- error
 INSERT INTO sample (NUMBER) VALUES (-10);
 
-ERROR:  value for domain positive_numeric 
-    violates check constraint "positive_numeric_check"
+-- ERROR:  value for domain positive_numeric 
+--    violates check constraint "positive_numeric_check"
 
 SELECT * FROM sample;
 
@@ -134,7 +144,17 @@ INSERT INTO person ( address )
 
 select * from person;
 
+ id |     address      
+----+------------------
+  1 | (London,UK)
+  2 | ("New York",USA)
+
 select (address).country from person;
+
+ country 
+---------
+ UK
+ USA
 ```
 
 ### Example 2
@@ -147,6 +167,15 @@ CREATE TYPE currency AS ENUM(
 
 SELECT 'USD'::currency
 
+ currency 
+----------
+ USD
+ 
+SELECT 'INR'::currency
+
+-- ERROR:  invalid input value for enum currency: "INR"
+-- LINE 1: SELECT 'INR'::currency
+
 ALTER TYPE currency ADD VALUE 'CHF' AFTER 'EUR';
 
 CREATE TABLE stocks (
@@ -157,6 +186,9 @@ CREATE TABLE stocks (
 insert into stocks ( symbol ) VALUES ('CHF');
 
 select * from stocks
+ id | symbol 
+----+--------
+  1 | CHF
 
 -- DROP TYPE currency;
 ```
@@ -166,7 +198,7 @@ select * from stocks
 ### Alter TYPE
 
 ```sql
-ALTER TYPE address RENAME TO user_address
+ALTER TYPE addr RENAME TO user_address
 
 ALTER TYPE user_address OWNER TO uday
 
@@ -198,13 +230,32 @@ CREATE TABLE jobs (
 INSERT INTO jobs ( job_status ) VALUES 
     ('queued'),('waiting'),('running'),('done');
 
-SELECT * FROM jobs
+SELECT * FROM jobs;
+
+ id | job_status 
+----+------------
+  1 | queued
+  2 | waiting
+  3 | running
+  4 | done
 
 -- UPDATING waiting to running
 
 UPDATE jobs SET job_status = 'running' 
-    WHERE job_status = 'waiting'
+    WHERE job_status = 'waiting';
 
+ id | job_status 
+----+------------
+  1 | queued
+  3 | running
+  4 | done
+  2 | running
+  
+```
+
+## Updating/Replacing ENUM domain
+
+```sql
 ALTER TYPE status_enum RENAME TO status_enum_old;
 
 CREATE TYPE status_enum as enum 
@@ -213,10 +264,12 @@ CREATE TYPE status_enum as enum
 ALTER TABLE jobs ALTER COLUMN job_status 
     TYPE status_enum USING job_status::text::status_enum;
 
-DROP TYPE status_enum_old
+DROP TYPE status_enum_old;
+```
 
---
+## Default value ENUM
 
+```sql
 CREATE TYPE  status AS ENUM 
     ('PENDING','APPROVED','DECLINE')
 
@@ -226,7 +279,11 @@ CREATE TABLE cron_jobs (
 );
 
 INSERT INTO cron_jobs ( status ) VALUES ('APPROVED');
+```
 
+## CREATE DOMAIN IF NOT EXISTS
+
+```sql
 DO
 $$
 BEGIN
