@@ -30,6 +30,13 @@ VALUES ('person 4', array ['100','94']);
 
 SELECT name, grades[1]
 FROM table_array;
+
+   name   | grades 
+----------+--------
+ person 1 | 100
+ person 2 | 100
+ person 3 | 100
+ person 4 | 100
 ```
 
 ## Array in Tables
@@ -46,7 +53,7 @@ CREATE TABLE teachers
     class text[]
 );
 
-CREATE TABLE teacher1
+CREATE TABLE IF NOT EXISTS teachers
 (
     id    serial primary key,
     class text array
@@ -55,8 +62,9 @@ CREATE TABLE teacher1
 INSERT INTO teachers (class)
 VALUES (array ['english','maths']);
 
-SELECT *
-FROM teachers;
+ id |      class      
+----+-----------------
+  1 | {english,maths}
 ```
 
 ### Query
@@ -65,13 +73,27 @@ FROM teachers;
 SELECT class[1]
 FROM teachers;
 
+  class  
+---------
+ english
+
+
 SELECT *
 FROM teachers
 WHERE class[1] = 'english';
 
+ id |      class      
+----+-----------------
+  1 | {english,maths}
+
+
 SELECT *
 FROM teachers
 WHERE 'english' = any (class);
+
+ id |      class      
+----+-----------------
+  1 | {english,maths}
 ```
 
 ### Update
@@ -81,15 +103,17 @@ update teachers
 set class[1] = 'dutch'
 WHERE id = 1;
 
-SELECT *
-FROM teachers;
+ id |     class     
+----+---------------
+  1 | {dutch,maths}
 
-update teachers
+Update teachers
 set class[3] = 'science'
 WHERE id = 1;
 
-SELECT *
-FROM teachers;
+ id |         class         
+----+-----------------------
+  1 | {dutch,maths,science}
 ```
 
 ### Dimensionless
@@ -104,12 +128,18 @@ CREATE TABLE teacher2
 INSERT INTO teacher2 (class)
 VALUES (array ['english']);
 
-SELECT *
-FROM teacher2;
-
+ id |   class   
+----+-----------
+  1 | {english}
+    
 -- dimensions doesnt matter
 INSERT INTO teacher2 (class)
 VALUES (array ['english','hindi']);
+
+ id |      class      
+----+-----------------
+  1 | {english}
+  2 | {english,hindi}
 ```
 
 ### Unnest
@@ -117,6 +147,12 @@ VALUES (array ['english','hindi']);
 ```sql
 SELECT id, class, unnest(class)
 FROM teacher2;
+
+ id |      class      | unnest  
+----+-----------------+---------
+  1 | {english}       | english
+  2 | {english,hindi} | english
+  2 | {english,hindi} | hindi
 ```
 
 ### Multi Dimensional Array
@@ -137,17 +173,38 @@ VALUES ('s1', '{90,2020}'),
 SELECT *
 FROM students;
 
+ id | name |   grade   
+----+------+-----------
+  1 | s1   | {90,2020}
+  2 | s1   | {70,2020}
+  3 | s1   | {60,2020}
+
 SELECT *
 FROM students
 WHERE grade @> '{90}';
+
+ id | name |   grade   
+----+------+-----------
+  1 | s1   | {90,2020}
 
 SELECT *
 FROM students
 WHERE '2020' = any (grade);
 
+ id | name |   grade   
+----+------+-----------
+  1 | s1   | {90,2020}
+  2 | s1   | {70,2020}
+  3 | s1   | {60,2020}
+
 SELECT *
 FROM students
 WHERE grade[1] < 80;
+
+ id | name |   grade   
+----+------+-----------
+  2 | s1   | {70,2020}
+  3 | s1   | {60,2020}
 ```
 
 ### Array vs JSONB
@@ -186,10 +243,18 @@ SELECT INT4RANGE(1, 6)                                                   AS "DEF
        DATERANGE('20200101', '20201222', '()')                           AS "DATES ()",
        TSRANGE(LOCALTIMESTAMP, LOCALTIMESTAMP + INTERVAL '8 DAYS', '(]') AS "OPENED CLOSED";
 
+ DEFAULT [( |      []       |        DATES ()         |                       OPENED CLOSED                       
+------------+---------------+-------------------------+-----------------------------------------------------------
+ [1,6)      | [1.432,6.238] | [2020-01-02,2020-12-22) | ("2021-08-24 05:22:13.03625","2021-09-01 05:22:13.03625"]
+
 
 SELECT ARRAY [1,2,3]        AS "INT ARRAYS",
        ARRAY [2.123::FLOAT] AS "FLOATING NUMBERS",
-       ARRAY [CURRENT_DATE, CURRENT_DATE + 5]
+       ARRAY [CURRENT_DATE, CURRENT_DATE + 5];
+
+ INT ARRAYS | FLOATING NUMBERS |          array          
+------------+------------------+-------------------------
+ {1,2,3}    | {2.123}          | {2021-08-24,2021-08-29}
 
 
 SELECT ARRAY [1,2,3,4] = ARRAY [1,2,3,4],
@@ -198,6 +263,10 @@ SELECT ARRAY [1,2,3,4] = ARRAY [1,2,3,4],
        ARRAY [1,2,3,4] < ARRAY [1,5,3,4],
        ARRAY [1,2,3,4] <= ARRAY [1,3,3,4],
        ARRAY [1,2,3,4] > ARRAY [1,2,3,4];
+       
+ ?column? | ?column? | ?column? | ?column? | ?column? | ?column? 
+----------+----------+----------+----------+----------+----------
+ t        | f        | f        | t        | t        | f
 ```
 
 ### Inclusion Operators
@@ -206,6 +275,10 @@ SELECT ARRAY [1,2,3,4] = ARRAY [1,2,3,4],
 SELECT ARRAY [1,2,3,4] @> ARRAY [2,3,4]       AS "CONTAINS",
        ARRAY ['A','B'] <@ ARRAY ['A','B','C'] AS "CONTAINED BY",
        ARRAY [1,2,3,4] && ARRAY [2,3,4]       AS "IS OVERLAP";
+
+ CONTAINS | CONTAINED BY | IS OVERLAP 
+----------+--------------+------------
+ t        | t            | t
 ```
 
 ### Length and Dimensions
@@ -213,25 +286,60 @@ SELECT ARRAY [1,2,3,4] @> ARRAY [2,3,4]       AS "CONTAINS",
 ```sql
 SELECT ARRAY [1,2,3] || ARRAY [4,5,6] AS "COMBINED ARRAY";
 
+ COMBINED ARRAY 
+----------------
+ {1,2,3,4,5,6}
+
 SELECT ARRAY_CAT(ARRAY [1,2,3],
                  ARRAY [4,5,6]) AS "COMBINED ARRAY VIA CAT";
 
+ COMBINED ARRAY VIA CAT 
+------------------------
+ {1,2,3,4,5,6}
+
 SELECT 4 || ARRAY [1,2,3] AS "ADDING TO ARRAY";
+
+ ADDING TO ARRAY 
+-----------------
+ {4,1,2,3}
 
 SELECT ARRAY [1,2,3] || 4 AS "ADDING TO ARRAY";
 
+ ADDING TO ARRAY 
+-----------------
+ {1,2,3,4}
+
 SELECT ARRAY_APPEND(ARRAY [1,2,3], 4) AS "USING APPEND";
 
+ USING APPEND 
+--------------
+ {1,2,3,4}
+
 SELECT ARRAY_PREPEND(4, ARRAY [1,2,3]) AS "USING APPEND";
+
+ USING APPEND 
+--------------
+ {4,1,2,3}
 
 SELECT ARRAY_NDIMS(ARRAY [[1,2,3,4],[1,2,3,4],[1,2,3,4]]) AS "DIMENSIONS",
        ARRAY_DIMS(ARRAY [1,2,3,4,2,3,4])                  AS "DIMENSIONS";
 
+ DIMENSIONS | DIMENSIONS 
+------------+------------
+          2 | [1:7]
 
 SELECT ARRAY_LENGTH(ARRAY [-111,2,3,4], 1);
 
+ array_length 
+--------------
+            4
+
 SELECT ARRAY_UPPER(ARRAY [1,2,3,4000], 1),
        ARRAY_LOWER(ARRAY [-100,2,3,4], 1);
+       
+ array_upper | array_lower 
+-------------+-------------
+           4 |           1
 ```
 
 ### Positions
@@ -239,9 +347,20 @@ SELECT ARRAY_UPPER(ARRAY [1,2,3,4000], 1),
 ```sql
 SELECT array_position(array ['jan','feb','mar'], 'feb');
 
+ array_position 
+----------------
+              2
+
 SELECT array_position(array [1,2,2,3,4], 2, 3);
 
+ array_position 
+----------------
+              3
+              
 SELECT array_positions(array [1,2,2,3,4], 2);
+ array_positions 
+-----------------
+ {2,3}
 ```
 
 ### Search, Replace, Remove
@@ -249,25 +368,42 @@ SELECT array_positions(array [1,2,2,3,4], 2);
 ```sql
 SELECT array_cat(array [1,2], array [3,4]);
 
+ array_cat 
+-----------
+ {1,2,3,4}
+
 SELECT array_append(array [1,2,3], 4);
+
+ array_append 
+--------------
+ {1,2,3,4}
 
 SELECT array_remove(array [1,2,3,4,4,4], 4);
 
+ array_remove 
+--------------
+ {1,2,3}
+
 SELECT array_replace(array [1,2,3,4,4,4], 4, 5);
+
+ array_replace 
+---------------
+ {1,2,3,5,5,5}
 ```
 
 ### IN, NOT IN, ANY
 
 ```sql
 SELECT 20 in (1, 2, 3, 20) as "result";
-
+-- t
 SELECT 25 in (1, 2, 3, 20) as "result";
-
+-- f
 SELECT 25 not in (1, 2, 3, 20) as "result";
-
+-- t
 SELECT 20 = all (Array [20,22]), 20 = all (array [20,20]);
-
-SELECT 20 = any (Array [1,2,25]) as "result"
+-- f
+SELECT 20 = any (Array [1,2,25]) as "result";
+-- f
 ```
 
 ### STRING TO Array
@@ -275,12 +411,32 @@ SELECT 20 = any (Array [1,2,25]) as "result"
 ```sql
 SELECT string_to_array('1,2,3,4,5', ',');
 
+ string_to_array 
+-----------------
+ {1,2,3,4,5}
+
 SELECT string_to_array('1,2,3,4,5,ABC', ',', 'ABC');
+
+ string_to_array  
+------------------
+ {1,2,3,4,5,NULL}
 
 SELECT string_to_array('1,2,3,4,,6', ',', '');
 
+ string_to_array  
+------------------
+ {1,2,3,4,NULL,6}
+
 SELECT array_to_string(ARRAY [1,2,3,4], '|');
 
+ array_to_string 
+-----------------
+ 1|2|3|4
+
 SELECT array_to_string(ARRAY [1,2,3,4,NULL], '|', 'EMPTY');
+
+  array_to_string 
+-----------------
+ 1|2|3|4|EMPTY
 ```
 
