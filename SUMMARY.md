@@ -14,6 +14,7 @@
   * [Internal Functions](sql/data-types/miscellaneous-1.md)
 * [Database](sql/working-with-database/README.md)
   * [Schema](sql/working-with-database/schema.md)
+  * [Order of SQL Execution](sql/working-with-database/order-of-sql-execution.md)
 * [Table](sql/tables/README.md)
   * [ORDER BY and DISTINCT](sql/tables/order-by.md)
   * [WHERE](sql/tables/where.md)
