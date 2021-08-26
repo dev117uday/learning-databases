@@ -1,9 +1,10 @@
 # Table of contents
 
-* [Getting Started with PostgreSQL](README.md)
+* [Learning Databases](README.md)
 
 ## SQL
 
+* [Getting Started](sql/getting-started.md)
 * [pgAdmin Tool](sql/administration-task.md)
 * [Database](sql/working-with-database/README.md)
   * [Schema](sql/working-with-database/schema.md)
