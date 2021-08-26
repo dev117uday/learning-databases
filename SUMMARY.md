@@ -5,6 +5,9 @@
 ## SQL
 
 * [pgAdmin Tool](sql/administration-task.md)
+* [Database](sql/working-with-database/README.md)
+  * [Schema](sql/working-with-database/schema.md)
+  * [Order of SQL Execution](sql/working-with-database/order-of-sql-execution.md)
 * [Data Types](sql/data-types/README.md)
   * [JSON](sql/data-types/json.md)
   * [User Defined Data Types](sql/data-types/user-defined-data-types.md)
@@ -12,9 +15,6 @@
   * [Sequences](sql/data-types/sequences.md)
   * [Arrays](sql/data-types/arrays.md)
   * [Internal Functions](sql/data-types/miscellaneous-1.md)
-* [Database](sql/working-with-database/README.md)
-  * [Schema](sql/working-with-database/schema.md)
-  * [Order of SQL Execution](sql/working-with-database/order-of-sql-execution.md)
 * [Table](sql/tables/README.md)
   * [ORDER BY and DISTINCT](sql/tables/order-by.md)
   * [WHERE](sql/tables/where.md)

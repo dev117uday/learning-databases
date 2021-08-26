@@ -13,21 +13,22 @@ description: better excel sheet
 ![](../../.gitbook/assets/output%20%282%29.gif)
 
 ```sql
+-- adding column to table
 ALTER TABLE public.accounts
     ADD COLUMN is_enable boolean;
 
+-- renaming column in table
 ALTER TABLE public.accounts
     RENAME username TO user_name;
 
 -- create database
-
 CREATE DATABASE mydata
     WITH 
     OWNER = uday
     ENCODING = 'UTF8'
     CONNECTION LIMIT = -1;
 
--- create table
+-- creates sample table
 CREATE TABLE persons (
     person_id SERIAL PRIMARY KEY ,
     first_name VARCHAR(100) NOT NULL ,
@@ -42,8 +43,6 @@ ADD COLUMN age INT NOT NULL ;
 ALTER TABLE persons
 ADD COLUMN nationality VARCHAR(20) NOT NULL,
 ADD COLUMN email VARCHAR(50) UNIQUE ;
-
-SELECT * FROM persons;
 
 -- rename table
 ALTER TABLE users
@@ -61,16 +60,16 @@ DROP COLUMN person_age ;
 ALTER TABLE users
 ALTER COLUMN age TYPE VARCHAR(10);
 
+-- altering column datatype
 ALTER TABLE users
 ALTER COLUMN age TYPE INT
 USING age::integer;
-
-select * from users;
 
 -- set default  values of column
 ALTER TABLE users
 ADD COLUMN is_enable VARCHAR(1); 
 
+-- set default value of column
 ALTER TABLE users
 ALTER COLUMN is_enable SET DEFAULT 'Y';
 ```
