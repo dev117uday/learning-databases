@@ -14,60 +14,61 @@ description: better excel sheet
 
 ```sql
 -- adding column to table
-ALTER TABLE public.accounts
-    ADD COLUMN is_enable boolean;
+ALTER TABLE [schema].[table name]
+    ADD COLUMN [column name] [data type];
+
+-- example
+ALTER TABLE public.rainfalls
+    ADD COLUMN is_enable boolean [CONSTRAINT];
 
 -- renaming column in table
-ALTER TABLE public.accounts
-    RENAME username TO user_name;
-
--- create database
-CREATE DATABASE mydata
-    WITH 
-    OWNER = uday
-    ENCODING = 'UTF8'
-    CONNECTION LIMIT = -1;
-
--- creates sample table
-CREATE TABLE persons (
-    person_id SERIAL PRIMARY KEY ,
-    first_name VARCHAR(100) NOT NULL ,
-    last_name VARCHAR(100) NOT NULL
-);
-
--- add column
-ALTER TABLE users
-ADD COLUMN age INT NOT NULL ;
+ALTER TABLE public.rainfalls
+    RENAME is_enable TO accurate;
 
 -- add mulitple columns
-ALTER TABLE persons
-ADD COLUMN nationality VARCHAR(20) NOT NULL,
-ADD COLUMN email VARCHAR(50) UNIQUE ;
+ALTER TABLE rainfals
+ADD COLUMN city VARCHAR(20),
+ADD COLUMN pincode VARCHAR(50);
 
--- rename table
-ALTER TABLE users
-RENAME TO persons;
-
--- rename column
-ALTER TABLE USERS
-RENAME COLUMN age TO person_age
+-- create dummy table
+CREATE TABLE IF NOT EXISTS wrong_table ( name text );
+-- rename table using ALTER
+ALTER TABLE wrong_table RENAME TO name_table;
+DROP TABLE IF EXISTS name_table;
 
 -- drop column
-ALTER TABLE users
-DROP COLUMN person_age ;
+ALTER TABLE public.rainfalls
+DROP COLUMN pincode;
 
 -- change data type of column
-ALTER TABLE users
-ALTER COLUMN age TYPE VARCHAR(10);
+ALTER TABLE public.rainfalls
+ALTER COLUMN accurate TYPE TEXT;
+
+     Table "public.rainfalls"
+  Column  |         Type          | 
+----------+-----------------------+-
+ location | text                  | 
+ year     | integer               | 
+ month    | integer               | 
+ raindays | integer               | 
+ accurate | TEXT                  | 
+ city     | character varying(20) | 
 
 -- altering column datatype
-ALTER TABLE users
-ALTER COLUMN age TYPE INT
-USING age::integer;
+ALTER TABLE rainfalls  
+ALTER COLUMN accurate TYPE REAL 
+USING accurate::REAL;
 
--- set default  values of column
-ALTER TABLE users
-ADD COLUMN is_enable VARCHAR(1); 
+     Table "public.rainfalls"
+  Column  |         Type          | 
+----------+-----------------------+-
+ location | text                  | 
+ year     | integer               | 
+ month    | integer               | 
+ raindays | integer               | 
+ accurate | real                  | 
+ city     | character varying(20) | 
+
 
 -- set default value of column
 ALTER TABLE users
@@ -76,23 +77,20 @@ ALTER COLUMN is_enable SET DEFAULT 'Y';
 
 ## Delete
 
-### Table
-
 ```sql
-drop table if exists temp;
-```
+-- delete table
+DROP TABLE IF EXISTS [table name];
 
-### Row
+-- delete row
+DROP TABLE IF EXISTS [table name];
 
-```sql
-delete from actors where actor_id = 150 ;
-```
+-- delete column
+ALTER TABLE [table name] 
+DROP column [column name];
 
-### Deleting Column/Constraint
-
-```sql
-ALTER TABLE users DROP column created_at;
-ALTER TABLE person DROP CONSTRAINT person_ pkey;
+-- delete constraints
+ALTER TABLE [table name] 
+DROP CONSTRAINT [constrain name];
 ```
 
 ## Select
@@ -105,11 +103,13 @@ The `SELECT` statement has the following clauses:
 * Select a subset of rows from a table using **LIMIT** or **FETCH** clause.
 * Group rows into groups using **GROUP BY** clause.
 * Filter groups using **HAVING** clause.
-* Join with other tables using joins such as INNER JOIN, LEFT JOIN, FULL OUTER JOIN, CROSS JOIN clauses.
+* Join with other tables using joins such as **INNER JOIN**, **LEFT JOIN**, **FULL OUTER JOIN**, **CROSS JOIN** clauses.
 * Perform set operations using **UNION**, **INTERSECT**, and **EXCEPT**.
 
 ```sql
-SELECT first_name,second_name FROM person;
+SELECT first_name, last_name
+FROM directors
+LIMIT 5;
 ```
 
 | Representation | Function |
@@ -118,29 +118,40 @@ SELECT first_name,second_name FROM person;
 | DESC | Descending |
 
 ```sql
-SELECT * FROM person;
+SELECT * FROM directors LIMIT 3;
 
-SELECT * FROM person ORBER BY dob ASC|DESC;
-SELECT DISTINCT gender FROM person;
+ director_id | first_name | last_name | date_of_birth | nationality 
+-------------+------------+-----------+---------------+-------------
+           1 | Tomas      | Alfredson | 1965-04-01    | Swedish
+           2 | Paul       | Anderson  | 1970-06-26    | American
+           3 | Wes        | Anderson  | 1969-05-01    | American
+
+SELECT * FROM directors ORBER BY date_of_birth ASC|DESC;
+
+SELECT DISTINCT nationality FROM directors;
 
 -- to select one column with condtion
-SELECT gender FROM person WHERE gender = 'Female'; 
+SELECT * FROM directors WHERE nationality = 'Chinese'; 
 
--- to select all row with condition on one column
-SELECT * FROM person WHERE gender = 'Female'; 
-
-SELECT * FROM person 
-    WHERE gender = 'Male' AND last_name='England';!
+-- Two or more conditions
+SELECT 
+           * 
+FROM 
+           directors 
+WHERE 
+           nationality = 'Mexican' 
+           AND 
+           date_of_birth='1964-10-09';
 ```
 
 ## Column Alias
 
 ```sql
+-- normal column aliases
 SELECT 
-   first_name || ' ' || last_name as name,
-   email
+   first_name || ' ' || last_name as full_name
 FROM 
-   customer;
+   directors LIMIT 5;
 
 -- with spaces
 SELECT
@@ -152,6 +163,11 @@ FROM
 ## Insert
 
 ```sql
+CREATE TABLE IF NOT EXISTS temp_table (
+    col1 text,
+    col2 text,
+);
+
 INSERT INTO table (col1, col2) 
     VALUES ( 'VALUE 1' , 'VALUE 2');
 
@@ -164,9 +180,8 @@ INSERT INTO table (col1)
     VALUES ( 'VALUE''S 1' );
 
 -- RETURNING ROWS
-INSERT INTO table (first_name, last_name, gender, 
-    date_of_birth) values 
-    ('Uday','Yadav','F',now()) 
+INSERT INTO temp_table (col1, col2) 
+    VALUES ( 'VALUE 5' , 'VALUE 6')
     RETURNING *;
 ```
 
