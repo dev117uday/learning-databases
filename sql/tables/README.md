@@ -188,17 +188,17 @@ INSERT INTO temp_table (col1, col2)
 ## Updating
 
 ```sql
-update table1 set col1 = 'M' where id = 150;
+UPDATE directors set last_name = 'Walker' 
+where director_id = 2;
 
 -- returning updated row
-update actors set gender = 'M' where actor_id = 150 
-    returning *;
+update actors set last_name = 'Anderson' 
+where director_id = 150 returning *;
 
--- update all recors
-update actors set paid = 'N';
+-- update all records
+update [table name] set [column name] = [value];
 
-
-UPDATE person
+UPDATE [table name]
 SET email = 'not found'
 WHERE
     email IS NULL;
@@ -207,6 +207,7 @@ WHERE
 ## Upsert
 
 ```sql
+-- syntax for upsert
 INSERT INTO tablename ( col_list ) VALUES 
     ( value_list ) ON CONFLICT (COL_NAME)
     DO
@@ -214,7 +215,7 @@ INSERT INTO tablename ( col_list ) VALUES
         -- OR
         UPDATE SET col = val where condition;
 
-
+-- syntax for upsert
 INSERT INTO tablename ( COL_NAME ) VALUES 
     ( value_list ) ON CONFLICT (COL_NAME)
     DO
