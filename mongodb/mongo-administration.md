@@ -36,8 +36,7 @@ tls:
   CAFile: "/etc/tls/TLSCA.pem"
 security:
   keyFile: "/data/keyfile"
-processManagement:
-  fork: true
+tim
 ```
 
 ## User management commands
@@ -161,9 +160,7 @@ systemLog:
   destination: file
   path: /var/mongodb/db/node[1,2,3]/mongod.log
   logAppend: true
-processManagement:
-  fork: true
-replication:
+timreplication:
   replSetName: m103-example
 ```
 
@@ -187,9 +184,7 @@ systemLog:
   destination: file
   path: /var/mongodb/logs/mongod1.log
   logAppend: true
-processManagement:
-  fork: true
-replication:
+timreplication:
   replSetName: m103-repl
 
 storage:
@@ -204,9 +199,7 @@ systemLog:
   destination: file
   path: /var/mongodb/logs/mongod2.log
   logAppend: true
-processManagement:
-  fork: true
-replication:
+timreplication:
   replSetName: m103-repl
 
 storage:
@@ -221,9 +214,7 @@ systemLog:
   destination: file
   path: /var/mongodb/logs/mongod3.log
   logAppend: true
-processManagement:
-  fork: true
-replication:
+timreplication:
   replSetName: m103-repl
 ```
 
@@ -249,8 +240,8 @@ mongo --host "localhost:27001" -u "m103-admin"
 
 rs.status()
 
-rs.add("localhost:27012")
-rs.add("localhost:27013")
+rs.add("localhost:27002")
+rs.add("localhost:27003")
 ```
 
 ### Basic Replication functions
@@ -376,4 +367,340 @@ Elections :
   * secondary : routes read ops to sec. nodes only
   * secondaryPreferred : if sec. not available, routes read ops to primary
   * nearest : routes to least network latency from the host, ignores primary or secondary
+
+## Sharding
+
+* There is upper limit to vertical scaling
+* Sharding means adding more machines and dividing the dataset into multiple pieces
+* For each shard, we add more replica to make sure we dont lose data
+* a sharded cluster contains a config server, that store the metadata about each shard. This config server are responsible to distributing the queries to the shard containing the data. 
+* to make config servers highly available, they are deployed in a replica set configuration
+* We use mongos to route the queries to each shard
+
+## When to shard a database
+
+* if not economically viable to scale up the throughput, speed and volume
+* scaling horizontally will add more cost to backup, restore and initial sync time, when not feasible, shard the database
+* Max a server should contain 2tb to 5tb data \(factor in CPU and RAM usage\)
+* when geographically distributed database is required
+* when single threaded operation needs to be parallelised
+
+## Sharding Architecture
+
+* client do not connect to sharded cluster directly
+* they connect to a process called mongos that routes queries to shards
+
+### How mongos figures out where to route the queries
+
+Let's say we have 3 shard containing the data about football players
+
+* shard 1 : A-J
+* shard 2 : K-Q
+* shard 3 : R-Z
+
+When you send a query to find details about player name Messi, it will know which shard contains the data about that player \( as all shards store data about specific player only \). The config server will contain the metadata, for example : shard 1 contains names from A-J, shard 2 contains names from K-Q, shard 3 contains name from R-Z which helps mongos the route the queries
+
+There can be one mongos process routing queries to 3 shards or there can be multiple mongos process routing queries to shards and takign request also from multiple clients
+
+If size of one shard grows more than other, the data needs to be moved from the bigger shard to the smaller ones to keep consist storage capacity. This update will also be reflected in config server.
+
+As not all collections in a database needs to be sharded, there is one shard in the cluster that will act as primary shard keeping all the non sharded collections
+
+If we query the database, lets say where age is in 28-30, then mongos will not be able to route the query to specific shard, rather it will send it to all shards to find out the data, then SHARD\_MERGE stage takes place. This stage can take place on mongos or a randomly chosen shard in the cluster.
+
+Setting up a sharded cluster
+
+```bash
+sharding:
+  clusterRole: configsvr
+replication:
+  replSetName: m103-csrs
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+net:
+  bindIp: localhost,192.168.103.100
+  port: 27004
+systemLog:
+  destination: file
+  path: /var/mongodb/db/csrs1.log
+  logAppend: true
+storage:
+  dbPath: /var/mongodb/db/csrs1
+
+sharding:
+  clusterRole: configsvr
+replication:
+  replSetName: m103-csrs
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+net:
+  bindIp: localhost,192.168.103.100
+  port: 27005
+systemLog:
+  destination: file
+  path: /var/mongodb/db/csrs2.log
+  logAppend: true
+storage:
+  dbPath: /var/mongodb/db/csrs2
+
+sharding:
+  clusterRole: configsvr
+replication:
+  replSetName: m103-csrs
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+net:
+  bindIp: localhost,192.168.103.100
+  port: 27006
+systemLog:
+  destination: file
+  path: /var/mongodb/db/csrs3.log
+  logAppend: true
+storage:
+  dbPath: /var/mongodb/db/csrs3
+
+# start this servers using
+mongod -f csrs1,2,3.conf
+```
+
+* Connect to primary node of config server replica set \(csrs\)
+
+```bash
+mongo --port 27004 --username m103-admin --password m103-pass --authenticationDatabase admin
+
+# # initiate replica set
+# rs.initiate()
+
+# # create super user
+# db.createUser({
+#   user: "m103-admin",
+#   pwd: "m103-pass",
+#   roles: [
+#     {role: "root", db: "admin"}
+#   ]
+# })
+
+# db.auth("m103-admin","m103-pass")
+
+# # add replica set node 
+# rs.add("192.168.103.100:27002")
+# rs.add("192.168.103.100:26003")
+
+# verify the replica is set up properly
+rs.isMaster()
+```
+
+* Config File Mongos
+
+```bash
+sharding:
+  configDB: m103-csrs/192.168.103.100:27004,192.168.103.100:27005,192.168.103.100:27006
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+net:
+  bindIp: localhost,192.168.103.100
+  port: 26000
+systemLog:
+  destination: file
+  path: /var/mongodb/db/mongos.log
+  logAppend: true
+```
+
+* start mongos using : `mongos -f mongos.conf`
+* connect to mongos
+
+  \`\`\`sh
+
+  mongo --port 26000 --username m103-admin --password m103-pass --authenticationDatabase admin
+
+## check sharding status
+
+sh.status\(\)
+
+```text
+```sh
+sharding:
+  clusterRole: shardsvr
+storage:
+  dbPath: /var/mongodb/db/node1
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: .1
+net:
+  bindIp: 192.168.103.100,localhost
+  port: 27011
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+systemLog:
+  destination: file
+  path: /var/mongodb/db/node1/mongod.log
+  logAppend: true
+timreplication:
+  replSetName: m103-repl
+
+sharding:
+  clusterRole: shardsvr
+storage:
+  dbPath: /var/mongodb/db/node2
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: .1
+net:
+  bindIp: 192.168.103.100,localhost
+  port: 27012
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+systemLog:
+  destination: file
+  path: /var/mongodb/db/node2/mongod.log
+  logAppend: true
+timreplication:
+  replSetName: m103-repl
+
+sharding:
+  clusterRole: shardsvr
+storage:
+  dbPath: /var/mongodb/db/node3
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: .1
+net:
+  bindIp: 192.168.103.100,localhost
+  port: 27013
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+systemLog:
+  destination: file
+  path: /var/mongodb/db/node3/mongod.log
+  logAppend: true
+timreplication:
+  replSetName: m103-repl
+```
+
+* Apply the new config to the secondary nodes and then connect to primary, preform force stepdown, and reload with new configuration
+* then connect to mongos and add the primary node of the the shard
+
+```bash
+sh.addShard("shard1/localhost:27001")
+```
+
+### The Config database
+
+* maintained and used internally by mongodb, dont touch it i not necessary
+
+**Switch to config DB:**
+
+```bash
+use config
+
+# Query config.databases:
+db.databases.find().pretty()
+
+# Query config.collections:
+db.collections.find().pretty()
+
+# Query config.shards:
+db.shards.find().pretty()
+
+# Query config.chunks:
+db.chunks.find().pretty()
+
+# Query config.mongos:
+db.mongos.find().pretty()
+```
+
+### Shard Key
+
+* It is the indexed field that mongodb uses to partition data in a sharded collection and distribute it across the shards in your cluster
+* You need to create index first before you can select your shard key.
+* MongoDB uses these shard keys to distribute data across sharded clusters. This groupings are also known as chunks
+* shard key should be present in every document in the collection \(if not already\) or in every new document that is inserted
+* shard keys are immutable, cannot change shard key post-sharding
+* you cannot change the values of shard key fields post-sharding
+* sharded collections are irreversible, you cannot unshard a collection, once sharded.
+
+### How to shard
+
+* use `sh.enableSharding("database")` to enable sharding for the specific database.
+* use `db.collections.createIndex()` to create the index for your shard key field
+* use `sh.shardCollections("<database>.<collections>",{shard_key})` to shard the collection
+
+### Picking a Good shard key
+
+* Cardinality 
+  * High Cardinality = many possible unique shard key values.
+  * Low Frequency  = low repetition of a given unique shard key value.
+  * Avoid shard keys that changes monotonically \(keeping incrementing\), choosing `_id` or `timestamp` or not a great options.
+
+### Hashed Shard Keys
+
+* shard key where the underlying index is hashed
+* mongodb uses a hashing function to calculate the hash shard key and then you out where the data is located
+* the data is not changed in the docuement, instead the underlying index backing the shard key itself is hashed
+* As monotonically changind value like `_id` or `timestamp` can be hashed, because the output from the hash function can prevent hotspotting
+* this can make data highly distribute, so in case where you need
+* you cannot support geographically isolated read operations using zoned sharding
+* use `sh.enableSharding("database")` to enable sharding for the specified
+* use `db.collection.createIndex({"field":"hashed"})` to create the index for your shard key field
+* use `sh.shardCollection("<database>.<collection>",{ shard_key : "hashed" })` to shard the collection
+
+### Lab shard a collection
+
+```bash
+mongoimport --drop /dataset/products.json --port 26000 -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin" --db m103 --collection products
+
+mongo --port 26000 --username m103-admin --password m103-pass --authenticationDatabase admin
+
+use m103
+
+sh.enableSharding("m103")
+db.products.createIndex({"sku":1})
+sh.shardCollection("m103.products",{ "sku" : 1 })
+```
+
+### Chunks
+
+* group of documents, who information is store in mongos determining which data belongs to which chunk and which shard contains it
+* rebalancing of chunks is preformed by primary of config server replica set
+* Default Chunk Size : 64Mb
+
+  ```bash
+  use config
+  db.settings.save({_id: "chunksize", value: 2})
+  ```
+
+lab : copy sample data
+
+```bash
+mongoimport /dataset/products.part2.json --port 26000 -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin" --db m103 --collection products
+```
+
+Targeted Queries vs Scatter Gather
+
+* Each Shard contains chunks of sharded data, where each chunk represents a inclusive lower bound and upper bound. 
+* The config server replica set keeps maintains the primary record of where all the chunks are present.
+* Mongos keeps a cached copy of the data chunks
+* If the query contains the shard key, then mongos knows where to target the query. This is known as targeted query.
+* targeted query are much faster and always used in query data request preformed by the customer.
+* if the shard key isn't present in the query, them mongos will send the query to all shards and merge back the results from each shard. this is known as scatter gather.
+* scatter gather query sometimes could be extremely slow, hence on admins performing analytics queries should be allowed to run them.
+
+#### In case of composite key
+
+example shard key : `{"sku":1,"type":1,"name":1}`
+
+**Valid Targeted Queries**
+
+```bash
+db.products.find( { "sku": ... } )
+db.products.find( { "sku": ... , "type": ... } )
+db.products.find( { "sku": ... , "type": ... , "name": ... } )
+```
+
+**Scatter Gather**
+
+```bash
+db.products.find( { "type": ... } )
+db.products.find( { "name": ... } )
+```
 
