@@ -4,7 +4,8 @@
 
 ## SQL
 
-* [Getting Started](sql/getting-started.md)
+* [Getting Started](sql/getting-started/README.md)
+  * [Load Data](sql/getting-started/load-data.md)
 * [pgAdmin Tool](sql/administration-task.md)
 * [Database](sql/working-with-database/README.md)
   * [Schema](sql/working-with-database/schema.md)

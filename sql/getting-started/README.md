@@ -3,15 +3,22 @@
 ## Starting Database with Docker
 
 ```bash
-sudo docker run  \
- --name <docker_name> \ 
- -e POSTGRES_PASSWORD=<password> \ 
+docker run --name <docker_name> 
+ -e POSTGRES_PASSWORD=<password>
  -d -p 5432:5432 postgres:13.3
 
-sudo docker exec -it <docker_name> bash
+docker exec -it <docker_name> bash
 
 psql -U postgres
 ```
+
+## Installing PostgreSQL on windows
+
+{% embed url="https://www.postgresql.org/download/windows/" %}
+
+## Installing PostgreSQL on MacOS
+
+[https://www.postgresql.org/download/macosx/](https://www.postgresql.org/download/macosx/)
 
 ## Setup and Basics : using apt
 
@@ -39,11 +46,18 @@ sudo su postgres
 
 ```bash
 Connection options:
-  -h, --host=HOSTNAME      database server host or socket directory (default: "local socket")
-  -p, --port=PORT          database server port (default: "5432")
-  -U, --username=USERNAME  database user name (default: "root")
-  -w, --no-password        never prompt for password
-  -W, --password           force password prompt (should happen automatically)
+  -h, --host=HOSTNAME      
+# database server host or socket directory 
+# (default: "local socket")
+  -p, --port=PORT          
+# database server port 
+# (default: "5432")
+  -U, --username=USERNAME  
+# database user name (default: "root")
+  -w, --no-password        
+# never prompt for password
+  -W, --password           
+  # force password prompt (should happen automatically)
 ```
 
 1. Here port : 5432 is default and can be get from `psql --help`
