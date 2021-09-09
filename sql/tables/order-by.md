@@ -4,15 +4,31 @@ description: a clause
 
 # ORDER BY and DISTINCT
 
+## Order BY
+
 ```sql
 SELECT
-    contactLastname,
-    contactFirstname
+    company_name,
+    contact_name
 FROM
     customers
 ORDER BY
-    contactLastname DESC,
-    contactFirstname ASC LIMIT 10;
+    company_name DESC,
+    contact_name
+LIMIT 10;
+
+           company_name            |      contact_name       
+-----------------------------------+-------------------------
+ Wolski  Zajazd                    | Zbyszek Piestrzeniewicz
+ Wilman Kala                       | Matti Karttunen
+ White Clover Markets              | Karl Jablonski
+ Wellington Importadora            | Paula Parente
+ Wartian Herkku                    | Pirkko Koskitalo
+ Vins et alcools Chevalier         | Paul Henriot
+ Victuailles en stock              | Mary Saveley
+ Vaffeljernet                      | Palle Ibsen
+ Trails Head Gourmet Provisioners  | Helvetius Nagy
+ Tradição Hipermercados            | Anabela Domingues
 
 
 SELECT 
@@ -23,6 +39,22 @@ FROM
     orderdetails
 ORDER BY 
    final_price DESC LIMIT 10;
+   
+-- orders
+    order_id | product_id |    total_price     
+----------+------------+--------------------
+    10981 |         38 |              15810
+    10865 |         38 |              15810
+    10353 |         38 |              10540
+    10417 |         38 |              10540
+    10889 |         38 |              10540
+    10424 |         38 |              10329
+    10897 |         29 |               9903
+    10372 |         38 |               8432
+    10816 |         38 |               7905
+    10540 |         38 |               7905
+(10 rows)
+
 
 -- using alias in order by
 SELECT
@@ -33,26 +65,31 @@ FROM
 ORDER BY
     surname DESC ;
 
-
-SELECT 
-    orderNumber, 
-    status
-FROM
-    orders
-ORDER BY 
-    FIELD(status,
-        'In Process',
-        'On Hold',
-        'Cancelled',
-        'Resolved',
-        'Disputed',
-        'Shipped') LIMIT 10;
+ first_name | surname 
+------------+---------
+ Ziyi       | Zhang
+ Billy      | Zane
+ Sean       | Young
+ Jin-seo    | Yoon
+ Ji-tae     | Yoo
 
 -- NULLS FIRST AND LAST
-select * from actors order by gender NULLS LAST | FIRST ;
+select *
+from actors
+order by gender NULLS LAST
+LIMIT 5;
+
+ first_name | last_name | gender |    date_of_birth    
+------------+-----------+--------+---------------------
+ Malin      | Akerman   | F      | 1978-05-12 00:00:00
+ Julie      | Andrews   | F      | 1935-10-01 00:00:00
+ Ivana      | Baquero   | F      | 1994-06-11 00:00:00
+ Lorraine   | Bracco    | F      | 1954-10-02 00:00:00
+ Alice      | Braga     | F      | 1983-04-15 00:00:00
+
 ```
 
-**Using PostgreSQL ORDER BY clause to sort rows by multiple columns**
+### **ORDER BY on multiple columns**
 
 The following statement selects the first name and last name from the customer table and sorts the rows by the first name in ascending order and last name in descending order:
 
@@ -79,11 +116,36 @@ As you can see clearly from the output, two customers with the same first name K
 ## DISTINCT
 
 ```sql
-SELECT 
-    DISTINCT state
-FROM
-    customers
-WHERE
-    country = 'USA';
+SELECT DISTINCT region
+FROM customers
+WHERE country = 'USA'
+LIMIT 10;
+    
+ region 
+--------
+ NM
+ CA
+ AK
+ WY
+ OR
+ MT
+ ID
+ WA
+(8 rows)
+
 ```
+
+### Distinct COUNT
+
+```sql
+SELECT COUNT(DISTINCT region)
+FROM customers
+WHERE country = 'USA';
+
+ count 
+-------
+     8
+```
+
+
 
