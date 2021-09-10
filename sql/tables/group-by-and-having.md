@@ -1,18 +1,5 @@
 # GROUP BY and HAVING
 
-## ORDER OF EXECUTION
-
-```sql
-FROM
-WHERE
-GROUP BY
-HAVING
-SELECT
-DISTINCT
-ORDER BY
-LIMIT
-```
-
 ## GROUP BY
 
 * `GROUP BY` clause divide the rows returned from `SELECT` statement into groups
