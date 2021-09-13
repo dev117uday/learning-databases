@@ -33,8 +33,6 @@ INSERT INTO table_nn ( tag ) VALUES (NULL);
 -- empty string aren't NULL values
 INSERT INTO table_nn ( tag ) VALUES ('');
 
-SELECT * FROM table_nn;
-
 -- adding another column TEXT;
 ALTER TABLE table_nn 
 ADD COLUMN is_enable TEXT;
@@ -62,7 +60,12 @@ INSERT INTO table_unique ( emailS )
 
 INSERT INTO table_unique ( emailS ) 
     VALUES ('A@B.COM');
+-- error
+```
 
+### Adding Unique Constraint on column
+
+```sql
 ALTER TABLE public.table_unique
     ADD COLUMN is_enable text;
 
@@ -91,6 +94,11 @@ INSERT INTO table_default ( id ) VALUES (1),(2);
 
 select * from table_default;
 
+ id | is_enable 
+----+-----------
+  1 | Y
+  2 | Y
+
 ALTER TABLE public.table_default
     ADD COLUMN tag text;
 
@@ -101,8 +109,25 @@ INSERT INTO table_default ( id ) VALUES (5);
 
 select * from table_default;
 
+ id | is_enable | tag 
+----+-----------+-----
+  1 | Y         | 
+  2 | Y         | 
+  5 | Y         | N
+
+
 ALTER TABLE public.table_default
     ALTER COLUMN tag DROP DEFAULT;
+    
+                              Table "public.table_default"
+  Column   |  Type   | Collation | Nullable |                  Default                  
+-----------+---------+-----------+----------+-------------------------------------------
+ id        | integer |           | not null | nextval('table_default_id_seq'::regclass)
+ is_enable | text    |           |          | 'Y'::text
+ tag       | text    |           |          | 
+Indexes:
+    "table_default_pkey" PRIMARY KEY, btree (id)
+
 ```
 
 ## Primary Key

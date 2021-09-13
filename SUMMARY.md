@@ -25,7 +25,7 @@
   * [Combining Tables](sql/tables/combining-tables.md)
   * [Aggregation](sql/tables/aggregation.md)
   * [Constraints](sql/tables/constraints.md)
-  * [Coalesce](sql/tables/coalesce.md)
+  * [Usefull Functions](sql/tables/coalesce.md)
 * [Joins](sql/joins/README.md)
   * [Inner Join](sql/joins/inner-join.md)
   * [Left and Right JOIN](sql/joins/left-and-right-join.md)
