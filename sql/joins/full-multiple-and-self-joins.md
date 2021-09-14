@@ -2,16 +2,44 @@
 
 ## Full Join
 
-```sql
-select * 
-from right_product 
-full join left_product 
-on right_product.product_id = left_product.product_id;
+![](../../.gitbook/assets/image%20%281%29.png)
 
-select
-    dir.first_name || ' ' || dir.last_name as "name",
-    mv.movie_name
-from directors dir full join movies mv on mv.director_id = dir.director_id
+```sql
+select *
+from right_product
+  full join 
+    left_product
+  on 
+    right_product.product_id = left_poduct.product_id;
+    
+-- gets result from tables o both side
+-- those entries that match the each other are in one row
+-- else they are present in seperate row in table
+                   
+ product_id | product_name | product_id | product_name 
+------------+--------------+------------+--------------
+          1 | a            |          1 | a
+          2 | B            |          2 | B
+          3 | C            |          3 | C
+          4 | d            |            | 
+          7 | E1           |            | 
+            |              |          5 | E
+
+
+select dir.first_name || ' ' || dir.last_name
+           as "name",
+       mv.movie_name
+from directors dir
+         full join movies mv 
+         on mv.director_id = dir.director_id
+         
+      name       |       movie_name       
+-----------------+------------------------
+ Tomas Alfredson | Let the Right One In
+ Paul Anderson   | There Will Be Blood
+ Wes Anderson    | The Darjeeling Limited
+ Wes Anderson    | Rushmore
+ Wes Anderson    | Grand Budapest Hotel
 ```
 
 ## Multiple Join
