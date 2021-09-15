@@ -26,6 +26,8 @@
   * [Aggregation](sql/tables/aggregation.md)
   * [Constraints](sql/tables/constraints.md)
   * [Usefull Functions](sql/tables/coalesce.md)
+  * [Views](sql/tables/views.md)
+  * [Common Table Expression](sql/tables/cte.md)
 * [Joins](sql/joins/README.md)
   * [Inner Join](sql/joins/inner-join.md)
   * [Left and Right JOIN](sql/joins/left-and-right-join.md)
@@ -33,9 +35,6 @@
   * [Cross & Natural Joins](sql/joins/cross-join.md)
 * [Indexing](sql/indexing/README.md)
   * [SQL](sql/indexing/sql.md)
-  * [Temporary Table](sql/indexing/temporary-table/README.md)
-    * [Views](sql/indexing/temporary-table/views.md)
-    * [CTE](sql/indexing/temporary-table/cte.md)
   * [Indexes](sql/indexing/indexes.md)
   * [Unique Index](sql/indexing/unique-index.md)
   * [GIN Index](sql/indexing/gin-index.md)
@@ -62,6 +61,8 @@
 * [MQL](mongodb/mql.md)
 * [Mongo Administration](mongodb/mongo-administration.md)
 
+## Redis
+
 ---
 
 * [Redis](redis-1.md)
@@ -71,6 +72,4 @@
 * [Cassandra : Scylla](cassandra/cassandra-scylla.md)
 * [Data Modelling](cassandra/data-modelling.md)
 * [CQL](cassandra/cql.md)
-
-## Redis
 

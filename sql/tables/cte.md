@@ -1,4 +1,4 @@
-# CTE
+# Common Table Expression
 
 * `CTE` is a temporary result take from a SQL statement
 * A second approach to create temporary tables for query data instead of using sub queries in a `FROM` clause 
