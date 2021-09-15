@@ -56,19 +56,21 @@
   * [Cursors](sql/functions/cursors.md)
   * [Custom Aggregate function](sql/functions/custom-aggregate-function.md)
 
-## Cassandra
-
-* [Cassandra : Scylla](cassandra/cassandra-scylla.md)
-* [Data Modelling](cassandra/data-modelling.md)
-* [CQL](cassandra/cql.md)
-
 ## MongoDB
 
 * [MongoDB](mongodb/mongodb.md)
 * [MQL](mongodb/mql.md)
 * [Mongo Administration](mongodb/mongo-administration.md)
 
-## Redis
+---
 
-* [Redis](redis/redis.md)
+* [Redis](redis-1.md)
+
+## Cassandra
+
+* [Cassandra : Scylla](cassandra/cassandra-scylla.md)
+* [Data Modelling](cassandra/data-modelling.md)
+* [CQL](cassandra/cql.md)
+
+## Redis
 

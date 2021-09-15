@@ -45,18 +45,34 @@ from directors dir
 ## Multiple Join
 
 ```sql
-select
-*
+select r.movie_id, movie_name,
+       dir.first_name || ' ' || dir.last_name 
+         as "dir name"
 from movies mv
-JOIN movies_revenues r on r.movie_id = mv.movie_id
-JOIN directors dir on dir.director_id = mv.director_id
+         JOIN movies_revenues r
+             on r.movie_id = mv.movie_id
+         JOIN directors dir
+             on dir.director_id = mv.director_id
+limit 5;
+
+ movie_id |     movie_name     |     dir name     
+----------+--------------------+------------------
+       45 | The Wizard of Oz   | Victor Fleming
+       13 | Gone with the Wind | Victor Fleming
+       23 | Mary Poppins       | Robert Stevenson
+       44 | The Sound of Music | Robert Wise
 
 -- same result even after re-arranging
-select
-*
+select r.movie_id,
+       movie_name,
+       dir.first_name || ' ' || dir.last_name 
+         as "dir name"
 from movies mv
-JOIN directors dir on dir.director_id = mv.director_id
-JOIN movies_revenues r on r.movie_id = mv.movie_id
+         JOIN directors dir
+              on dir.director_id = mv.director_id
+         JOIN movies_revenues r
+              on r.movie_id = mv.movie_id
+limit 5;
 ```
 
 ## Self Join
@@ -66,5 +82,15 @@ select *
 from left_product t1 
 INNER JOIN left_product t2 
 ON t1.product_id = t2.product_id;
+
+ product_id | product_name | product_id | product_name 
+------------+--------------+------------+--------------
+          1 | a            |          1 | a
+          2 | B            |          2 | B
+          3 | C            |          3 | C
+          5 | E            |          5 | E
+
 ```
+
+
 

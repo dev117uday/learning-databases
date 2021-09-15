@@ -30,7 +30,7 @@ where movie_lang = 'English';
 ## Sum
 
 ```sql
-select sum(revenues_domestic::numeric)
+select sum(revenues_domestic)
 from movies_revenues;
 
   sum   
