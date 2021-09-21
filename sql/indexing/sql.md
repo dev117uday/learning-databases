@@ -7,7 +7,7 @@
 * **Optimiser** : finding the fastest path to the data
 * **Executor** : responsible for effectively going to the storage  and retrieving the data from the physical storage.
 
-### Optimiser
+## Optimiser
 
 * Finds all the paths and gets the path with cheapest COST
 * **LOWEST COST WINS !!**
@@ -43,8 +43,6 @@ Performs a sequential scan on the whole table.
   * Index scan
   * Index only scan
   * Bitmap Index
-
-#### Index Scan
 
 ![](../../.gitbook/assets/image%20%2810%29.png)
 

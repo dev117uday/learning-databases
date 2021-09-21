@@ -136,7 +136,10 @@ DROP INDEX [ concurrently ]
 
 ## Vacuum analyze
 
-// todo what it does
+  
+When a vacuum process runs, the space occupied by these dead tuples is marked reusable by other tuples. 
+
+An “analyze” operation does what its name says – it analyzes the contents of a database's tables and **collects statistics** about the distribution of values in each column of every table.
 
 ```sql
 vacuum analyze table_name;
