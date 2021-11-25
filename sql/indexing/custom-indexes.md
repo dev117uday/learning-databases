@@ -1,6 +1,6 @@
 # Custom Indexes
 
-**Example :** 
+**Example : **
 
 CREATE a index for social security number , which is the the format of 1111-222-nnnn, you have to index the last 4 characters
 
@@ -68,4 +68,3 @@ set enable_seqscan = 'off';
 show enable_seqscan;
 
 ```
-

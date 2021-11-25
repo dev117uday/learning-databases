@@ -64,9 +64,7 @@
 
 ## Redis
 
-***
-
-* [Redis](redis-1.md)
+* [Redis](redis/redis-1.md)
 
 ## Cassandra
 

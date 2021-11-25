@@ -6,7 +6,7 @@ description: All hail admin
 
 ## Creating New User
 
-![creating new user](../.gitbook/assets/create_user.gif)
+![creating new user](../.gitbook/assets/create\_user.gif)
 
 ### **Options**
 
@@ -20,7 +20,7 @@ description: All hail admin
 
 **Refer to documentation for more details**
 
-{% embed url="https://www.pgadmin.org/docs/pgadmin4/development/role\_dialog.html" caption="" %}
+{% embed url="https://www.pgadmin.org/docs/pgadmin4/development/role_dialog.html" %}
 
 ## Query Editor
 
@@ -29,4 +29,3 @@ description: All hail admin
 ## Load Data using pgAdmin4
 
 ![loading data](../.gitbook/assets/output.gif)
-

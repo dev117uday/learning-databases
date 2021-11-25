@@ -1,5 +1,5 @@
 ---
-description: 'one day, you will need them'
+description: one day, you will need them
 ---
 
 # Internal Functions
@@ -33,14 +33,14 @@ select concat_ws(' ',first_name,last_name) as full_name
  Wes Anderson
 ```
 
-* if you can have a **null** **value** in column, always use `concat_ws` because it will place nothing in that and and also not place the spacer like **\|** or a space
+* if you can have a **null** **value** in column, always use `concat_ws` because it will place nothing in that and and also not place the spacer like **|** or a space
 
 ## Type Conversion
 
-| Type of Conversion | Notes |
-| :--- | :--- |
-| Implicit | data conversion is done AUTOMATICALLY |
-| Explicit | data conversion is done via 'conversion functions' eg. `CAST` or `::` |
+| Type of Conversion | Notes                                                                 |
+| ------------------ | --------------------------------------------------------------------- |
+| Implicit           | data conversion is done AUTOMATICALLY                                 |
+| Explicit           | data conversion is done via 'conversion functions' eg. `CAST` or `::` |
 
 ```sql
 SELECT * FROM movies;
@@ -186,11 +186,11 @@ FROM
 
 [https://www.postgresql.org/docs/12/functions-formatting.html](https://www.postgresql.org/docs/12/functions-formatting.html)
 
-### to\_char\(\)
+### to\_char()
 
 Refer to the documentation
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to\_char/" caption="" %}
+{% embed url="https://www.postgresqltutorial.com/postgresql-to_char/" %}
 
 ```sql
 SELECT TO_CHAR (
@@ -226,9 +226,9 @@ SELECT
  13:32:30
 ```
 
-### to\_number\(\)
+### to\_number()
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to\_number/" caption="" %}
+{% embed url="https://www.postgresqltutorial.com/postgresql-to_number/" %}
 
 ```sql
 SELECT TO_NUMBER(
@@ -272,9 +272,9 @@ SELECT to_number(
   21420.65
 ```
 
-### to\_date\(\)
+### to\_date()
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to\_date/" caption="" %}
+{% embed url="https://www.postgresqltutorial.com/postgresql-to_date/" %}
 
 ```sql
 SELECT TO_DATE( '2020/10/22' , 'YYYY/MM/DD' );
@@ -296,9 +296,9 @@ SELECT to_date( 'March 07, 2019' , 'Month DD, YYYY' );
  2019-03-07
 ```
 
-### to\_timestamp\(\)
+### to\_timestamp()
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to\_timestamp/" caption="" %}
+{% embed url="https://www.postgresqltutorial.com/postgresql-to_timestamp/" %}
 
 ```sql
 SELECT TO_TIMESTAMP(
@@ -320,7 +320,7 @@ SELECT
 
 ## String Functions
 
-* `Upper(string)` 
+* `Upper(string)`&#x20;
 * `Lower(string)`
 * `INITCAP(string)`
 * `REVERSE(string)`
@@ -498,4 +498,3 @@ SELECT REPLACE('ABC XYZ', 'XY', 'Z');
 ---------
  ABC ZZ
 ```
-

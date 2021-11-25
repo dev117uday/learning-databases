@@ -111,7 +111,7 @@ FROM top_rated_films;
 
 ## Except
 
-The `EXCEPT` operator returns distinct rows from the first \(left\) query that are not in the output of the second \(right\) query.  
+The `EXCEPT` operator returns distinct rows from the first (left) query that are not in the output of the second (right) query.\
 
 
 ```sql
@@ -124,4 +124,3 @@ SELECT * FROM most_popular_films;
  The Shawshank Redemption |         1994
  12 Angry Men             |         1957
 ```
-

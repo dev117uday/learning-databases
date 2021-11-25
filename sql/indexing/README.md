@@ -6,7 +6,7 @@ description: section not complete
 
 ## What is a Index in Database
 
-* An index help improve the access of data in our database 
+* An index help improve the access of data in our database&#x20;
 * _Indexed tuple point_ to the table page where the tuple is stored on disk.
 * An Index is a data structure that allows faster access to the underlying table so that specific tuples can be found quickly . Here "quickly" means much faster than scanning the entire table and analysing every single tuple.
 * They add a cost to running a query, consume more memory to maintain the data structure.
@@ -140,8 +140,8 @@ DROP INDEX [ concurrently ]
 
 ## Vacuum analyze
 
-  
-When a vacuum process runs, the space occupied by these dead tuples is marked reusable by other tuples. 
+\
+When a vacuum process runs, the space occupied by these dead tuples is marked reusable by other tuples.&#x20;
 
 An “analyze” operation does what its name says – it analyzes the contents of a database's tables and **collects statistics** about the distribution of values in each column of every table.
 
@@ -154,4 +154,3 @@ vacuum analyze table_name;
 ```sql
 REINDEX ( VERBOSE ) INDEX concurrently idx_orders_ship_city;
 ```
-
