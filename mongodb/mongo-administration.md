@@ -507,18 +507,18 @@ systemLog:
 ```
 
 * start mongos using : `mongos -f mongos.conf`
-*   connect to mongos
+* connect to mongos
 
-    \`\`\`sh
+```
+mongo --port 26000 --username m103-admin \ 
+    --password m103-pass \ 
+    --authenticationDatabase admin
+```
 
-    mongo --port 26000 --username m103-admin --password m103-pass --authenticationDatabase admin
+Check sharding status : `sh.status()`
 
-## check sharding status
+```
 
-sh.status()
-
-````
-```sh
 sharding:
   clusterRole: shardsvr
 storage:
@@ -575,7 +575,7 @@ systemLog:
   logAppend: true
 timreplication:
   replSetName: m103-repl
-````
+```
 
 * Apply the new config to the secondary nodes and then connect to primary, preform force stepdown, and reload with new configuration
 * then connect to mongos and add the primary node of the the shard
