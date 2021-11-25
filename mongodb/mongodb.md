@@ -10,7 +10,7 @@ use the connect settings in mongodb atlas
 
 After installing, you can start the mongod by
 
-```shell
+```bash
 sudo systemctl start mongod
 ```
 
@@ -79,16 +79,17 @@ use <name of db>
 show collections
 ```
 
-#### Basic Commands
+### Basic Commands
 
-* List all databases : `show dbs`
-* to switch to db : `use <name_of_db>`
-* to run a query : `db.<name_of_collection>.[function name]`
-* to iterate over many results : `it`&#x20;
-* add : `.pretty()` to see json better
-* to find any one document from collection, just use `.findOne()`&#x20;
-* to create new collection : `db.createCollection("employees")`
-* to shutdown db server :&#x20;
+- List all databases : `show dbs`
+- to switch to db : `use <name_of_db>`
+- to run a query : `db.<name_of_collection>.[function name]`
+- to iterate over many results : `it`
+- add : `.pretty()` to see json better
+- to find any one document from collection, just use `.findOne()`
+- to create new collection : `db.createCollection("employees")`
+
+To shutdown db server
 
 ```bash
 use admin

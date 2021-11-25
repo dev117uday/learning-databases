@@ -16,7 +16,7 @@ Before any database users have been configured, a Mongo shell running on localho
 
 ### `bind_ip`
 
-The bind\_ip option allows us to specify which IP addresses mongod should bind to. When mongod binds to an IP address, clients from that address are able to connect to mongod
+The bind_ip option allows us to specify which IP addresses mongod should bind to. When mongod binds to an IP address, clients from that address are able to connect to mongod
 
 Sample Config File
 
@@ -36,7 +36,6 @@ tls:
   CAFile: "/etc/tls/TLSCA.pem"
 security:
   keyFile: "/data/keyfile"
-tim
 ```
 
 ## User management commands
@@ -143,107 +142,6 @@ db.grantRolesToUser( "dba",  [ { db: "playground", role: "dbOwner"  } ] )
 db.runCommand( { rolesInfo: { role: "dbOwner", db: "playground" }, showP
 ```
 
-### Setting Up a Replica Set
-
-The configuration file for the first node ( node1.conf ) :
-
-```
-storage:
-  dbPath: /var/mongodb/db/node[1,2,3]
-net:
-  bindIp: 192.168.103.100,localhost
-  port: 2701[1,2,3]
-security:
-  authorization: enabled
-  keyFile: /var/mongodb/pki/m103-keyfile
-systemLog:
-  destination: file
-  path: /var/mongodb/db/node[1,2,3]/mongod.log
-  logAppend: true
-timreplication:
-  replSetName: m103-example
-```
-
-```bash
-mkdir -p /var/mongodb/db/{1,2,3}
-sudo mkdir -p /var/mongodb/pki/
-openssl rand -base64 741 > /var/mongodb/pki/m103-keyfile
-chmod 400 /var/mongodb/pki/m103-keyfile
-```
-
-```bash
-storage:
-  dbPath: /var/mongodb/db/1
-net:
-  bindIp: localhost
-  port: 27001
-security:
-  authorization: enabled
-  keyFile: /var/mongodb/pki/m103-keyfile
-systemLog:
-  destination: file
-  path: /var/mongodb/logs/mongod1.log
-  logAppend: true
-timreplication:
-  replSetName: m103-repl
-
-storage:
-  dbPath: /var/mongodb/db/2
-net:
-  bindIp: localhost
-  port: 27002
-security:
-  authorization: enabled
-  keyFile: /var/mongodb/pki/m103-keyfile
-systemLog:
-  destination: file
-  path: /var/mongodb/logs/mongod2.log
-  logAppend: true
-timreplication:
-  replSetName: m103-repl
-
-storage:
-  dbPath: /var/mongodb/db/3
-net:
-  bindIp: localhost
-  port: 27003
-security:
-  authorization: enabled
-  keyFile: /var/mongodb/pki/m103-keyfile
-systemLog:
-  destination: file
-  path: /var/mongodb/logs/mongod3.log
-  logAppend: true
-timreplication:
-  replSetName: m103-repl
-```
-
-```bash
-mongo --port 27001
-
-rs.initiate()
-
-use admin
-
-db.createUser({
-  user: "m103-admin",
-  pwd: "m103-pass",
-  roles: [
-    {role: "root", db: "admin"}
-  ]
-})
-
-# then exit
-
-mongo --host "localhost:27001" -u "m103-admin"
--p "m103-pass" --authenticationDatabase "admin"
-
-rs.status()
-
-rs.add("localhost:27002")
-rs.add("localhost:27003")
-```
-
 ### Basic Replication functions
 
 ```bash
@@ -274,7 +172,7 @@ rs.printReplicationInfo
 
 * central point of replication
 * keeps track of all statements getting replicated
-* its is a capped collection : size of collection is limited&#x20;
+* its is a capped collection : size of collection is limited
 * by defualt, it takes 5% of the available disk
 * it appends statements ( used in replication ), till the file cap is reached
 * once full, it starts to over write operations from top
@@ -326,7 +224,7 @@ Elections :
 * Next primary node will be elected keeping the following things in mind :
   * Which ever node has the latest copy of data, it will run for election and automatically vote for itself
   * If two node ( in a cluster of 3) has same recent data, the third node will cast a vote for any one of them to become primary. This becomes a problem in even node replica set
-* priority : likelihood that a node will become primary in case of election
+* Priority : likelihood that a node will become primary in case of election
   * default priority is 1
   * priority 1 or higher will give the node a higher chance of winning the election
   * set priority of node to 0 if we dont want node to become primary
@@ -345,11 +243,11 @@ Elections :
 * write concerns level
   * 0 : dont wait for ack
   * 1 : wait for primary to ack
-  * > \=2 : wait for primary and one or more secondary to ack
+  * >=2 : wait for primary and one or more secondary to ack
   * "majority" : wait for majority to ack
 * write concern options
   * wtimeout : time to wait before marking operation as failed
-  * j \[true|false] : requires node to commit  the write operation to the journal before returning the ack
+  * j [true|false] : requires node to commit  the write operation to the journal before returning the ack
 * setting write concern higher make ops slower
 
 ## read concern / preference
@@ -357,10 +255,10 @@ Elections :
 * specifies durability during a read operation
 * read concern level
   * local : returns from the primary node
-  * available&#x20;
-  * majority&#x20;
+  * available;
+  * majority;
 * read preference allows you to redirect read operation to specific members of replica set
-* read preference may return stale data&#x20;
+* read preference may return stale data;
 * read preference modes
   * primary : default
   * primaryPreferred : can route read ops to secondary in case primary in not available
@@ -373,7 +271,7 @@ Elections :
 * There is upper limit to vertical scaling
 * Sharding means adding more machines and dividing the dataset into multiple pieces
 * For each shard, we add more replica to make sure we dont lose data
-* a sharded cluster contains a config server, that store the metadata about each shard. This config server are responsible to distributing the queries to the shard containing the data.&#x20;
+* a sharded cluster contains a config server, that store the metadata about each shard. This config server are responsible to distributing the queries to the shard containing the data.
 * to make config servers highly available, they are deployed in a replica set configuration
 * We use mongos to route the queries to each shard
 
@@ -390,7 +288,7 @@ Elections :
 * client do not connect to sharded cluster directly
 * they connect to a process called mongos that routes queries to shards
 
-### How mongos figures out where to route the queries
+## How mongos figures out where to route the queries
 
 Let's say we have 3 shard containing the data about football players
 
@@ -408,183 +306,7 @@ As not all collections in a database needs to be sharded, there is one shard in 
 
 If we query the database, lets say where age is in 28-30, then mongos will not be able to route the query to specific shard, rather it will send it to all shards to find out the data, then SHARD\_MERGE stage takes place. This stage can take place on mongos or a randomly chosen shard in the cluster.
 
-Setting up a sharded cluster
-
-```bash
-sharding:
-  clusterRole: configsvr
-replication:
-  replSetName: m103-csrs
-security:
-  keyFile: /var/mongodb/pki/m103-keyfile
-net:
-  bindIp: localhost,192.168.103.100
-  port: 27004
-systemLog:
-  destination: file
-  path: /var/mongodb/db/csrs1.log
-  logAppend: true
-storage:
-  dbPath: /var/mongodb/db/csrs1
-
-sharding:
-  clusterRole: configsvr
-replication:
-  replSetName: m103-csrs
-security:
-  keyFile: /var/mongodb/pki/m103-keyfile
-net:
-  bindIp: localhost,192.168.103.100
-  port: 27005
-systemLog:
-  destination: file
-  path: /var/mongodb/db/csrs2.log
-  logAppend: true
-storage:
-  dbPath: /var/mongodb/db/csrs2
-
-sharding:
-  clusterRole: configsvr
-replication:
-  replSetName: m103-csrs
-security:
-  keyFile: /var/mongodb/pki/m103-keyfile
-net:
-  bindIp: localhost,192.168.103.100
-  port: 27006
-systemLog:
-  destination: file
-  path: /var/mongodb/db/csrs3.log
-  logAppend: true
-storage:
-  dbPath: /var/mongodb/db/csrs3
-
-# start this servers using
-mongod -f csrs1,2,3.conf
-```
-
-* Connect to primary node of config server replica set (csrs)
-
-```bash
-mongo --port 27004 --username m103-admin --password m103-pass --authenticationDatabase admin
-
-# # initiate replica set
-# rs.initiate()
-
-# # create super user
-# db.createUser({
-#   user: "m103-admin",
-#   pwd: "m103-pass",
-#   roles: [
-#     {role: "root", db: "admin"}
-#   ]
-# })
-
-# db.auth("m103-admin","m103-pass")
-
-# # add replica set node 
-# rs.add("192.168.103.100:27002")
-# rs.add("192.168.103.100:26003")
-
-# verify the replica is set up properly
-rs.isMaster()
-```
-
-* Config File Mongos
-
-```bash
-sharding:
-  configDB: m103-csrs/192.168.103.100:27004,192.168.103.100:27005,192.168.103.100:27006
-security:
-  keyFile: /var/mongodb/pki/m103-keyfile
-net:
-  bindIp: localhost,192.168.103.100
-  port: 26000
-systemLog:
-  destination: file
-  path: /var/mongodb/db/mongos.log
-  logAppend: true
-```
-
-* start mongos using : `mongos -f mongos.conf`
-* connect to mongos
-
-```
-mongo --port 26000 --username m103-admin \ 
-    --password m103-pass \ 
-    --authenticationDatabase admin
-```
-
-Check sharding status : `sh.status()`
-
-```
-
-sharding:
-  clusterRole: shardsvr
-storage:
-  dbPath: /var/mongodb/db/node1
-  wiredTiger:
-    engineConfig:
-      cacheSizeGB: .1
-net:
-  bindIp: 192.168.103.100,localhost
-  port: 27011
-security:
-  keyFile: /var/mongodb/pki/m103-keyfile
-systemLog:
-  destination: file
-  path: /var/mongodb/db/node1/mongod.log
-  logAppend: true
-timreplication:
-  replSetName: m103-repl
-
-sharding:
-  clusterRole: shardsvr
-storage:
-  dbPath: /var/mongodb/db/node2
-  wiredTiger:
-    engineConfig:
-      cacheSizeGB: .1
-net:
-  bindIp: 192.168.103.100,localhost
-  port: 27012
-security:
-  keyFile: /var/mongodb/pki/m103-keyfile
-systemLog:
-  destination: file
-  path: /var/mongodb/db/node2/mongod.log
-  logAppend: true
-timreplication:
-  replSetName: m103-repl
-
-sharding:
-  clusterRole: shardsvr
-storage:
-  dbPath: /var/mongodb/db/node3
-  wiredTiger:
-    engineConfig:
-      cacheSizeGB: .1
-net:
-  bindIp: 192.168.103.100,localhost
-  port: 27013
-security:
-  keyFile: /var/mongodb/pki/m103-keyfile
-systemLog:
-  destination: file
-  path: /var/mongodb/db/node3/mongod.log
-  logAppend: true
-timreplication:
-  replSetName: m103-repl
-```
-
-* Apply the new config to the secondary nodes and then connect to primary, preform force stepdown, and reload with new configuration
-* then connect to mongos and add the primary node of the the shard
-
-```bash
-sh.addShard("shard1/localhost:27001")
-```
-
-### The Config database
+## The Config database
 
 * maintained and used internally by mongodb, dont touch it i not necessary
 
@@ -609,7 +331,7 @@ db.chunks.find().pretty()
 db.mongos.find().pretty()
 ```
 
-### Shard Key
+## Shard Key
 
 * It is the indexed field that mongodb uses to partition data in a sharded collection and distribute it across the shards in your cluster
 * You need to create index first before you can select your shard key.
@@ -619,20 +341,20 @@ db.mongos.find().pretty()
 * you cannot change the values of shard key fields post-sharding
 * sharded collections are irreversible, you cannot unshard a collection, once sharded.
 
-### How to shard
+## How to shard
 
 * use `sh.enableSharding("database")` to enable sharding for the specific database.
 * use `db.collections.createIndex()` to create the index for your shard key field
 * use `sh.shardCollections("<database>.<collections>",{shard_key})` to shard the collection
 
-### Picking a Good shard key
+## Picking a Good shard key
 
-* Cardinality&#x20;
+* Cardinality
   * High Cardinality = many possible unique shard key values.
   * Low Frequency  = low repetition of a given unique shard key value.
   * Avoid shard keys that changes monotonically (keeping incrementing), choosing `_id` or `timestamp` or not a great options.
 
-### Hashed Shard Keys
+## Hashed Shard Keys
 
 * shard key where the underlying index is hashed
 * mongodb uses a hashing function to calculate the hash shard key and then you out where the data is located
@@ -644,7 +366,7 @@ db.mongos.find().pretty()
 * use `db.collection.createIndex({"field":"hashed"})` to create the index for your shard key field
 * use `sh.shardCollection("<database>.<collection>",{ shard_key : "hashed" })` to shard the collection
 
-### Lab shard a collection
+## Lab shard a collection
 
 ```bash
 mongoimport --drop /dataset/products.json --port 26000 -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin" --db m103 --collection products
@@ -658,26 +380,20 @@ db.products.createIndex({"sku":1})
 sh.shardCollection("m103.products",{ "sku" : 1 })
 ```
 
-### Chunks
+## Chunks
 
 * group of documents, who information is store in mongos determining which data belongs to which chunk and which shard contains it
 * re balancing of chunks is preformed by primary of config server replica set
 *   Default Chunk Size : 64MB
 
-    ```bash
-    use config
-    db.settings.save({_id: "chunksize", value: 2})
-    ```
-
-lab : copy sample data
-
 ```bash
-mongoimport /dataset/products.part2.json --port 26000 -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin" --db m103 --collection products
+use config
+db.settings.save({_id: "chunksize", value: 2})
 ```
 
-Targeted Queries vs Scatter Gather
+## Targeted Queries vs Scatter Gather
 
-* Each Shard contains chunks of sharded data, where each chunk represents a inclusive lower bound and upper bound.&#x20;
+* Each Shard contains chunks of sharded data, where each chunk represents a inclusive lower bound and upper bound.
 * The config server replica set keeps maintains the primary record of where all the chunks are present.
 * Mongos keeps a cached copy of the data chunks
 * If the query contains the shard key, then mongos knows where to target the query. This is known as targeted query.
@@ -685,7 +401,7 @@ Targeted Queries vs Scatter Gather
 * if the shard key isn't present in the query, them mongos will send the query to all shards and merge back the results from each shard. this is known as scatter gather.
 * scatter gather query sometimes could be extremely slow, hence on admins performing analytics queries should be allowed to run them.
 
-#### In case of composite key
+## In case of composite key
 
 example shard key : `{"sku":1,"type":1,"name":1}`
 

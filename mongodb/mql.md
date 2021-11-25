@@ -11,20 +11,20 @@
 ```bash
 # FOR BSON, use dump (backup) and restore (restore backup)
 
-mongodump --uri "mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies"
+mongodump --uri "mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/<database name>"
 
-# -- drop will delete the stuff already in and create the new object from restore
+# drop will delete the stuff already in and create the new object from restore
 
-mongorestore --uri "mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies"  --drop dump
+mongorestore --uri "mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/<database name>"  --drop dump
 
 # FOR JSON, use export (backup) and import (import backup)
 
-# -- collection to specify which collection
-# -- out to specify the file name to export to
+# collection to specify which collection
+# out to specify the file name to export to
 
-mongoexport --uri="mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies" --collection=sales --out=sales.json
+mongoexport --uri="mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/<database name>" --collection=sales --out=sales.json
 
-mongoimport --uri="mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/sample_supplies" --drop sales.json
+mongoimport --uri="mongodb+srv://<your username>:<your password>@<your cluster>.mongodb.net/<database name>" --drop sales.json
 ```
 
 ```bash
@@ -56,7 +56,7 @@ db.zips.find({"state": "NY", "city": "ALBANY"})
 db.zips.find({"state": "NY", "city": "ALBANY"}).pretty()
 
 # get random one
-db.inspections.findOne();
+db.inspections.findOne()
 ```
 
 * Each Document has a unique object `_id` which is set by default if not specfied
@@ -198,27 +198,20 @@ db.iot.updateOne({ "sensor": r.sensor, "date": r.date,
 
 ```bash
 # Look at all the docs that have test field equal to 1.
-
 db.inspections.find({ "test": 1 }).pretty()
 
 # Delete all the documents that have test field equal to 1.
-
 db.inspections.deleteMany({ "test": 1 })
 
 # Delete one document that has test field equal to 3.
-
 db.inspections.deleteOne({ "test": 3 })
 
 # Inspect what is left of the inspection collection.
-
 db.inspection.find().pretty()
-
 # View what collections are present in the sample_training collection.
-
 show collections
 
 # Drop the inspection collection.
-
 db.inspection.drop()
 ```
 
@@ -367,8 +360,8 @@ db.grades.find({ "scores": { "$elemMatch": { "type": "extra credit" } }
                }).pretty()
 ```
 
-* Elematch : matches documents that contains an array field with at least one element that matches the specified query creteria
-* Elematch : Projects only the array elements with at least one element that matches the specified criteria
+* `Elematch` : matches documents that contains an array field with at least one element that matches the specified query creteria
+* `Elematch` : Projects only the array elements with at least one element that matches the specified criteria
 
 ### Array Operators and Sub-Documents
 
