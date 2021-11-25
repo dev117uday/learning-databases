@@ -95,7 +95,9 @@ db.inspections.insert({
          }
   })
 
-db.inspections.find({"id" : "10021-2015-ENFO", "certificate_number" : 9278806}).pretty()
+db.inspections.find(
+      {"id" : "10021-2015-ENFO", "certificate_number" : 9278806}
+).pretty()
 ```
 
 ### Insert conflicts
@@ -113,18 +115,20 @@ db.inspections.insert([{ "_id": 1, "test": 1 },{ "_id": 1, "test": 2 },
 # Find the documents with _id: 1
 db.inspections.find({ "_id": 1 })
 
-# Insert multiple documents specifying the _id values, and using the "ordered": false option
-# Ordered False will allow to insert all docs where id doesnt match, and give errors for those which failed
+# Insert multiple documents specifying the _id values, 
+# and using the "ordered": false option
+# Ordered False will allow to insert all docs where id doesnt match, 
+# and give errors for those which failed
 db.inspections.insert([{ "_id": 1, "test": 1 },{ "_id": 1, "test": 2 },
                        { "_id": 3, "test": 3 }],{ "ordered": false })
 
 # Insert multiple documents with _id: 1 with the default "ordered": true setting
-db.inspection.insert([{ "_id": 1, "test": 1 },{ "_id": 3, "test": 3 }])`
+db.inspection.insert([{ "_id": 1, "test": 1 },{ "_id": 3, "test": 3 }])
 ```
 
 ### Updates
 
-[https://docs.mongodb.com/manual/reference/operator/update/\#id1](https://docs.mongodb.com/manual/reference/operator/update/#id1)
+[https://docs.mongodb.com/manual/reference/operator/update/#id1](https://docs.mongodb.com/manual/reference/operator/update/#id1)
 
 ```bash
 # Find all documents in the zips collection 
@@ -267,7 +271,6 @@ db.routes.find({ "$and": [ { "$or" :[ { "dst_airport": "KZN" },
 ```bash
 # Find all documents where the trip started
 # and ended at the same station:
-
 # here $ denotes the value of the field specified
 
 db.trips.find(
@@ -312,7 +315,9 @@ db.listingsAndReviews.find(
 ### Array operators and Projection
 
 ```bash
-# Find all documents with exactly 20 amenities which include all the amenities listed in the query array, and display their price and address:
+# Find all documents with exactly 20 amenities which include 
+# all the amenities listed in the query array, 
+# and display their price and address:
 
 db.listingsAndReviews.find({ "amenities":
         { "$size": 20, "$all": [ "Internet", "Wifi",  "Kitchen", "Heating",
@@ -322,12 +327,15 @@ db.listingsAndReviews.find({ "amenities":
                                  "Laptop friendly workspace" ] } },
                             {"price": 1, "address": 1}).pretty()
 
-# Find all documents that have Wifi as one of the amenities only include price and address in the resulting cursor:
+# Find all documents that have Wifi as one of the amenities 
+# only include price and address in the resulting cursor:
 
 db.listingsAndReviews.find({ "amenities": "Wifi" },
                            { "price": 1, "address": 1, "_id": 0 }).pretty()
 
-# Find all documents that have Wifi as one of the amenities only include price and address in the resulting cursor, also exclude ``"maximum_nights"``. **This will be an error:*
+# Find all documents that have Wifi as one of the amenities 
+# only include price and address in the resulting cursor, 
+# also exclude ``"maximum_nights"``. **This will be an error:*
 
 db.listingsAndReviews.find({ "amenities": "Wifi" },
                            { "price": 1, "address": 1,
@@ -346,7 +354,8 @@ db.grades.findOne()
 
 # Elematch Example
 
-# Find all documents where the student in class 431 received a grade higher than 85 for any type of assignment:
+# Find all documents where the student in class 431 received 
+# a grade higher than 85 for any type of assignment:
 
 db.grades.find({ "class_id": 431 },
                { "scores": { "$elemMatch": { "score": { "$gt": 85 } } }
@@ -391,49 +400,7 @@ db.companies.find({ "relationships":
                   { "name": 1 }).count()
 ```
 
-## Aggregate Framework
 
-* Queries are written inside `[]` operator, denoting the order in which hey execute
-* `$group` : An operator that takes in multiple streams of data and distributes it into multiple reservoirs
-
-```bash
-# MQL Query
-
-db.listingsAndReviews.find({ "amenities": "Wifi" },
-                           { "price": 1, "address": 1, "_id": 0 }).pretty()
-
-# MQL Query ith aggregation framework
-
-db.listingsAndReviews.aggregate(
-    [
-      { "$match": { "amenities": "Wifi" } },
-      { "$project": { "price": 1,
-                      "address": 1,
-                      "_id": 0 }}
-    ]).pretty()
-```
-
-```bash
-# Find one document in the collection and only include the address field in the resulting cursor.
-
-db.listingsAndReviews.findOne({ },{ "address": 1, "_id": 0 })
-
-# Project only the address field value for each document, then group all documents into one document per address.country value.
-
-db.listingsAndReviews.aggregate(
-    [   { "$project": { "address": 1, "_id": 0 }},
-        { "$group": { "_id": "$address.country" }}
-    ])
-
-# Project only the address field value for each document, then group all documents into one document per address.country value, and count one for each document in each group.
-
-db.listingsAndReviews.aggregate(
-    [
-          { "$project": { "address": 1, "_id": 0 }},
-          { "$group": { "_id": "$address.country",
-                        "count": { "$sum": 1 } } }
-    ])
-```
 
 ## Sort and Limit
 
@@ -450,4 +417,3 @@ db.zips.find().sort({ "pop": -1 }).limit(10)
 
 db.zips.find().sort({ "pop": 1, "city": -1 })
 ```
-

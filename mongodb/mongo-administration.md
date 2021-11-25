@@ -1,20 +1,20 @@
 # Mongo Administration
 
-### dbpath
+### `dbpath`
 
 The dbpath is the directory where all the data files for your database are stored. The dbpath also contains journaling logs to provide durability in case of a crash. As we saw before, the default dbpath is /data/db; however, you can specify any directory that exists on your machine. The directory must have read/write permissions since database and journaling files will be written to the directory.
 
-### Port
+### `port`
 
 The port option allows us to specify the port on which mongod will listen for client connections. If we don't specify a port, it will default to 27017. Database clients should specify the same port to connect to mongod.
 
-### Auth
+### `auth`
 
 auth enables authentication to control which users can access the database. When auth is specified, all database clients who want to connect to mongod first need to authenticate.
 
 Before any database users have been configured, a Mongo shell running on localhost will have access to the database. We can then configure users and their permission levels using the shell. Once one or more users have been configured, the shell will no longer have default access
 
-### bind\_ip
+### `bind_ip`
 
 The bind\_ip option allows us to specify which IP addresses mongod should bind to. When mongod binds to an IP address, clients from that address are able to connect to mongod
 
@@ -145,9 +145,9 @@ db.runCommand( { rolesInfo: { role: "dbOwner", db: "playground" }, showP
 
 ### Setting Up a Replica Set
 
-The configuration file for the first node \(node1.conf\):
+The configuration file for the first node ( node1.conf ) :
 
-```text
+```
 storage:
   dbPath: /var/mongodb/db/node[1,2,3]
 net:
@@ -274,9 +274,9 @@ rs.printReplicationInfo
 
 * central point of replication
 * keeps track of all statements getting replicated
-* its is a capped collection : size of collection is limited 
+* its is a capped collection : size of collection is limited&#x20;
 * by defualt, it takes 5% of the available disk
-* it appends statements \( used in replication \), till the file cap is reached
+* it appends statements ( used in replication ), till the file cap is reached
 * once full, it starts to over write operations from top
 * replication windows is proportional to the  system load
 * size of oplog.rs will determine how much time a secondary node has to join in before it thorws itself in recovery mode
@@ -318,14 +318,14 @@ rs.printReplicationInfo()
 
 * Primary node is the first point of contact from client
 * we first upgrade the secondary nodes
-* then we step down the primary node to become secondary \( using rs.stepDown\(\) \), once the election is complete, we can then safely upgrade the primary \(which is now secondary\) and connect it back to the replica set
+* then we step down the primary node to become secondary ( using rs.stepDown() ), once the election is complete, we can then safely upgrade the primary (which is now secondary) and connect it back to the replica set
 
 Elections :
 
 * Happens when the primary node becomes unavailable or primary node wants to step down
 * Next primary node will be elected keeping the following things in mind :
   * Which ever node has the latest copy of data, it will run for election and automatically vote for itself
-  * If two node \( in a cluster of 3\) has same recent data, the third node will cast a vote for any one of them to become primary. This becomes a problem in even node replica set
+  * If two node ( in a cluster of 3) has same recent data, the third node will cast a vote for any one of them to become primary. This becomes a problem in even node replica set
 * priority : likelihood that a node will become primary in case of election
   * default priority is 1
   * priority 1 or higher will give the node a higher chance of winning the election
@@ -340,16 +340,16 @@ Elections :
   * delete
   * find or modify
 * ACK mechanism added to write ops to provide stronger durability garuntee
-* MAX : majority of nodes : roundup\(\[num of nodes\]/2\)
+* MAX : majority of nodes : roundup(\[num of nodes]/2)
 * more durability requires more time to achieve
 * write concerns level
   * 0 : dont wait for ack
   * 1 : wait for primary to ack
-  * > =2 : wait for primary and one or more secondary to ack
+  * > \=2 : wait for primary and one or more secondary to ack
   * "majority" : wait for majority to ack
 * write concern options
   * wtimeout : time to wait before marking operation as failed
-  * j \[true\|false\] : requires node to commit  the write operation to the journal before returning the ack
+  * j \[true|false] : requires node to commit  the write operation to the journal before returning the ack
 * setting write concern higher make ops slower
 
 ## read concern / preference
@@ -357,10 +357,10 @@ Elections :
 * specifies durability during a read operation
 * read concern level
   * local : returns from the primary node
-  * available 
-  * majority 
+  * available&#x20;
+  * majority&#x20;
 * read preference allows you to redirect read operation to specific members of replica set
-* read preference may return stale data 
+* read preference may return stale data&#x20;
 * read preference modes
   * primary : default
   * primaryPreferred : can route read ops to secondary in case primary in not available
@@ -373,7 +373,7 @@ Elections :
 * There is upper limit to vertical scaling
 * Sharding means adding more machines and dividing the dataset into multiple pieces
 * For each shard, we add more replica to make sure we dont lose data
-* a sharded cluster contains a config server, that store the metadata about each shard. This config server are responsible to distributing the queries to the shard containing the data. 
+* a sharded cluster contains a config server, that store the metadata about each shard. This config server are responsible to distributing the queries to the shard containing the data.&#x20;
 * to make config servers highly available, they are deployed in a replica set configuration
 * We use mongos to route the queries to each shard
 
@@ -381,7 +381,7 @@ Elections :
 
 * if not economically viable to scale up the throughput, speed and volume
 * scaling horizontally will add more cost to backup, restore and initial sync time, when not feasible, shard the database
-* Max a server should contain 2tb to 5tb data \(factor in CPU and RAM usage\)
+* Max a server should contain 2tb to 5tb data (factor in CPU and RAM usage)
 * when geographically distributed database is required
 * when single threaded operation needs to be parallelised
 
@@ -398,7 +398,7 @@ Let's say we have 3 shard containing the data about football players
 * shard 2 : K-Q
 * shard 3 : R-Z
 
-When you send a query to find details about player name Messi, it will know which shard contains the data about that player \( as all shards store data about specific player only \). The config server will contain the metadata, for example : shard 1 contains names from A-J, shard 2 contains names from K-Q, shard 3 contains name from R-Z which helps mongos the route the queries
+When you send a query to find details about player name Messi, it will know which shard contains the data about that player ( as all shards store data about specific player only ). The config server will contain the metadata, for example : shard 1 contains names from A-J, shard 2 contains names from K-Q, shard 3 contains name from R-Z which helps mongos the route the queries
 
 There can be one mongos process routing queries to 3 shards or there can be multiple mongos process routing queries to shards and takign request also from multiple clients
 
@@ -463,7 +463,7 @@ storage:
 mongod -f csrs1,2,3.conf
 ```
 
-* Connect to primary node of config server replica set \(csrs\)
+* Connect to primary node of config server replica set (csrs)
 
 ```bash
 mongo --port 27004 --username m103-admin --password m103-pass --authenticationDatabase admin
@@ -507,17 +507,17 @@ systemLog:
 ```
 
 * start mongos using : `mongos -f mongos.conf`
-* connect to mongos
+*   connect to mongos
 
-  \`\`\`sh
+    \`\`\`sh
 
-  mongo --port 26000 --username m103-admin --password m103-pass --authenticationDatabase admin
+    mongo --port 26000 --username m103-admin --password m103-pass --authenticationDatabase admin
 
 ## check sharding status
 
-sh.status\(\)
+sh.status()
 
-```text
+````
 ```sh
 sharding:
   clusterRole: shardsvr
@@ -575,7 +575,7 @@ systemLog:
   logAppend: true
 timreplication:
   replSetName: m103-repl
-```
+````
 
 * Apply the new config to the secondary nodes and then connect to primary, preform force stepdown, and reload with new configuration
 * then connect to mongos and add the primary node of the the shard
@@ -614,7 +614,7 @@ db.mongos.find().pretty()
 * It is the indexed field that mongodb uses to partition data in a sharded collection and distribute it across the shards in your cluster
 * You need to create index first before you can select your shard key.
 * MongoDB uses these shard keys to distribute data across sharded clusters. This groupings are also known as chunks
-* shard key should be present in every document in the collection \(if not already\) or in every new document that is inserted
+* shard key should be present in every document in the collection (if not already) or in every new document that is inserted
 * shard keys are immutable, cannot change shard key post-sharding
 * you cannot change the values of shard key fields post-sharding
 * sharded collections are irreversible, you cannot unshard a collection, once sharded.
@@ -627,10 +627,10 @@ db.mongos.find().pretty()
 
 ### Picking a Good shard key
 
-* Cardinality 
+* Cardinality&#x20;
   * High Cardinality = many possible unique shard key values.
   * Low Frequency  = low repetition of a given unique shard key value.
-  * Avoid shard keys that changes monotonically \(keeping incrementing\), choosing `_id` or `timestamp` or not a great options.
+  * Avoid shard keys that changes monotonically (keeping incrementing), choosing `_id` or `timestamp` or not a great options.
 
 ### Hashed Shard Keys
 
@@ -661,13 +661,13 @@ sh.shardCollection("m103.products",{ "sku" : 1 })
 ### Chunks
 
 * group of documents, who information is store in mongos determining which data belongs to which chunk and which shard contains it
-* rebalancing of chunks is preformed by primary of config server replica set
-* Default Chunk Size : 64Mb
+* re balancing of chunks is preformed by primary of config server replica set
+*   Default Chunk Size : 64MB
 
-  ```bash
-  use config
-  db.settings.save({_id: "chunksize", value: 2})
-  ```
+    ```bash
+    use config
+    db.settings.save({_id: "chunksize", value: 2})
+    ```
 
 lab : copy sample data
 
@@ -677,7 +677,7 @@ mongoimport /dataset/products.part2.json --port 26000 -u "m103-admin" -p "m103-p
 
 Targeted Queries vs Scatter Gather
 
-* Each Shard contains chunks of sharded data, where each chunk represents a inclusive lower bound and upper bound. 
+* Each Shard contains chunks of sharded data, where each chunk represents a inclusive lower bound and upper bound.&#x20;
 * The config server replica set keeps maintains the primary record of where all the chunks are present.
 * Mongos keeps a cached copy of the data chunks
 * If the query contains the shard key, then mongos knows where to target the query. This is known as targeted query.
@@ -703,4 +703,3 @@ db.products.find( { "sku": ... , "type": ... , "name": ... } )
 db.products.find( { "type": ... } )
 db.products.find( { "name": ... } )
 ```
-

@@ -10,7 +10,7 @@ use the connect settings in mongodb atlas
 
 After installing, you can start the mongod by
 
-```bash
+```shell
 sudo systemctl start mongod
 ```
 
@@ -53,7 +53,11 @@ sudo systemctl restart mongod
 ### MongoDB setup Docker
 
 ```bash
-sudo docker run --name mongo --network mongonet -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=pass mongo
+sudo docker run --name mongo --network mongonet -d \
+ -p 27017:27017 \
+ -e MONGO_INITDB_ROOT_USERNAME=admin \
+ -e MONGO_INITDB_ROOT_PASSWORD=pass  \
+ mongo
 
 sudo docker exec -it some-mongo sh
 ```
@@ -80,11 +84,11 @@ show collections
 * List all databases : `show dbs`
 * to switch to db : `use <name_of_db>`
 * to run a query : `db.<name_of_collection>.[function name]`
-* to iterate over many results : `it` 
+* to iterate over many results : `it`&#x20;
 * add : `.pretty()` to see json better
-* to find any one document from collection, just use `.findOne()` 
+* to find any one document from collection, just use `.findOne()`&#x20;
 * to create new collection : `db.createCollection("employees")`
-* to shutdown db server : 
+* to shutdown db server :&#x20;
 
 ```bash
 use admin
@@ -98,4 +102,3 @@ exit
 drop collection
 db.inspection.drop()
 ```
-
