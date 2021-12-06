@@ -73,13 +73,11 @@ SELECT fn_printer( 'Uday' );
 ------------
  Hello Uday
 (1 row)
-
 ```
 
 ## Functions with DML
 
 ```sql
-
 -- function
 
 CREATE OR REPLACE FUNCTION fn_employee_update_country () returns void AS
@@ -126,13 +124,11 @@ $$
 LANGUAGE SQL
 
 SELECT (fn_employee_hire_bydate('1992')).*;
-
 ```
 
 ## Returning table from function
 
 ```sql
-
 
 CREATE OR REPLACE FUNCTION fn_orders()
     returns table
@@ -165,7 +161,6 @@ CREATE OR REPLACE FUNCTION function_name
 LANGUAGE SQL;
 
 SELECT function_name();
-
 ```
 
 ## Dropping Function
@@ -174,4 +169,3 @@ SELECT function_name();
 DROP FUNCTION [ IF EXISTS ] function_name 
     ( argument_list ) ( cascade | restrict );
 ```
-

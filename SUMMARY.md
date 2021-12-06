@@ -42,6 +42,7 @@
 * [Summarization](sql/summarization/README.md)
   * [Window](sql/summarization/window.md)
   * [SubQueries](sql/summarization/subqueries.md)
+  * [Custom Aggregate function](sql/summarization/custom-aggregate-function.md)
 * [Advance Tables](sql/advance-tables/README.md)
   * [Managing Tables](sql/advance-tables/managing-tables.md)
   * [Paritioning Tables](sql/advance-tables/paritioning-tables.md)
@@ -50,10 +51,8 @@
 * [Functions](sql/functions/README.md)
   * [PL/pgSQL](sql/functions/pl-pgsql.md)
   * [Stored Procedures](sql/functions/stored-procedures.md)
-  * [Transactions](sql/functions/transactions.md)
   * [Triggers](sql/functions/triggers.md)
   * [Cursors](sql/functions/cursors.md)
-  * [Custom Aggregate function](sql/functions/custom-aggregate-function.md)
 
 ## MongoDB
 

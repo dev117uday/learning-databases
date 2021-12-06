@@ -4,7 +4,7 @@
 * A second approach to create temporary tables for query data instead of using sub queries in a `FROM` clause&#x20;
 * CTE's are a good alternative to sub queries.
 * `CTE` can be referenced multiple times in multiple places in query statement
-* Lifetime of `CTE` is equal to the** lifetime of a query.**
+* Lifetime of `CTE` is equal to the **lifetime of a query.**
 * Types of `CTE`
   * Materialized
   * Not materialized
