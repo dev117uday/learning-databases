@@ -4,65 +4,77 @@
 * A sub-query is nested inside another query
 * can be nested inside `SELECT`, `INSERT`, `UPDATE`, `DELETE`
 
+## SubQueries with SELECT clause
+
 ```sql
-select movie_name,
+SELECT movie_name,
        movie_length
-from movies mv
-where movie_length >= (
-    select avg(movie_length)
-    from movies
+FROM movies mv
+WHERE movie_length >= (
+    SELECT avg(movie_length)
+    FROM movies
 )
 
-select movie_name,
+SELECT movie_name,
        movie_length
-from movies mv
-where movie_length >= (
-    select avg(movie_length)
-    from movies
-    where movie_lang = 'English'
+FROM movies mv
+WHERE movie_length >= (
+    SELECT avg(movie_length)
+    FROM movies
+    WHERE movie_lang = 'English'
 );
 
-select first_name, last_name, date_of_birth
-from actors
-where date_of_birth > (
-    select date_of_birth
-    from actors
-    where first_name = 'Douglas' -- 1922-06-10
+```
+
+## SubQueries With WHERE Clause
+
+```sql
+
+SELECT first_name, last_name, date_of_birth
+FROM actors
+WHERE date_of_birth > (
+    SELECT date_of_birth
+    FROM actors
+    WHERE first_name = 'Douglas' -- 1922-06-10
 );
 
 -- using IN operator
-select movie_name,
+SELECT movie_name,
        movie_length
-from movies
-where movie_id in (
-    select movie_id
-    from movies_revenues
-    where revenues_domestic > 200
+FROM movies
+WHERE movie_id in (
+    SELECT movie_id
+    FROM movies_revenues
+    WHERE revenues_domestic > 200
 );
 
-select movie_id, movie_name
-from movies
-where movie_id IN (
-    select movie_id
-    from movies_revenues
-    where revenues_domestic > movies_revenues.revenues_international
+SELECT movie_id, movie_name
+FROM movies
+WHERE movie_id IN (
+    SELECT movie_id
+    FROM movies_revenues
+    WHERE revenues_domestic > movies_revenues.revenues_international
 );
 
+```
 
+## SubQueries with JOINS
+
+```sql
 -- with joins
-select d.director_id,
+SELECT d.director_id,
        d.first_name || ' ' || d.last_name  as "Director Name",
        SUM(r.revenues_international + r.revenues_domestic) as "total_revenues"
-from directors d
+FROM directors d
          INNER JOIN movies mv ON mv.director_id = d.director_id
          INNER JOIN movies_revenues r on r.movie_id = mv.movie_id
-where (r.revenues_domestic + r.revenues_international) >
+WHERE (r.revenues_domestic + r.revenues_international) >
       (
-          select avg(revenues_domestic + revenues_international) as "avg_total_revenue"
-          from movies_revenues
+          SELECT avg(revenues_domestic + revenues_international) as "avg_total_revenue"
+          FROM movies_revenues
       )
-group by d.director_id
-order by total_revenues;
+GROUP BY d.director_id
+ORDER BY total_revenues;
 
 
 SELECT d.director_id,
@@ -79,26 +91,30 @@ WHERE COALESCE(r.revenues_domestic, 0) + COALESCE(r.revenues_international, 0) >
       )
 GROUP BY d.director_id
 ORDER BY 2 DESC, 1 ASC;
+```
 
+## SubQueries with Alias
+
+```sql
 -- as alias
 SELECT *
-from (
-         select *
-         from movies
+FROM (
+         SELECT *
+         FROM movies
      ) t1;
 
--- query without from
-select (
-           select avg(revenues_domestic) as "Average Revenue"
-           from movies_revenues
+-- query without FROM
+SELECT (
+           SELECT avg(revenues_domestic) as "Average Revenue"
+           FROM movies_revenues
        ),
        (
-           select min(revenues_domestic) as "MIN Revenue"
-           from movies_revenues
+           SELECT min(revenues_domestic) as "MIN Revenue"
+           FROM movies_revenues
        ),
        (
-           select max(revenues_domestic) as "MAX Revenue"
-           from movies_revenues
+           SELECT max(revenues_domestic) as "MAX Revenue"
+           FROM movies_revenues
        )
 ```
 
