@@ -42,7 +42,6 @@
 * [Summarization](sql/summarization/README.md)
   * [Window](sql/summarization/window.md)
   * [SubQueries](sql/summarization/subqueries.md)
-  * [Custom Aggregate function](sql/summarization/custom-aggregate-function.md)
 * [Advance Tables](sql/advance-tables/README.md)
   * [Managing Tables](sql/advance-tables/managing-tables.md)
   * [Paritioning Tables](sql/advance-tables/paritioning-tables.md)
