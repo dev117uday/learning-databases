@@ -50,7 +50,8 @@
 * [Functions](sql/functions/README.md)
   * [PL/pgSQL](sql/functions/pl-pgsql.md)
   * [Stored Procedures](sql/functions/stored-procedures.md)
-  * [Triggers](sql/functions/triggers.md)
+  * [Triggers](sql/functions/triggers/README.md)
+    * [More on Triggers](sql/functions/triggers/more-on-triggers.md)
   * [Cursors](sql/functions/cursors.md)
 
 ## MongoDB
