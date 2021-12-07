@@ -25,6 +25,10 @@
 
 - Cannot be fired manually
 - Fired in alphbetically order
+- DO Not change in primary key, foriegn key or unique key column
+- DO Not update records in the table that you normally read during the transaction
+- DO Not read data from a table that is updating during the same transaction
+- DO Not aggregate/summarized over the table that you are updating
 
 ## Types of Triggers
 
