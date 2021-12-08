@@ -1,46 +1,46 @@
-# PL/pgSQL
+# PL/PGSQL
+
+## Declaring Variables
 
 ```sql
 DO
 $$
+    DECLARE
+        mynum      integer     := 89;
+        first_name varchar(20) := 'Uday';
+        hire_date  date        := '2020-01-01';
+        start_time timestamp   := NOW();
+        emptyvar   integer;
 
-DECLARE
-    mynum   integer := 89;
-    first_name varchar(20) := 'Uday';
-    hire_date date := '2020-01-01';
-    start_time timestamp := NOW();
-    emptyvar integer;
-
-BEGIN
-
-    RAISE NOTICE 'My variable % % % % %',
-    mynum,
-    first_name,
-    hire_date,
-    start_time,
-    emptyvar ;
-
-END;
-
+    BEGIN
+        RAISE NOTICE 'My variable % % % % %',
+        mynum, first_name, hire_date,
+        start_time, emptyvar ;
+    END;
 $$
+```
+
+## Parameters to Function
+
+```sql
+
 
 CREATE OR REPLACE FUNCTION function_name 
-    (int, int) returns int as
-
+    (INT, INT) RETURNS INT as
 $$
+    DECLARE
+        x alias for $1;
+        y alias for $2;
 
-DECLARE
-    x alias for $1;
-    y alias for $2;
-
-BEGIN
-    --
-end;
+    BEGIN
+        --
+    END;
 $$
+```
 
+## Assigning value from result into variable
 
-select * from products into product_row    limit 1;
-
+```sql
 DO
 $$
     DECLARE 
@@ -53,7 +53,11 @@ $$
         RAISE NOTICE 'Your product name is %', product_title;
     END;
 $$        
+```
 
+## Function Parameter w/t IN and OUT
+
+```sql
 CREATE OR REPLACE FUNCTION fn_sum_using_inout 
     ( IN x integer, IN y integer, OUT Z integer ) as 
 $$
@@ -67,6 +71,7 @@ LANGUAGE PLPGSQL;
 
 select fn_sum_using_inout(2,3);
 
+-- another example
 
 CREATE OR REPLACE FUNCTION fn_sum_using_inouts 
     ( IN x integer, IN y integer, OUT Z integer, OUT w integer ) as 
@@ -81,8 +86,11 @@ $$
 LANGUAGE PLPGSQL;
 
 select * from fn_sum_using_inouts(2,3);
+```
 
+## Nested functions
 
+```sql
 DO
 $$
     << Parent >>
@@ -93,13 +101,13 @@ $$
         counter := counter+1;
         RAISE NOTICE 'the current value of counter (IN PARENT) is %', counter;
 
-        DECLARE 
-            counter integer := 0;
-        BEGIN
-            counter := counter + 5;
-            RAISE NOTICE 'The current value of counter at subblocks is %', counter;
-            RAISE NOTICE 'The parent value of counter at subblocks is %', PARENT.counter;
-        END;
+            DECLARE 
+                counter integer := 0;
+            BEGIN
+                counter := counter + 5;
+                RAISE NOTICE 'The current value of counter at subblocks is %', counter;
+                RAISE NOTICE 'The parent value of counter at subblocks is %', PARENT.counter;
+            END;
 
         counter := counter + 5;
         RAISE NOTICE 'the current value of counter (IN PARENT) is %', counter;
@@ -107,66 +115,67 @@ $$
     END;
 $$
 LANGUAGE PLPGSQL;
+```
 
+## Returning ResultSet from function
 
+```sql
 CREATE OR REPLACE FUNCTION fn_order_by_date_pro() RETURNS SETOF orders AS
 $$
-
     BEGIN
-
         RETURN QUERY SELECT * FROM orders limit 10;
-
     END;
-
 $$
 LANGUAGE PLPGSQL;
 
 SELECT * FROM fn_order_by_date_pro();
+```
 
+## Conditional Statement inside functions
+## Default Parameters
 
+```sql
 CREATE OR REPLACE FUNCTION fn_which_is_greater
     ( x integer default 0, y integer default 0 ) RETURNS text AS
 $$
-
-        BEGIN
-
-            IF x > y then 
-                return ' x > y ';
-            else 
-                return ' x < y ';
-            end if ;
-
-        END;
-
+    BEGIN
+        IF x > y then 
+            return ' x > y ';
+        else 
+            return ' x < y ';
+        end if ;
+    END;
 $$ LANGUAGE PLPGSQL;
 
 SELECT  fn_which_is_greater(4,3);
+```
 
+## Switch Case Example
+
+```sql
 CREATE OR REPLACE FUNCTION fn_checker 
     ( x integer default 0 ) RETURNS text AS
 $$
-
-        BEGIN
-
-            CASE x
-                when 10 then
-                    return 'value = 10';
-                when 20 then
-                    return 'value = 20';
-                else
-                    RETURN 'MORE';
-            END CASE;
-
-        END;
-
+    BEGIN
+        CASE x
+            when 10 then
+                return 'value = 10';
+            when 20 then
+                return 'value = 20';
+            else
+                RETURN 'MORE';
+        END CASE;
+    END;
 $$ LANGUAGE PLPGSQL;
 
 SELECT fn_checker(30);
+```
 
+## Loops in PLPGSQL
 
+```sql
 DO
 $$
-
     DECLARE 
         i_counter integer = 0;
     BEGIN
@@ -178,40 +187,42 @@ $$
         END LOOP;
     END;
 $$ LANGUAGE PLPGSQL;
+```
 
+## Loops in range exaple
+
+```sql
 DO
 $$
-
     BEGIN
-
         FOR counter IN 1..5 BY 1
         LOOP
 
             RAISE NOTICE 'COUNTER : %', counter;
-
         END LOOP;        
     END;
-
 $$
 LANGUAGE PLPGSQL;
+```
 
+## Reverse Loops
+
+```sql
 DO
 $$
-
     BEGIN
-
         FOR counter IN REVERSE 5..1 BY 1
         LOOP
-
             RAISE NOTICE 'COUNTER : %', counter;
-
         END LOOP;        
     END;
-
 $$
 LANGUAGE PLPGSQL;
+```
 
+## Iterating over result set
 
+```sql
 DO
 $$
     DECLARE 
@@ -224,7 +235,11 @@ $$
         END LOOP; 
     END;
 $$ LANGUAGE PLPGSQL
+```
 
+## Loop with Exit condition
+
+```sql
 
 DO
 $$
@@ -242,8 +257,11 @@ $$
         END LOOP;
     END;
 $$ LANGUAGE PLPGSQL;
+```
 
+## Declaring arrays in PLPGSQL
 
+```sql
 DO
 $$
     DECLARE 
@@ -257,6 +275,11 @@ $$
         END LOOP;
     END;
 $$ LANGUAGE PLPGSQL;
+```
+
+## While Loop in PLPGSQL
+
+```sql
 
 CREATE OR REPLACE FUNCTION fn_while_loop_sum_all(x integer) 
     returns numeric as
@@ -275,7 +298,11 @@ $$
 $$ language plpgsql
 
 select fn_while_loop_sum_all(4);
+```
 
+## Returning specific Query from column
+
+```sql
 CREATE OR REPLACE FUNCTION fn_api_products_by_names(p_pattern varchar)
 RETURNS TABLE ( productname varchar, unitprice real )
 AS
@@ -289,6 +316,10 @@ $$
 $$ LANGUAGE PLPGSQL;
 
 SELECT * FROM fn_api_products_by_names('A%');
+```
+
+
+```sql
 
 CREATE OR REPLACE FUNCTION fn_all_orders_greater() RETURNS SETOF order_details as 
 $$
@@ -305,11 +336,13 @@ $$
 $$ language plpgsql;
 
 select * from fn_all_orders_greater();
+```
 
+## If data not found condition 
 
+```sql
 DO
 $$
-
     DECLARE 
         rec record;
         orderid smallint = 1;
@@ -325,8 +358,11 @@ $$
 
     END;
 $$ LANGUAGE PLPGSQL;    
+```
 
+## Throwing execption on condition
 
+```sql
 DO
 $$
 
@@ -344,9 +380,12 @@ $$
                 RAISE EXCEPTION 'Too many rows were found';
 
     END;
-$$ LANGUAGE PLPGSQL;    
+$$ LANGUAGE PLPGSQL;  
+```
 
+## Throwing execption example
 
+```sql
 CREATE OR REPLACE FUNCTION fn_div_exception (x real, y real) RETURNS real as 
 $$
 
