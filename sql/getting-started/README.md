@@ -14,7 +14,7 @@ psql -U postgres
 
 ## Installing PostgreSQL on windows
 
-{% embed url="https://www.postgresql.org/download/windows/" %}
+- https://www.postgresql.org/download/windows/
 
 ## Installing PostgreSQL on MacOS
 

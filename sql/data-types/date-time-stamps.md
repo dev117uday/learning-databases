@@ -84,9 +84,8 @@ SELECT pg_typeof(make_timestamptz(2020,02,02,10,30,45.55));
 
 ### Date Value Extractor
 
-{% embed url="https://www.postgresql.org/docs/8.1/functions-datetime.html" caption="" %}
-
-{% embed url="https://www.postgresqltutorial.com/postgresql-extract/" caption="" %}
+- https://www.postgresql.org/docs/8.1/functions-datetime.html
+- https://www.postgresqltutorial.com/postgresql-extract/
 
 ### Extract
 

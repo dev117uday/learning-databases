@@ -190,7 +190,7 @@ FROM
 
 Refer to the documentation
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to_char/" %}
+- https://www.postgresqltutorial.com/postgresql-to_char/
 
 ```sql
 SELECT TO_CHAR (
@@ -228,7 +228,7 @@ SELECT
 
 ### to\_number()
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to_number/" %}
+- https://www.postgresqltutorial.com/postgresql-to_number/
 
 ```sql
 SELECT TO_NUMBER(
@@ -274,7 +274,7 @@ SELECT to_number(
 
 ### to\_date()
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to_date/" %}
+- https://www.postgresqltutorial.com/postgresql-to_date/
 
 ```sql
 SELECT TO_DATE( '2020/10/22' , 'YYYY/MM/DD' );
@@ -298,7 +298,7 @@ SELECT to_date( 'March 07, 2019' , 'Month DD, YYYY' );
 
 ### to\_timestamp()
 
-{% embed url="https://www.postgresqltutorial.com/postgresql-to_timestamp/" %}
+- https://www.postgresqltutorial.com/postgresql-to_timestamp/
 
 ```sql
 SELECT TO_TIMESTAMP(

@@ -20,7 +20,7 @@ description: All hail admin
 
 **Refer to documentation for more details**
 
-{% embed url="https://www.pgadmin.org/docs/pgadmin4/development/role_dialog.html" %}
+- https://www.pgadmin.org/docs/pgadmin4/development/role_dialog.html
 
 ## Query Editor
 
