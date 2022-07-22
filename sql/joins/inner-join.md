@@ -2,7 +2,7 @@
 
 ## Basic
 
-![](../../.gitbook/assets/image%20%283%29.png)
+![[image (1) 1.png]]
 
 **Remember : All common column defined at ON must match values on both tables**
 

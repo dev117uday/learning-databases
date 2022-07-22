@@ -1,6 +1,3 @@
----
-description: section not complete
----
 
 # Indexing
 

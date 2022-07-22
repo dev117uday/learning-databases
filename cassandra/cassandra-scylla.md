@@ -34,7 +34,7 @@ Some of the most common Consistency Levels used are:
 
 ### Sharding in Scylla DB
 
-Each Scylla [node](https://university.scylladb.com/topic/node/) consists of several independent shards, which contain their share of the node’s total data. Scylla creates a one shard per core \(technically, one shard per [hyperthread](https://en.wikipedia.org/wiki/Hyper-threading), meaning some physical cores may have two or more virtual cores\). Each shard operates on a [shared-nothing architecture](https://en.wikipedia.org/wiki/Shared-nothing_architecture) basis. This means each shard is assigned its RAM and its storage, manages its [schedulers for the CPU and ](https://www.scylladb.com/2018/04/19/scylla-i-o-scheduler-3/)I/O, performs its compactions \(more about compaction later on\), and maintains its multi-queue network connection. Each shard runs as a single thread, and communicates asynchronously with its peers, without locking.
+Each Scylla [node](https://university.scylladb.com/topic/node/) consists of several independent shards, which contain their share of the node’s total data. Scylla creates a one shard per core \(technically, one shard per [hyperthread](https://en.wikipedia.org/wiki/Hyper-threading), meaning some physical cores may have two or more virtual cores\). Each shard operates on a [shared-nothing architecture](https://en.wikipedia.org/wiki/Shared-nothing_architecture) basis. This means each shard is assigned its RAM and its storage, manages its [schedulers for the CPU and ](https://www.scylladb.com/2018/04/19/scylla-i-o-scheduler-3/)I/O, performs its compaction \(more about compaction later on\), and maintains its multi-queue network connection. Each shard runs as a single thread, and communicates asynchronously with its peers, without locking.
 
 ### Other Important Concepts
 
@@ -44,7 +44,7 @@ A **Partition Key** is one or more columns that are responsible for data distrib
 
 #### Node
 
-A Node is a unit of storage in Scylla. It is comprised of the Scylla database server software running on a computer server — a physical machine — and all its subsystems \(CPUs, memory, storage, network interfaces and so on\), or, in a virtualized environment, a subset of a server’s resources assigned to a container.
+A Node is a unit of storage in Scylla. It is comprised of the Scylla database server software running on a computer server — a physical machine — and all its subsystems \(CPUs, memory, storage, network interfaces and so on\), or, in a visualized environment, a subset of a server’s resources assigned to a container.
 
 #### Cluster
 
@@ -94,7 +94,7 @@ Without using **Vnodes** or virtual nodes, each node could only support one toke
 
 #### Gossips
 
-Scylla, like Apache Cassandra, uses a type of internode communication protocol called Gossip.
+Scylla, like Apache Cassandra, uses a type of inter-node communication protocol called Gossip.
 
 For [nodes](https://university.scylladb.com/topic/node/) to exchange information with each other. Gossip is decentralized, and there is no single point of failure. It’s used for peer node discovery and metadata propagation. Gossip communication occurs periodically. Each node communicates with three other nodes. Eventually \(within a few seconds\), the information is propagated throughout the [cluster](https://university.scylladb.com/topic/cluster-node-ring/). To see whether a node is communicating using Gossip, we use the _**statusgossip**_ command:
 
@@ -107,7 +107,7 @@ Since each node is equal in Scylla, any node can receive a read/write request. T
 ![](https://university.scylladb.com/wp-content/uploads/2019/01/Read_Write_Cluster_Path.png)
 
 1. A client connects to a Scylla node using CQL shell and performs a CQL request
-2. The node the client connected to is now designated as the Coordinator Node. The Coordinator Node, based on [hashing](https://en.wikipedia.org/wiki/Hash_function) the data, using the partition key and on the [Replication Strategy](https://university.scylladb.com/topic/replication-strategy/), sends the request to the applicable nodes. Internode messages are sent through a messaging queue in an asynchronous way.
+2. The node the client connected to is now designated as the Coordinator Node. The Coordinator Node, based on [hashing](https://en.wikipedia.org/wiki/Hash_function) the data, using the partition key and on the [Replication Strategy](https://university.scylladb.com/topic/replication-strategy/), sends the request to the applicable nodes. Inter-node messages are sent through a messaging queue in an asynchronous way.
 3. The [Consistency Level](https://university.scylladb.com/topic/consistency-level-cl/) determines the number of nodes the coordinator needs to hear back from, in order for the request to be successful.
 4. The client is notified if the request was successful.
 

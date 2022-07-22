@@ -34,7 +34,7 @@
 
 Performs a sequential scan on the whole table.
 
-![](../../.gitbook/assets/image%20%2812%29.png)
+![[image (12).png]]
 
 ### Index Scan
 
@@ -44,11 +44,11 @@ Performs a sequential scan on the whole table.
   * Index only scan
   * Bitmap Index
 
-![](../../.gitbook/assets/image%20%2810%29.png)
+![[image (10).png]]
 
 ### Index only scan
 
-![](../../.gitbook/assets/image%20%2819%29%20%282%29%20%282%29%20%282%29%20%281%29%20%288%29.png)
+![[image-index-scan.png]]
 
 ### Hash Join
 
@@ -63,7 +63,7 @@ Performs a sequential scan on the whole table.
 
 Memory Size \( used by sort operation and hash table \) : `4 MB`
 
-![](../../.gitbook/assets/image%20%287%29%20%282%29%20%282%29%20%283%29%20%283%29%20%282%29.png)
+![[index-hash-join.png]]
 
 \*\*\*\*
 

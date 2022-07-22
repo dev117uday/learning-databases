@@ -1,12 +1,9 @@
----
-description: turn on the indicator before joining
----
 
 # Left and Right JOIN
 
 ## Left Join
 
-![](../../.gitbook/assets/image%20%284%29.png)
+![[image (4).png]]
 
 ### Basic
 
@@ -100,7 +97,7 @@ where mv.movie_lang in ('English', 'Chinese');
 
 ## Right Join
 
-![](../../.gitbook/assets/image%20%285%29.png)
+![[image (5).png]]
 
 ### Syntax
 

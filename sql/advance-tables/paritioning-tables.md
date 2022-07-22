@@ -1,4 +1,4 @@
-# Paritioning Tables
+# Partitioning Tables
 
 **It is splitting table into**
 

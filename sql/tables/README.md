@@ -1,16 +1,12 @@
----
-description: better excel sheet
----
-
 # Table
 
 ## Creating Table
 
-![](../../.gitbook/assets/output%20%281%29%20%281%29%20%282%29.gif)
+![[output (1) (1) (2).gif]]
 
 ## Altering Table
 
-![](../../.gitbook/assets/output%20%282%29.gif)
+![[output (2).gif]]
 
 ```sql
 -- adding column to table

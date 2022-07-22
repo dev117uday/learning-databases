@@ -1,7 +1,3 @@
----
-description: section not complete
----
-
 # Functions
 
 ## Basic Functions

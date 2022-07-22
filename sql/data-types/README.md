@@ -1,6 +1,3 @@
----
-description: just like programming
----
 
 # Data Types
 

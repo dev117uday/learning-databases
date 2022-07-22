@@ -1,12 +1,9 @@
 # Table of contents
 
-* [Learning Databases](README.md)
-
 ## SQL
 
 * [Getting Started](sql/getting-started/README.md)
-  * [Load Data](sql/getting-started/load-data.md)
-* [pgAdmin Tool](sql/administration-task.md)
+* [PgAdmin Tool](administration-task.md)
 * [Database](sql/working-with-database/README.md)
   * [Schema](sql/working-with-database/schema.md)
 * [Data Types](sql/data-types/README.md)
@@ -25,10 +22,10 @@
   * [Combining Tables](sql/tables/combining-tables.md)
   * [Aggregation](sql/tables/aggregation.md)
   * [Constraints](sql/tables/constraints.md)
-  * [Usefull Functions](sql/tables/coalesce.md)
+  * [Useful Functions](sql/tables/coalesce.md)
   * [Views](sql/tables/views.md)
   * [Common Table Expression](sql/tables/cte.md)
-* [Joins](sql/joins/README.md)
+* [Joins]()
   * [Inner Join](sql/joins/inner-join.md)
   * [Left and Right JOIN](sql/joins/left-and-right-join.md)
   * [Full, Multiple & Self Joins](sql/joins/full-multiple-and-self-joins.md)
@@ -41,12 +38,12 @@
   * [Custom Indexes](sql/indexing/custom-indexes.md)
 * [Summarization](sql/summarization/README.md)
   * [Window](sql/summarization/window.md)
-  * [SubQueries](sql/summarization/subqueries.md)
-* [Advance Tables](sql/advance-tables/README.md)
+  * [Sub Queries](sql/summarization/subqueries.md)
+* [Advance Tables]()
   * [Managing Tables](sql/advance-tables/managing-tables.md)
-  * [Paritioning Tables](sql/advance-tables/paritioning-tables.md)
+  * [Partitioning Tables](sql/advance-tables/paritioning-tables.md)
   * [Internals](sql/advance-tables/internals.md)
-  * [Pivotal or Crosstab Tables](sql/advance-tables/pivotal-or-crosstab-tables.md)
+  * [Pivotal or Cross-tab Tables](sql/advance-tables/pivotal-or-crosstab-tables.md)
 * [Functions](sql/functions/README.md)
   * [PL/pgSQL](sql/functions/pl-pgsql.md)
   * [Stored Procedures](sql/functions/stored-procedures.md)
@@ -63,7 +60,7 @@
 
 ## Redis
 
-* [Redis](redis/redis-1.md)
+* [Redis](redis.md)
 
 ## Cassandra
 
