@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Redis - Learning Datbases</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Redis";
+    var mkdocs_page_input_path = "redis/redis.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Learning Datbases</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../..">Table of contents</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Cassandra</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../cassandra/cql/">CQL</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../cassandra/data-modelling/">Data Modelling</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Mongodb</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../mongodb/mongo-administration/">Mongo Administration</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../mongodb/mongodb/">MongoDB</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../mongodb/mql/">MQL</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Redis</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Redis</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#setup">Setup</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#docker">Docker</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#to-benchmark">To benchmark</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#to-set-max-memory-limit">To set max memory limit</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#set-get-value">Set &amp; Get value</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#key-related-ops">Key related ops</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#set-key-with-expiry-time">Set key with expiry time</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#delete-key">Delete Key</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#set-get-multiple-values">Set &amp; Get multiple values</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#miscellaneous">Miscellaneous</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#maths-operations">Maths operations</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#lists-in-redis">Lists in Redis</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sorting-list">Sorting List</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sets-in-redis">Sets in Redis</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sorted-set-redis">Sorted Set Redis</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hashes-in-redis">Hashes in Redis</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#transaction">Transaction</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#geospatial-data">GeoSpatial Data</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Sql</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../sql/order-of-sql-execution/">Order of SQL Execution</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Advance tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/advance-tables/internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/advance-tables/managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/advance-tables/paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/advance-tables/pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Data types</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/json/">JSON</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/functions/">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/functions/cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/functions/pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/functions/stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../sql/functions/triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../sql/functions/triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/summarization/window/">Window</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/where/">WHERE Clause</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Learning Datbases</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Redis &raquo;</li>
+        
+      
+    
+    <li>Redis</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="redis">Redis</h1>
+<h2 id="setup">Setup</h2>
+<h3 id="docker">Docker</h3>
+<pre><code class="language-shell"># pull the image from docker hub
+$ docker run --name redis-learn -p 6370:6370 -d redis 
+
+# connect to container and redis shell
+$ docker exec -it redis-learn redis-cli
+</code></pre>
+<h3 id="to-benchmark">To benchmark</h3>
+<pre><code>docker exec -it redis-learn redis-benchmark -n 1000 -d 10000
+# -d for bytes of data
+
+redis-benchmark -n 1000 -d 10000
+</code></pre>
+<h3 id="to-set-max-memory-limit">To set max memory limit</h3>
+<pre><code>&gt; config set maxmemory 128M
+</code></pre>
+<h3 id="set-get-value">Set &amp; Get value</h3>
+<ul>
+<li>set key value</li>
+<li>get key value</li>
+<li>check whether key exists, returns integer</li>
+<li>0 - false | 1 - true</li>
+</ul>
+<pre><code class="language-shell">&gt; set name &quot;uday&quot;
+OK
+
+&gt; get name
+&quot;uday&quot;
+
+&gt; exists name
+(integer) 1
+</code></pre>
+<h3 id="key-related-ops"><strong>Key related ops</strong></h3>
+<ul>
+<li>Get all keys</li>
+<li>Delete all keys ( sync | async )</li>
+</ul>
+<pre><code class="language-shell">&gt; keys *
+1) &quot;name&quot;
+
+&gt; flushall 
+# options : async|sync
+OK
+</code></pre>
+<h3 id="set-key-with-expiry-time">Set key with expiry time</h3>
+<pre><code class="language-shell"># After 5 seconds, this  key will be deleted
+&gt; set key &quot;value&quot; EX [expiry time in seconds]
+&gt; get key
+&gt; exists key
+
+# expire after X seconds
+&gt; set key &quot;value&quot;
+&gt; get key
+&gt; expire key X
+
+# to check time remaining 
+&gt; ttl key
+
+# Another way, to expire after 10 seconds
+&gt; setex key 10 &quot;value&quot;
+</code></pre>
+<h3 id="delete-key">Delete Key</h3>
+<pre><code class="language-shell">&gt; del name
+(integer) 1
+</code></pre>
+<h3 id="set-get-multiple-values">Set &amp; Get multiple values</h3>
+<pre><code class="language-shell">&gt; mset first &quot;uday&quot; last &quot;yadav&quot;
+
+&gt; mget first last
+1) &quot;uday&quot;
+2) &quot;yadav&quot;
+</code></pre>
+<h3 id="miscellaneous">Miscellaneous</h3>
+<pre><code class="language-shell">&gt; set name &quot;uday yadav&quot;
+
+# Specifies the range : from 0th char to 3rd char
+&gt; getrange name 0 3
+&quot;uda&quot;
+&gt; strlen name
+10
+
+# Append to key
+&gt; set name &quot;uday&quot;
+&gt; append name &quot; yadav&quot;
+&gt; get name
+&quot;uday yadav&quot;
+</code></pre>
+<h3 id="maths-operations">Maths operations</h3>
+<pre><code class="language-shell">&gt; set count 1
+
+&gt; incr count
+(integer) 2
+
+&gt; incrby count 10
+(integer) 12
+
+&gt; decr count 
+(integer) 11
+
+&gt; decrby count 2
+(integer) 9
+
+&gt; set pi 3.14
+&gt; incrbyfloat pi 0.1
+&quot;3.24&quot;
+</code></pre>
+<h3 id="lists-in-redis">Lists in Redis</h3>
+<pre><code class="language-shell"># lpush adds value infront
+&gt; lpush country india
+&gt; lpush country USA
+&gt; lpush country UK
+
+# get the element at index, start from 0
+&gt; lindex country 2
+
+# to add values to the bottom
+&gt; rpush country Australia
+
+# to get all values in list
+&gt; lrange country 0 -1
+1) &quot;UK&quot;
+2) &quot;USA&quot;
+3) &quot;india&quot;
+4) &quot;Australia&quot;
+
+# to get first 2 values
+&gt; lrange country 0 1
+
+# get list length
+&gt; llen country
+
+# use lpop and rpop to remove the data from top and bottom
+# and it returns the element
+&gt; lpop country
+&gt; rpop country
+
+# to change a key's value
+&gt; lset country 0 germany
+
+# to insert values before and after 
+&gt; linsert country before &quot;germany&quot; &quot;new zealand&quot;
+&gt; linsert country after &quot;germany&quot; &quot;UAE&quot;
+
+# use lpushx and rpushx to add key to list only if it exists
+# else returns 0
+</code></pre>
+<h3 id="sorting-list">Sorting List</h3>
+<pre><code class="language-shell"># Alpha is needed only for strings, nothing for integers
+&gt; sort country ALPHA
+&gt; sort country desc ALPHA
+</code></pre>
+<h3 id="sets-in-redis">Sets in Redis</h3>
+<pre><code class="language-shell">&gt; sadd tech golang
+(integer) 1
+
+# when you do it again
+&gt; sadd tech golang
+(integer) 0
+
+&gt; sadd tech postgis python aws
+&gt; sadd tech1 aws python mysql nodejs
+
+# to see all members
+&gt; smembers tech
+
+# to get the length of set
+&gt; scard tech
+
+# to search the set
+&gt; sismember tech aws
+1
+
+# to get the diff between to sets
+&gt; sdiff tech tech1
+
+# to store the difference btw 2 sets to a new set 
+&gt; sdiffstore tech tech1 [more set]
+
+# to check intersection
+&gt; sinter tech tech1
+</code></pre>
+<h3 id="sorted-set-redis">Sorted Set Redis</h3>
+<pre><code class="language-shell"># add key values
+&gt; zadd users 10 uday 
+&gt; zadd users 5 uday1 8 uday2
+
+# to get all users
+&gt; zrange users 0 -1
+&gt; zrange users 0 -1 withscores
+# in reverse order
+&gt; zrevrange users 0 -1
+
+# to get the length of the string
+&gt; zcard users
+3
+
+# to get key's value over a range
+&gt; zcount users 0 2
+
+# to remove member
+&gt; zrem users uday
+</code></pre>
+<h3 id="hashes-in-redis">Hashes in Redis</h3>
+<pre><code class="language-shell"># add keys to a set
+&gt; hset myhash name uday
+&gt; hset myhash email dev117uday@gmail.com
+
+# get all keys from hashset
+&gt; hkeys myhash
+
+# to get all values
+&gt; hvals myhash
+
+# get value
+&gt; hget myhash name
+
+# to check for keys 
+&gt; hexists myhash name
+
+# check the length    
+&gt; hlen myhash
+
+# to set multiple values at once
+&gt; hmset myhash country india phone_no 9810039759 age 24
+
+# to get multiple values
+&gt; hmget myhash country name email
+
+# increment some value
+&gt; hincrby myhash age 2
+
+# to delete key from set
+&gt; hdel myhash age
+
+# to avoid over writting the values
+&gt; hsetnx myhash name Uday
+</code></pre>
+<h3 id="transaction">Transaction</h3>
+<pre><code class="language-shell"># to go in transaction mode
+&gt; multi
+(TX)&gt; set key1 uday
+(TX)&gt; set key2 yadav
+(TX)&gt; set key3 dev117uday
+(TX)&gt; exec
+1) OK
+2) OK
+3) OK
+
+# to discard transaction
+discard
+</code></pre>
+<p><strong>Pub/Sub</strong></p>
+<pre><code class="language-shell"># To listen to a channel
+&gt; subscribe my-chat
+
+# To publish to a channel
+&gt; publish my-chat &quot;hello world&quot;
+
+# to subscribe to channel with patterns in name
+&gt; psubscribe chats*
+&gt; psubscribe h?llo
+</code></pre>
+<ul>
+<li>If no one is sub to the channel you specify in publish, it returns 0</li>
+</ul>
+<h3 id="geospatial-data">GeoSpatial Data</h3>
+<pre><code class="language-shell"># add geo spatial data in long : lat
+&gt; GEOADD maps 77.216721 28.644800 delhi
+&gt; GEOADD maps 72.877426 19.076090 mumbai
+
+# data is tored in sorted set data structure
+&gt; zrange maps 0 -1
+1) &quot;mumbai&quot;
+2) &quot;delhi&quot;
+
+# to get the geohash of city
+&gt; GEOHASH maps delhi
+1) &quot;ttnfvnes010&quot;
+
+# to get long:lat
+&gt; GEOPOS maps delhi
+1) 1) &quot;77.21672326326370239&quot;
+   2) &quot;28.64479890853065314&quot;
+
+# to get distance, in meter (default)
+&gt; GEODIST maps delhi mumbai
+&quot;1151873.1929&quot;
+
+&gt; GEODIST maps delhi mumbai km
+&quot;1151.8732&quot;
+
+# within distance
+
+&gt; GEORADIUS maps 77.216721 28.644800 2000 km
+1) &quot;delhi&quot;
+2) &quot;mumbai
+
+&gt; GEORADIUS maps 77.216721 28.644800 2000 km withcoord
+1) 1) &quot;delhi&quot;
+   2) 1) &quot;77.21672326326370239&quot;
+      2) &quot;28.64479890853065314&quot;
+2) 1) &quot;mumbai&quot;
+   2) 1) &quot;72.87742406129837036&quot;
+      2) &quot;19.07608965708350723&quot;
+
+&gt; GEORADIUS maps 77.216721 28.644800 2000 km withcoord withdist
+1) 1) &quot;delhi&quot;
+   2) &quot;0.0003&quot;
+   3) 1) &quot;77.21672326326370239&quot;
+      2) &quot;28.64479890853065314&quot;
+2) 1) &quot;mumbai&quot;
+   2) &quot;1151.8732&quot;
+   3) 1) &quot;72.87742406129837036&quot;
+      2) &quot;19.07608965708350723&quot;
+
+&gt; GEORADIUSBYMEMBER maps delhi 1300 km
+1) &quot;delhi&quot;
+2) &quot;mumbai&quot;
+
+&gt; GEORADIUSBYMEMBER maps delhi 1300 km withcoord withdist desc|asc
+1) 1) &quot;mumbai&quot;
+   2) &quot;1151.8732&quot;
+   3) 1) &quot;72.87742406129837036&quot;
+      2) &quot;19.07608965708350723&quot;
+2) 1) &quot;delhi&quot;
+   2) &quot;0.0000&quot;
+   3) 1) &quot;77.21672326326370239&quot;
+      2) &quot;28.64479890853065314&quot;
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../sql/order-of-sql-execution/" class="btn btn-neutral float-right" title="Order of SQL Execution">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../../mongodb/mql/" class="btn btn-neutral" title="MQL"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../mongodb/mql/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../sql/order-of-sql-execution/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

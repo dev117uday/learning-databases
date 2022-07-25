@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+  <title>GROUP BY and HAVING - Learning Datbases</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "GROUP BY and HAVING";
+    var mkdocs_page_input_path = "sql/tables/group-by-and-having.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> Learning Datbases</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../..">Table of contents</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Cassandra</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cql/">CQL</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/data-modelling/">Data Modelling</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Mongodb</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongo-administration/">Mongo Administration</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb/">MongoDB</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mql/">MQL</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Redis</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../redis/redis/">Redis</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Sql</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../../order-of-sql-execution/">Order of SQL Execution</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Advance tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Data types</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/json/">JSON</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/window/">Window</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Tables</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">GROUP BY and HAVING</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#group-by">GROUP BY</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#syntax">Syntax</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#group-by_1">Group BY</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#group-by-with-count">Group BY with count</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#group-by-with-sum">Group BY with SUM</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#group-by-with-min-max">Group BY with MIN, MAX</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#having">HAVING</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#having-vs-where">HAVING vs WHERE</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../where/">WHERE Clause</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">Learning Datbases</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Sql &raquo;</li>
+        
+      
+        
+          <li>Tables &raquo;</li>
+        
+      
+    
+    <li>GROUP BY and HAVING</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="group-by-and-having">GROUP BY and HAVING</h1>
+<h2 id="group-by">GROUP BY</h2>
+<ul>
+<li><code>GROUP BY</code> clause divide the rows returned from <code>SELECT</code> statement into groups</li>
+<li>For each group, you can apply aggregate functions like <code>COUNT</code>, <code>SUM</code>, <code>MIN</code>, <code>MAX</code> etc.</li>
+</ul>
+<h3 id="syntax">Syntax</h3>
+<pre><code class="language-sql">SELECT column1,
+       AGGREGATE_FUNCTION(column2)
+FROM tablename
+GROUP BY column1;
+
+</code></pre>
+<h3 id="group-by_1">Group BY</h3>
+<p>Group the data in column and pass it to aggregate function</p>
+<h3 id="group-by-with-count">Group BY with count</h3>
+<pre><code class="language-sql">SELECT 
+    movie_lang,
+    COUNT(movie_lang) as count
+FROM
+    movies
+GROUP BY
+    movie_lang
+ORDER BY 
+    count ASC;
+
+ movie_lang | count 
+------------+-------
+ Swedish    |     1
+ German     |     1
+ Korean     |     1
+ Spanish    |     1
+ Portuguese |     2
+ Japanese   |     4
+ Chinese    |     5
+ English    |    38
+</code></pre>
+<h3 id="group-by-with-sum">Group BY with SUM</h3>
+<pre><code class="language-sql">SELECT 
+    age_certificate,
+    SUM(movie_length) 
+FROM 
+    movies 
+GROUP BY 
+    age_certificate;
+
+ age_certificate | sum  
+-----------------+------
+ PG              | 1462
+ 15              | 2184
+ 12              | 1425
+ 18              |  994
+ U               |  620
+</code></pre>
+<h3 id="group-by-with-min-max">Group BY with MIN, MAX</h3>
+<pre><code class="language-sql">SELECT movie_lang,
+       MIN(movie_length),
+       MAX(movie_length)
+FROM movies
+GROUP BY movie_lang
+
+ movie_lang | min | max 
+------------+-----+-----
+ Portuguese | 140 | 145
+ German     | 165 | 165
+ Chinese    |  99 | 139
+ English    |  87 | 168
+ Swedish    | 128 | 128
+ Spanish    |  98 |  98
+ Korean     | 130 | 130
+ Japanese   | 107 | 120
+
+SELECT 
+    movie_lang,
+    MIN(movie_length),
+    MAX(movie_length)
+FROM
+    movies
+GROUP BY
+    movie_lang
+ORDER BY MAX(movie_length) DESC;
+
+ movie_lang | min | max 
+------------+-----+-----
+ English    |  87 | 168
+ German     | 165 | 165
+ Portuguese | 140 | 145
+ Chinese    |  99 | 139
+ Korean     | 130 | 130
+ Swedish    | 128 | 128
+ Japanese   | 107 | 120
+ Spanish    |  98 |  98
+
+</code></pre>
+<h2 id="having">HAVING</h2>
+<ul>
+<li>We use <code>HAVING</code> clause to specify a search condition for a <strong>group or an aggregate</strong></li>
+<li>The <strong><code>HAVING</code> clause is often used with the <code>GROUP BY</code></strong> clause to filter rows based on filter condition</li>
+<li>cannot use column alias with having clause because it is evaluated before the <code>SELECT</code> statement</li>
+</ul>
+<pre><code class="language-sql">SELECT 
+    column1,
+    AGGREGATE_FUNCTION(column2),
+FROM tablename
+GROUP BY column1
+HAVING 
+    condition;
+</code></pre>
+<ul>
+<li><code>HAVING AGGREGATE_FUNCTION(column2) = value</code></li>
+<li><code>HAVING AGGREGATE_FUNCTION(column2) &gt;= value</code></li>
+</ul>
+<pre><code class="language-sql">SELECT 
+    movie_lang, 
+    SUM(movie_length) 
+FROM 
+    movies 
+GROUP BY 
+    movie_lang 
+HAVING SUM(movie_length) &gt; 200 
+ORDER BY SUM(movie_length);
+
+ movie_lang | sum  
+------------+------
+ Portuguese |  285
+ Japanese   |  446
+ Chinese    |  609
+ English    | 4824
+
+</code></pre>
+<h3 id="having-vs-where">HAVING vs WHERE</h3>
+<ul>
+<li><code>HAVING</code> works on result group</li>
+<li><strong><code>WHERE</code> works on <code>SELECT</code> columns and not on the result group</strong></li>
+</ul>
+<pre><code class="language-sql">SELECT
+    movie_lang,
+    SUM(movie_length)
+FROM 
+    movies
+GROUP BY movie_lang
+ORDER BY 2 DESC;
+
+ movie_lang | sum  
+------------+------
+ English    | 4824
+ Chinese    |  609
+ Japanese   |  446
+ Portuguese |  285
+ German     |  165
+ Korean     |  130
+ Swedish    |  128
+ Spanish    |   98
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../miscellaneous/" class="btn btn-neutral float-right" title="OPERATORS">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../cte/" class="btn btn-neutral" title="Common Table Expression"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../cte/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../miscellaneous/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

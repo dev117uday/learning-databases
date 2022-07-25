@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+  <title>Partitioning Tables - Learning Datbases</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Partitioning Tables";
+    var mkdocs_page_input_path = "sql/advance-tables/paritioning-tables.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> Learning Datbases</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../..">Table of contents</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Cassandra</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cql/">CQL</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/data-modelling/">Data Modelling</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Mongodb</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongo-administration/">Mongo Administration</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb/">MongoDB</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mql/">MQL</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Redis</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../redis/redis/">Redis</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Sql</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../../order-of-sql-execution/">Order of SQL Execution</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Advance tables</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Partitioning Tables</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#table-inheritance">Table Inheritance</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#range-partitioning">Range Partitioning</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#list-partitioning">List Partitioning</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hash-partitioning">Hash Partitioning</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#default-partitioning">Default Partitioning</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#multilevel-partitioning">Multilevel Partitioning</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#attach-and-deattach-partitions">Attach and DeAttach Partitions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#altering-partitions">Altering Partitions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#partition-indexes">Partition Indexes</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Data types</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/json/">JSON</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/window/">Window</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/where/">WHERE Clause</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">Learning Datbases</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Sql &raquo;</li>
+        
+      
+        
+          <li>Advance tables &raquo;</li>
+        
+      
+    
+    <li>Partitioning Tables</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="partitioning-tables">Partitioning Tables</h1>
+<p><strong>It is splitting table into</strong></p>
+<ul>
+<li>logical division</li>
+<li>multiple smaller pieces</li>
+<li>more manageable pieces table</li>
+</ul>
+<p>Partition leads to a huge performance boost.</p>
+<p><strong>Types of ranges</strong></p>
+<ul>
+<li><code>Range</code> : The table is partitioned into "range" defined by a key column or set of columns, with no overlap between the ranges of values assigned to different partitions</li>
+<li><code>List</code> : According to a key in table, ex : country, sales</li>
+<li><code>Hash</code> : The partition specifying a modulus and a reminder for each partition. </li>
+</ul>
+<h2 id="table-inheritance">Table Inheritance</h2>
+<pre><code class="language-sql">create table master (
+    pk INTEGER primary key ,
+    tag text,
+    parent integer
+);
+
+create table master_child() inherits (master);
+
+ALTER TABLE public.master_child
+    ADD PRIMARY KEY (pk);
+
+
+select * from master;
+select * from master_child;
+
+insert into master (pk, tag, parent) values (1,'pencil',0);
+insert into master_child (pk, tag, parent) values (2,'pen',0);
+
+update master set tag = 'monitor' where pk = 2;
+
+select * from only master;
+select * from only master_child;
+
+-- error
+drop table master;
+drop table master cascade ;
+</code></pre>
+<h2 id="range-partitioning">Range Partitioning</h2>
+<pre><code class="language-sql">create table employees_range (
+    id bigserial,
+    birth_date DATE NOT NULL ,
+    country_code VARCHAR(2) NOT NULL
+) PARTITION BY RANGE (birth_date);
+
+CREATE TABLE employee_range_y2000 PARTITION of
+    employees_range for values from ('2000-01-01') to ('2001-01-01');
+
+CREATE TABLE employee_range_y2001 PARTITION of
+    employees_range for values from ('2001-01-01') to ('2002-01-01');
+
+
+insert into employees_range (birth_date, country_code) values
+('2000-01-01','US'),
+('2000-01-02','US'),
+('2000-12-31','US'),
+('2000-01-01','US'),
+('2001-01-01','US'),
+('2001-01-02','US'),
+('2001-12-31','US'),
+('2001-01-01','US');
+
+select * from employees_range;
+select * from only employees_range; -- you will get nothing
+select * from employee_range_y2000;
+select * from employee_range_y2001;
+
+explain analyze select * from employees_range 
+where birth_date = '2001-01-01';
+</code></pre>
+<h2 id="list-partitioning">List Partitioning</h2>
+<pre><code class="language-sql">create table employee_list (
+    id bigserial,
+    birth_date DATE NOT NULL ,
+    country_code VARCHAR(2) not null
+) PARTITION BY LIST ( country_code );
+
+create table employee_list_eu PARTITION of employee_list
+    for values in ('UK','DE');
+
+create table employee_list_us PARTITION of employee_list
+    for values in ('US','BZ');
+</code></pre>
+<h2 id="hash-partitioning">Hash Partitioning</h2>
+<pre><code class="language-sql">create table employee_hash (
+    id bigserial,
+    birth_date DATE NOT NULL,
+    country_code varchar(2) not null
+) PARTITION BY HASH (id);
+
+create table employee_hash_0 partition of employee_hash
+for values with (modulus 3, remainder 0);
+
+create table employee_hash_1 partition of employee_hash
+for values with (modulus 3, remainder 1);
+
+create table employee_hash_2 partition of employee_hash
+for values with (modulus 3, remainder 2);
+</code></pre>
+<h2 id="default-partitioning">Default Partitioning</h2>
+<pre><code class="language-sql">create table employee_default_part partition of employee_list default;
+</code></pre>
+<h2 id="multilevel-partitioning">Multilevel Partitioning</h2>
+<pre><code class="language-sql">create table employee_list_master (
+    id bigserial,
+    birth_date DATE NOT NULL ,
+    country_code VARCHAR(2) not null
+) PARTITION BY LIST ( country_code );
+
+create table employee_list_eu_m PARTITION of employee_list_master
+    for values in ('UK','DE')
+    partition by hash (id);
+
+create table employee_list_us_m PARTITION of employee_list_master
+    for values in ('US','BZ');
+
+create table employee_hash_0_m partition of employee_list_eu_m
+for values with (modulus 3, remainder 0);
+
+create table employee_hash_1_m partition of employee_list_eu_m
+for values with (modulus 3, remainder 1);
+
+create table employee_hash_2_m partition of employee_list_eu_m
+for values with (modulus 3, remainder 2);
+</code></pre>
+<h2 id="attach-and-deattach-partitions">Attach and DeAttach Partitions</h2>
+<pre><code class="language-sql">create table employees_list_sp partition of employee_list
+ for values in ('SP');
+
+insert into employee_list (birth_date, country_code) values ('2001-01-01','SP');
+
+create table employees_list_in partition of employee_list
+ for values in ('IN');
+
+create table employees_list_default partition of employee_list default
+
+ALTER TABLE employee_list detach partition employees_list_in;
+</code></pre>
+<h2 id="altering-partitions">Altering Partitions</h2>
+<pre><code class="language-sql">create table t1
+(
+    a int,
+    b int
+) partition by range (a);
+
+create table t1p1 partition of t1 for values from (0) to (1000);
+create table t1p2 partition of t1 for values from (2000) to (3000);
+
+insert into t1 (a, b)
+values (1, 1);
+
+-- detach
+-- alter
+-- attach
+
+
+BEGIN TRANSACTION ;
+ALTER TABLE T1 DETACH PARTITION t1p1;
+ALTER TABLE t1 attach partition t1p1 for values FROM (0) to (200);
+commit TRANSACTION;
+</code></pre>
+<h2 id="partition-indexes">Partition Indexes</h2>
+<ul>
+<li>Creating an index on the master/parent table will automatically create same indexes to every attached table partition</li>
+<li>PostgreSQL doesnt allow a way to create a single index covering every partition of the parent table. You have to create indexes for each table</li>
+</ul>
+<pre><code class="language-sql">create unique index idx_u_employee_list_id_country_code on employee_list
+    (id); -- error
+
+create unique index idx_u_employee_list_id_country_code on employee_list
+    (id,country_code); -- with paritition key
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../pivotal-or-crosstab-tables/" class="btn btn-neutral float-right" title="Pivotal or Crosstab Tables">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../managing-tables/" class="btn btn-neutral" title="Managing Tables"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../managing-tables/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../pivotal-or-crosstab-tables/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+  <title>Inner Join - Learning Datbases</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Inner Join";
+    var mkdocs_page_input_path = "sql/joins/inner-join.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> Learning Datbases</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../..">Table of contents</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Cassandra</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cql/">CQL</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/data-modelling/">Data Modelling</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Mongodb</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongo-administration/">Mongo Administration</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb/">MongoDB</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mql/">MQL</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Redis</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../redis/redis/">Redis</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Sql</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../../order-of-sql-execution/">Order of SQL Execution</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Advance tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Data types</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/json/">JSON</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Joins</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Inner Join</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#basic">Basic</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#selecting-only-required-columns">Selecting only required columns</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#with-where-clause">with WHERE clause</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inner-join-with-using">Inner Join with USING</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/window/">Window</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/where/">WHERE Clause</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">Learning Datbases</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Sql &raquo;</li>
+        
+      
+        
+          <li>Joins &raquo;</li>
+        
+      
+    
+    <li>Inner Join</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="inner-join">Inner Join</h1>
+<h2 id="basic">Basic</h2>
+<p><img alt="image" src="../assets/image%20%281%29%201.png" /></p>
+<p><strong>Remember : All common column defined at ON must match values on both tables</strong></p>
+<pre><code class="language-sql">-- syntax
+
+SELECT
+ table_a.column1
+ table_b.column2
+FROM
+ table_a
+INNER JOIN table_b ON table1.column1 = table2.column2
+
+
+SELECT mv.*,
+       dir.*
+FROM movies as mv
+         INNER JOIN directors as dir
+                    ON mv.director_id = dir.director_id
+LIMIT 5;
+
+-- director_id column will be repeated
+
+ movie_id |       movie_name       | movie_length | movie_lang | release_date | age_certificate | director_id | director_id | first_name | last_name | date_of_birth | nationality 
+----------+------------------------+--------------+------------+--------------+-----------------+-------------+-------------+------------+-----------+---------------+-------------
+       20 | Let the Right One In   |          128 | Swedish    | 2008-10-24   | 15              |           1 |           1 | Tomas      | Alfredson | 1965-04-01    | Swedish
+       46 | There Will Be Blood    |          168 | English    | 2007-12-26   | 15              |           2 |           2 | Paul       | Anderson  | 1970-06-26    | American
+       40 | The Darjeeling Limited |          119 | English    | 2007-09-29   | PG              |           3 |           3 | Wes        | Anderson  | 1969-05-01    | American
+       30 | Rushmore               |          104 | English    | 1998-11-12   | 12              |           3 |           3 | Wes        | Anderson  | 1969-05-01    | American
+       15 | Grand Budapest Hotel   |          117 | English    | 2014-07-03   | PG              |           3 |           3 | Wes        | Anderson  | 1969-05-01    | American
+
+</code></pre>
+<h3 id="selecting-only-required-columns">Selecting only required columns</h3>
+<pre><code class="language-sql">SELECT movie_name,
+       dir.first_name || ' ' || dir.last_name 
+           as &quot;Director Name&quot;,
+       mv.movie_id,
+       dir.director_id
+FROM movies as mv
+         INNER JOIN directors as dir 
+             ON mv.director_id = dir.director_id
+LIMIT 5;
+
+       movie_name       |  Director Name  | movie_id | director_id 
+------------------------+-----------------+----------+-------------
+ Let the Right One In   | Tomas Alfredson |       20 |           1
+ There Will Be Blood    | Paul Anderson   |       46 |           2
+ The Darjeeling Limited | Wes Anderson    |       40 |           3
+ Rushmore               | Wes Anderson    |       30 |           3
+ Grand Budapest Hotel   | Wes Anderson    |       15 |           3
+
+</code></pre>
+<h3 id="with-where-clause">with WHERE clause</h3>
+<pre><code class="language-sql">SELECT movie_name,
+       mv.movie_lang,
+       dir.first_name || ' ' || dir.last_name 
+          as &quot;Director Name&quot;,
+       mv.movie_id,
+       dir.director_id
+FROM movies as mv
+         INNER JOIN directors as dir
+            ON mv.director_id = dir.director_id
+WHERE mv.movie_lang = 'English' limit 5;
+
+       movie_name       | movie_lang | Director Name  | movie_id | director_id 
+------------------------+------------+----------------+----------+-------------
+ There Will Be Blood    | English    | Paul Anderson  |       46 |           2
+ The Darjeeling Limited | English    | Wes Anderson   |       40 |           3
+ Rushmore               | English    | Wes Anderson   |       30 |           3
+ Grand Budapest Hotel   | English    | Wes Anderson   |       15 |           3
+ Submarine              | English    | Richard Ayoade |       38 |           4
+</code></pre>
+<h2 id="inner-join-with-using">Inner Join with USING</h2>
+<ul>
+<li>we use USING  only when joining tables have the SAME column name, rather then ON !</li>
+</ul>
+<pre><code class="language-sql">select
+    table1.column1,
+    table2.column1
+from
+    table1
+INNER JOIN 
+    table2 USING (column1);
+
+
+select *
+from movies
+         INNER JOIN directors USING (director_id)
+LIMIT 10;
+
+ director_id | movie_id |     movie_name     | movie_length | movie_lang | release_date | age_certificate | first_name |  last_name   | date_of_birth | nationality 
+-------------+----------+--------------------+--------------+------------+--------------+-----------------+------------+--------------+---------------+-------------
+          13 |        1 | A Clockwork Orange |          112 | English    | 1972-02-02   | 18              | Stanley    | Kubrick      | 1928-07-26    | American
+           9 |        2 | Apocalypse Now     |          168 | English    | 1979-08-15   | 15              | Francis    | Ford Coppola | 1939-04-07    | American
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../left-and-right-join/" class="btn btn-neutral float-right" title="Left and Right JOIN">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../full-multiple-and-self-joins/" class="btn btn-neutral" title="Full, Multiple & Self Joins"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../full-multiple-and-self-joins/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../left-and-right-join/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

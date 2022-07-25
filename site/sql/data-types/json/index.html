@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+  <title>JSON - Learning Datbases</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "JSON";
+    var mkdocs_page_input_path = "sql/data-types/json.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> Learning Datbases</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../..">Table of contents</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Cassandra</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cql/">CQL</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/data-modelling/">Data Modelling</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Mongodb</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongo-administration/">Mongo Administration</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb/">MongoDB</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mql/">MQL</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Redis</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../redis/redis/">Redis</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Sql</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../../order-of-sql-execution/">Order of SQL Execution</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Advance tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Data types</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">JSON</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#json_1">JSON</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#json-vs-jsonb">JSON vs JSONB</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#operations">Operations</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#row_to_json">ROW_TO_JSON()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#json_agg">JSON_AGG()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#json_build">JSON_BUILD</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#json-functions">Json Functions</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#existence-operators">Existence Operators</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#searching-json">Searching JSON</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/window/">Window</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/where/">WHERE Clause</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">Learning Datbases</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Sql &raquo;</li>
+        
+      
+        
+          <li>Data types &raquo;</li>
+        
+      
+    
+    <li>JSON</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="json">JSON</h1>
+<h2 id="json_1">JSON</h2>
+<h3 id="json-vs-jsonb">JSON vs JSONB</h3>
+<table>
+<thead>
+<tr>
+<th align="left">JSON</th>
+<th align="left">JSONB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">stores data in text format</td>
+<td align="left">stores data in binary format</td>
+</tr>
+<tr>
+<td align="left">stores data AS-is</td>
+<td align="left">trims of white spaces</td>
+</tr>
+<tr>
+<td align="left">slower in operations</td>
+<td align="left">fASter in operations</td>
+</tr>
+<tr>
+<td align="left">doesn't support full text indexing</td>
+<td align="left">supports full text indexing</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql">SELECT '{
+    &quot;title&quot;:&quot;book 1&quot;}
+'::json;
+
+         json          
+-----------------------
+ {                    +
+     &quot;title&quot;:&quot;book 1&quot;}+
+
+(1 row)
+
+
+SELECT '
+  {&quot;title&quot;:&quot;book 1&quot;}
+  '::jsonb
+
+
+        jsonb        
+---------------------
+ {&quot;title&quot;: &quot;book 1&quot;}
+(1 row)
+</code></pre>
+<h3 id="operations">Operations</h3>
+<pre><code class="language-sql">CREATE TABLE books_jsonb
+(
+    id        serial primary key,
+    book_info JSONB
+);
+
+INSERT INTO books_jsonb (book_info)
+VALUES ('{
+  &quot;title&quot;: &quot;Book 1&quot;
+}'),
+('{
+  &quot;title&quot;: &quot;Book 2&quot;
+}'),
+('{
+  &quot;title&quot;: &quot;Book 3&quot;
+}');
+
+ id | title  
+----+--------
+  1 | Book 1
+  2 | Book 2
+  3 | Book 3
+
+
+SELECT id, book_info -&gt;&gt; 'title' AS &quot;title&quot;
+FROM books_jsonb
+WHERE book_info -&gt;&gt; 'title' = 'Book 1';
+
+ id | title  
+----+--------
+  1 | Book 1
+
+
+INSERT INTO books_jsonb (book_info)
+VALUES ('{ &quot;title&quot;: &quot;Book 10&quot; }');
+
+
+ id |      book_info       
+----+----------------------
+  1 | {&quot;title&quot;: &quot;Book 1&quot;}
+  2 | {&quot;title&quot;: &quot;Book 2&quot;}
+  3 | {&quot;title&quot;: &quot;Book 3&quot;}
+  4 | {&quot;title&quot;: &quot;Book 10&quot;}
+
+
+UPDATE books_jsonb
+SET book_info = book_info || '{&quot;title&quot;: &quot;Book 4&quot; }'
+WHERE book_info -&gt;&gt; 'title' = 'Book 10';
+
+ id |      book_info      
+----+---------------------
+  1 | {&quot;title&quot;: &quot;Book 1&quot;}
+  2 | {&quot;title&quot;: &quot;Book 2&quot;}
+  3 | {&quot;title&quot;: &quot;Book 3&quot;}
+  4 | {&quot;title&quot;: &quot;Book 4&quot;}
+
+
+UPDATE books_jsonb
+SET book_info = book_info || '{&quot;author&quot;: &quot;author 1&quot; }'
+WHERE book_info -&gt;&gt; 'title' = 'Book 1';
+
+ id |                 book_info                 
+----+-------------------------------------------
+  2 | {&quot;title&quot;: &quot;Book 2&quot;}
+  3 | {&quot;title&quot;: &quot;Book 3&quot;}
+  4 | {&quot;title&quot;: &quot;Book 4&quot;}
+  1 | {&quot;title&quot;: &quot;Book 1&quot;, &quot;author&quot;: &quot;author 1&quot;}
+
+
+UPDATE books_jsonb
+SET book_info = book_info - 'author'
+WHERE book_info -&gt;&gt; 'title' = 'Book 1';
+
+ id |      book_info      
+----+---------------------
+  1 | {&quot;title&quot;: &quot;Book 1&quot;}
+  2 | {&quot;title&quot;: &quot;Book 2&quot;}
+  3 | {&quot;title&quot;: &quot;Book 3&quot;}
+  4 | {&quot;title&quot;: &quot;Book 4&quot;}
+
+
+UPDATE books_jsonb
+SET book_info = book_info || '{&quot;available&quot;:[&quot;new delhi&quot;,&quot;Tokyo&quot;,&quot;sydney&quot;]}'
+WHERE book_info -&gt;&gt; 'title' = 'Book 1';
+
+ id |  book_info                                         
+
+  2 | {&quot;title&quot;: &quot;Book 2&quot;}
+  3 | {&quot;title&quot;: &quot;Book 3&quot;}
+  4 | {&quot;title&quot;: &quot;Book 4&quot;}
+  1 | {&quot;title&quot;: &quot;Book 1&quot;, &quot;author&quot;: &quot;author 1&quot;, &quot;available&quot;: [&quot;new delhi&quot;, &quot;Tokyo&quot;, &quot;sydney&quot;]}
+
+
+UPDATE books_jsonb
+SET book_info = book_info #- '{available,1}'
+WHERE book_info -&gt;&gt; 'title' = 'Book 1';
+
+ id |   Book_info                                    
+
+  2 | {&quot;title&quot;: &quot;Book 2&quot;}
+  3 | {&quot;title&quot;: &quot;Book 3&quot;}
+  4 | {&quot;title&quot;: &quot;Book 4&quot;}
+  1 | {&quot;title&quot;: &quot;Book 1&quot;, &quot;author&quot;: &quot;author 1&quot;, &quot;available&quot;: [&quot;new delhi&quot;, &quot;sydney&quot;]}
+</code></pre>
+<h3 id="row_to_json">ROW_TO_JSON()</h3>
+<pre><code class="language-sql">SELECT row_to_json(orders)
+FROM orders;
+
+ {&quot;order_id&quot;:10248,&quot;customer_id&quot;:&quot;VINET&quot;,&quot;employee_id&quot;:5,&quot;order_date&quot;:&quot;1996-07-04&quot;,&quot;required_date&quot;:&quot;1996-08-01&quot;,&quot;shipped_date&quot;:&quot;1996-07-16&quot;,&quot;ship_via&quot;:3,&quot;freight&quot;:32.38,&quot;ship_name&quot;:&quot;Vins et alcools Chevalier&quot;,&quot;ship_address&quot;:&quot;59 rue de l'Abbaye&quot;,&quot;ship_city&quot;:&quot;Reims&quot;,&quot;ship_region&quot;:null,&quot;ship_postal_code&quot;:&quot;51100&quot;,&quot;ship_country&quot;:&quot;France&quot;}
+
+SELECT row_to_json(t)
+FROM 
+(
+  SELECT *
+  FROM orders
+) AS t;
+
+ {&quot;order_id&quot;:10248,&quot;customer_id&quot;:&quot;VINET&quot;,&quot;employee_id&quot;:5,&quot;order_date&quot;:&quot;1996-07-04&quot;,&quot;required_date&quot;:&quot;1996-08-01&quot;,&quot;shipped_date&quot;:&quot;1996-07-16&quot;,&quot;ship_via&quot;:3,&quot;freight&quot;:32.38,&quot;ship_name&quot;:&quot;Vins et alcools Chevalier&quot;,&quot;ship_address&quot;:&quot;59 rue de l'Abbaye&quot;,&quot;ship_city&quot;:&quot;Reims&quot;,&quot;ship_region&quot;:null,&quot;ship_postal_code&quot;:&quot;51100&quot;,&quot;ship_country&quot;:&quot;France&quot;}
+</code></pre>
+<h3 id="json_agg">JSON_AGG()</h3>
+<pre><code class="language-sql">SELECT *
+FROM orders;
+
+SELECT director_id, first_name, lASt_name, 
+(
+  SELECT json_agg(x)
+  FROM 
+    (
+        SELECT movie_name
+        FROM movies mv
+        WHERE mv.director_id = directors.director_id
+    ) AS x
+) :: jsonb
+FROM directors;
+</code></pre>
+<h3 id="json_build">JSON_BUILD</h3>
+<pre><code class="language-sql">SELECT json_build_array(1, 2, 3, 4, 5, 6);
+
+  json_build_array  
+--------------------
+ [1, 2, 3, 4, 5, 6]
+
+
+SELECT json_build_array(1, 2, 3, 4, 5, 6, 'Hi');
+
+     json_build_array     
+--------------------------
+ [1, 2, 3, 4, 5, 6, &quot;Hi&quot;]
+
+
+-- error : argument list must have even number of elements
+SELECT json_build_object(1, 2, 3, 4, 5);
+
+SELECT json_build_object(1, 2, 3, 4, 5, 6, 7, 'Hi');
+
+            json_build_object            
+-----------------------------------------
+ {&quot;1&quot; : 2, &quot;3&quot; : 4, &quot;5&quot; : 6, &quot;7&quot; : &quot;Hi&quot;}
+
+
+SELECT json_object('{name,email}', '{&quot;adnan&quot;,&quot;a@b.com&quot;}');
+
+               json_object               
+-----------------------------------------
+ {&quot;name&quot; : &quot;adnan&quot;, &quot;email&quot; : &quot;a@b.com&quot;}
+</code></pre>
+<h3 id="json-functions">Json Functions</h3>
+<pre><code class="language-sql">CREATE TABLE directors_docs
+(
+    id   serial primary key,
+    body jsonb
+);
+
+
+SELECT director_id,
+       first_name,
+       last_name,
+       (
+           SELECT json_agg(x) AS all_movies
+           FROM (
+                    SELECT movie_name
+                    FROM movies mv
+                    WHERE mv.director_id = directors.director_id
+                ) x
+       ) :: jsonb
+FROM directors;
+
+
+INSERT INTO directors_docs (body)
+SELECT row_to_json(a)
+FROM (
+         SELECT director_id,
+                first_name,
+                last_name,
+                (
+                    SELECT json_agg(x) AS all_movies
+                    FROM (
+                             SELECT movie_name
+                             FROM movies mv
+                             WHERE mv.director_id = directors.director_id
+                         ) x
+                ) :: jsonb
+         FROM directors
+) AS a;
+
+SELECT *
+FROM directors_docs LIMIT 3;
+
+  1 | {&quot;last_name&quot;: &quot;Alfredson&quot;, &quot;all_movies&quot;: [{&quot;movie_name&quot;: &quot;Let the Right One In&quot;}], &quot;first_name&quot;: &quot;Tomas&quot;, &quot;director_id&quot;: 1}
+  2 | {&quot;last_name&quot;: &quot;Anderson&quot;, &quot;all_movies&quot;: [{&quot;movie_name&quot;: &quot;There Will Be Blood&quot;}], &quot;first_name&quot;: &quot;Paul&quot;, &quot;director_id&quot;: 2}
+  3 | {&quot;last_name&quot;: &quot;Anderson&quot;, &quot;all_movies&quot;: [{&quot;movie_name&quot;: &quot;Grand Budapest Hotel&quot;}, {&quot;movie_name&quot;: &quot;Rushmore&quot;}, {&quot;movie_name&quot;: &quot;The Darjeeling Limited&quot;}], &quot;first_name&quot;: &quot;Wes&quot;, &quot;director_id&quot;: 3}
+
+
+SELECT *, jsonb_array_length(body -&gt; 'all_movies') AS total_movies
+FROM directors_docs
+order by jsonb_array_length(body-&gt;'all_movies') DESC;
+
+ 13 | {&quot;last_name&quot;: &quot;Kubrick&quot;, &quot;all_movies&quot;: [{&quot;movie_name&quot;: &quot;A Clockwork Orange&quot;}, {&quot;movie_name&quot;: &quot;Eyes Wide Shut&quot;}, {&quot;movie_name&quot;: &quot;The Shining&quot;}], &quot;first_name&quot;: &quot;Stanley&quot;, &quot;director_id&quot;: 13}                                   |            3
+  3 | {&quot;last_name&quot;: &quot;Anderson&quot;, &quot;all_movies&quot;: [{&quot;movie_name&quot;: &quot;Grand Budapest Hotel&quot;}, {&quot;movie_name&quot;: &quot;Rushmore&quot;}, {&quot;movie_name&quot;: &quot;The Darjeeling Limited&quot;}], &quot;first_name&quot;: &quot;Wes&quot;, &quot;director_id&quot;: 3}                                |            3
+ 17 | {&quot;last_name&quot;: &quot;Lucas&quot;, &quot;all_movies&quot;: [{&quot;movie_name&quot;: &quot;Star Wars: A New Hope&quot;}, {&quot;movie_name&quot;: &quot;Star Wars: Empire Strikes Back&quot;}, {&quot;movie_name&quot;: &quot;Star Wars: Return of the Jedi&quot;}], &quot;first_name&quot;: &quot;George&quot;, &quot;director_id&quot;: 17} |            3
+
+
+SELECT *,jsonb_object_keys(body) FROM directors_docs;
+
+  1 | {&quot;last_name&quot;: &quot;Alfredson&quot;, &quot;all_movies&quot;: [{&quot;movie_name&quot;: &quot;Let the Right One In&quot;}], &quot;first_name&quot;: &quot;Tomas&quot;, &quot;director_id&quot;: 1} | last_name
+  1 | {&quot;last_name&quot;: &quot;Alfredson&quot;, &quot;all_movies&quot;: [{&quot;movie_name&quot;: &quot;Let the Right One In&quot;}], &quot;first_name&quot;: &quot;Tomas&quot;, &quot;director_id&quot;: 1} | all_movies
+  1 | {&quot;last_name&quot;: &quot;Alfredson&quot;, &quot;all_movies&quot;: [{&quot;movie_name&quot;: &quot;Let the Right One In&quot;}], &quot;first_name&quot;: &quot;Tomas&quot;, &quot;director_id&quot;: 1} | first_name
+
+
+SELECT j.key, j.value
+FROM directors_docs,
+     jsonb_each(body) j;
+
+    key     |                  value                   
+------------+------------------------------------------
+ last_name  | &quot;Alfredson&quot;
+ all_movies | [{&quot;movie_name&quot;: &quot;Let the Right One In&quot;}]
+ first_name | &quot;Tomas&quot;
+</code></pre>
+<h3 id="existence-operators">Existence Operators</h3>
+<pre><code class="language-sql">SELECT *
+FROM directors_docs
+WHERE body -&gt; 'first_name' ? 'John';
+
+ 14 | {&quot;last_name&quot;: &quot;Lasseter&quot;, &quot;all_movies&quot;: [{&quot;movie_name&quot;: &quot;Toy Story&quot;}], &quot;first_name&quot;: &quot;John&quot;, &quot;director_id&quot;: 14}
+</code></pre>
+<h3 id="searching-json">Searching JSON</h3>
+<pre><code class="language-sql">SELECT *
+FROM directors_docs
+WHERE body @&gt; '{&quot;first_name&quot;:&quot;John&quot;}';
+
+
+SELECT *
+FROM directors_docs
+WHERE body @&gt; '{&quot;director_id&quot;:1}';
+
+-- error : No operator matches the given name and argument types. You might need to add explicit type casts.
+SELECT *
+FROM directors_docs
+WHERE body -&gt; 'first_name' LIKE 'J%';
+
+
+SELECT *
+FROM directors_docs
+WHERE body -&gt;&gt; 'first_name' LIKE 'J%';
+
+SELECT *
+FROM directors_docs
+WHERE (body -&gt;&gt; 'director_id')::integer in (1,2,3,4,5,10);
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../miscellaneous-1/" class="btn btn-neutral float-right" title="Internal Functions">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../date-time-stamps/" class="btn btn-neutral" title="Date/Time/Stamps"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../date-time-stamps/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../miscellaneous-1/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

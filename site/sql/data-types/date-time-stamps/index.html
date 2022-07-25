@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../../img/favicon.ico">
+  <title>Date/Time/Stamps - Learning Datbases</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../../css/theme.css" />
+  <link rel="stylesheet" href="../../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Date/Time/Stamps";
+    var mkdocs_page_input_path = "sql/data-types/date-time-stamps.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../../.." class="icon icon-home"> Learning Datbases</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../..">Table of contents</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Cassandra</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cql/">CQL</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/data-modelling/">Data Modelling</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Mongodb</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongo-administration/">Mongo Administration</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb/">MongoDB</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mql/">MQL</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Redis</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../../redis/redis/">Redis</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Sql</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../../order-of-sql-execution/">Order of SQL Execution</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Advance tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="#">Data types</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Date/Time/Stamps</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#datetimestamps_1">Date/Time/Stamps</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#set-date-time-style">Set Date Time Style</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#make">Make</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#make_interval">Make_interval</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#make_timestamptz">Make_timestamptz</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#date-value-extractor">Date Value Extractor</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#extract">Extract</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#maths-operations-on-date-time">Maths Operations on Date Time</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#overlap">Overlap</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#current">Current</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#age">Age</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#epochs">Epochs</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#timezone">Timezone</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#date_part-and-date_trunc">date_part and date_trunc</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../json/">JSON</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/window/">Window</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/where/">WHERE Clause</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../..">Learning Datbases</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Sql &raquo;</li>
+        
+      
+        
+          <li>Data types &raquo;</li>
+        
+      
+    
+    <li>Date/Time/Stamps</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="datetimestamps">Date/Time/Stamps</h1>
+<h2 id="datetimestamps_1">Date/Time/Stamps</h2>
+<h3 id="set-date-time-style">Set Date Time Style</h3>
+<pre><code class="language-sql">-- show system date style
+SHOW datestyle;
+
+-- set new datestyle
+SET datestyle = 'ISO, DMY';
+SET datestyle = 'ISO, MDY';
+</code></pre>
+<h3 id="make">Make</h3>
+<pre><code class="language-sql">SELECT MAKE_DATE (2020,01,01);
+ make_date  
+------------
+ 2020-01-01
+
+SELECT MAKE_DATE (2020,01,01);
+ make_date  
+------------
+ 2020-01-01
+
+SELECT MAKE_TIME(2,3,14.65);
+  make_time  
+-------------
+ 02:03:14.65
+
+SELECT MAKE_TIMESTAMP (2020,02,02,10,20,45.44);
+
+    make_timestamp     
+------------------------
+ 2020-02-02 10:20:45.44
+</code></pre>
+<h3 id="make_interval">Make_interval</h3>
+<pre><code class="language-sql">SELECT MAKE_INTERVAL (2020,01,02,10,20,33);
+
+          make_interval           
+-----------------------------------
+ 2020 years 1 mon 24 days 20:33:00
+
+SELECT MAKE_INTERVAL (days =&gt; 10);
+
+make_interval 
+---------------
+ 10 days
+
+SELECT MAKE_INTERVAL (months =&gt; 7, days =&gt; 10, mins=&gt;35);
+
+     make_interval      
+-------------------------
+ 7 mons 10 days 00:35:00
+
+SELECT MAKE_INTERVAL (weeks =&gt; 10);
+
+make_interval 
+---------------
+ 70 days
+</code></pre>
+<h3 id="make_timestamptz">Make_timestamptz</h3>
+<pre><code class="language-sql">SELECT make_timestamptz(2020,02,02,10,30,45.55,'Asia/Calcutta');
+
+     make_timestamptz      
+---------------------------
+ 2020-02-02 05:00:45.55+00
+
+SELECT pg_typeof(make_timestamptz(2020,02,02,10,30,45.55));
+
+        pg_typeof         
+--------------------------
+ timestamp with time zone
+</code></pre>
+<h3 id="date-value-extractor">Date Value Extractor</h3>
+<ul>
+<li>https://www.postgresql.org/docs/8.1/functions-datetime.html</li>
+<li>https://www.postgresqltutorial.com/postgresql-extract/</li>
+</ul>
+<h3 id="extract">Extract</h3>
+<pre><code class="language-sql">select extract ('day' FROM current_timestamp), extract ('month' FROM current_timestamp), extract ('year' FROM current_timestamp);
+
+ date_part | date_part | date_part 
+-----------+-----------+-----------
+        14 |         8 |      2021
+
+select extract('epoch' FROM current_timestamp);
+
+     date_part     
+-------------------
+ 1628923887.158532
+
+
+select extract('century' FROM current_timestamp);
+
+ date_part 
+-----------
+        21
+</code></pre>
+<h3 id="maths-operations-on-date-time">Maths Operations on Date Time</h3>
+<pre><code class="language-sql">select '2020-02-02'::date + 04;
+
+  ?column?  
+------------
+ 2020-02-06
+
+select '23:59:59' + INTERVAL '1 SECOND';
+
+ ?column? 
+----------
+ 24:00:00
+
+select '23:59:59' + INTERVAL '2 SECOND';
+
+ ?column? 
+----------
+ 24:00:01
+
+SELECT CURRENT_TIMESTAMP + '01:01:01';
+
+           ?column?            
+-------------------------------
+ 2021-08-14 07:53:05.444791+00
+
+SELECT DATE '20200101' + TIME '10:25:10';
+
+      ?column?       
+---------------------
+ 2020-01-01 10:25:10
+
+SELECT '10:10:10' + TIME '10:25:10';
+
+ ?column? 
+----------
+ 20:35:20
+
+SELECT DATE '20200101' - INTERVAL '1 HOUR';
+
+      ?column?       
+---------------------
+ 2019-12-31 23:00:00
+
+SELECT INTERVAL '30 MINUTES' + '2 HOUR';
+
+ ?column? 
+----------
+ 02:30:00
+</code></pre>
+<h3 id="overlap">Overlap</h3>
+<pre><code class="language-sql">select
+    ( DATE '2020-01-01' , DATE '2020-12-31' )
+    OVERLAPS
+    ( DATE '2020-12-30', DATE '2020-12-01' );
+
+ overlaps 
+----------
+ t
+</code></pre>
+<h3 id="current">Current</h3>
+<pre><code class="language-sql">select
+    current_date,
+    current_time,
+    current_time(2),
+    current_timestamp;
+
+ current_date |    current_time    |  current_time  |       current_timestamp       
+ 2021-08-14   | 06:53:52.187847+00 | 06:53:52.19+00 | 2021-08-14 06:53:52.187847+00
+
+
+select localtime,
+    localtimestamp,
+    localtimestamp(2);
+
+    localtime    |       localtimestamp       |     localtimestamp     
+-----------------+----------------------------+------------------------
+ 06:54:07.540777 | 2021-08-14 06:54:07.540777 | 2021-08-14 06:54:07.54
+
+
+select
+   now(),
+   transaction_timestamp(),
+   clock_timestamp();
+
+now | transaction_timestamp | clock_timestamp        
+
+2021-08-14 06:54:31.371838+00 | 2021-08-14 06:54:31.371838+00 | 2021-08-14 06:54:31.371924+00
+
+
+select statement_timestamp(),
+   timeofday();
+
+statement_timestamp      |              timeofday              
+-------------------------------+-------------------------------------
+ 2021-08-14 06:55:07.202782+00 | Sat Aug 14 06:55:07.202849 2021 UTC
+</code></pre>
+<h3 id="age">Age</h3>
+<pre><code class="language-sql">select age('2020-01-01', '2019-10-01');
+
+  age   
+--------
+ 3 mons
+
+select age(timestamp '2020-01-01');
+
+          age          
+-----------------------
+ 1 year 7 mons 13 days
+
+select age(current_date, '2020-01-01');
+
+          age          
+-----------------------
+ 1 year 7 mons 13 days
+</code></pre>
+<h3 id="epochs">Epochs</h3>
+<pre><code class="language-sql">select age ( timestamp '2020-12-20', timestamp '2020-10-20' );
+
+  age   
+--------
+ 2 mons
+
+
+SELECT 
+    EXTRACT (EPOCH FROM TIMESTAMPTZ '2020-10-20')
+    - EXTRACT (EPOCH FROM TIMESTAMPTZ '2020-08-20') 
+        AS &quot;DIFFERENCE IN SECONDS&quot;;
+
+ DIFFERENCE IN SECONDS 
+-----------------------
+               5270400
+</code></pre>
+<h3 id="timezone">Timezone</h3>
+<pre><code class="language-sql">SELECT * FROM pg_timezone_names;
+
+SELECT * FROM pg_timezone_abbrevs;
+
+SHOW TIME ZONE;
+
+SET TIME ZONE 'Asia/Calcutta';
+</code></pre>
+<h3 id="date_part-and-date_trunc">date_part and date_trunc</h3>
+<pre><code class="language-sql">SELECT date_part ('day', date '2021-11-07');
+
+ date_part 
+-----------
+         7
+
+
+SELECT date_trunc('hour', 
+    timestamptz '2021-07-16 23:38:40.775719 +05:30');
+
+       date_trunc       
+------------------------
+ 2021-07-16 18:00:00+00
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../json/" class="btn btn-neutral float-right" title="JSON">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../arrays/" class="btn btn-neutral" title="Arrays"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../arrays/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../json/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

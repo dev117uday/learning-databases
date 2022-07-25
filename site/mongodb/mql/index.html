@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>MQL - Learning Datbases</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "MQL";
+    var mkdocs_page_input_path = "mongodb/mql.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Learning Datbases</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../..">Table of contents</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Cassandra</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../cassandra/cql/">CQL</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../cassandra/data-modelling/">Data Modelling</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Mongodb</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../mongo-administration/">Mongo Administration</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../mongodb-aggregation/">MongoDB Aggregation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../mongodb/">MongoDB</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">MQL</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#mongodb">MongoDB</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#queries">Queries</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#find">Find</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#insert">Insert</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#insert-conflicts">Insert conflicts</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#updates">Updates</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#upsert">Upsert</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#delete">Delete</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#operators">Operators</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#expr">EXPR</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#array">Array</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#array-operators-and-projection">Array operators and Projection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#array-operators-and-sub-documents">Array Operators and Sub-Documents</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sort-and-limit">Sort and Limit</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Redis</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../redis/redis/">Redis</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Sql</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../sql/order-of-sql-execution/">Order of SQL Execution</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Advance tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/advance-tables/internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/advance-tables/managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/advance-tables/paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/advance-tables/pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Data types</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/json/">JSON</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/data-types/user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/functions/">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/functions/cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/functions/pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/functions/stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../sql/functions/triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../sql/functions/triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/summarization/window/">Window</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/tables/where/">WHERE Clause</a>
+                </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../sql/working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Learning Datbases</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Mongodb &raquo;</li>
+        
+      
+    
+    <li>MQL</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="mql">MQL</h1>
+<h2 id="mongodb">MongoDB</h2>
+<ul>
+<li>Data is stored in documents</li>
+<li>Documents are stored in Collections</li>
+<li>Document here refers to JSON</li>
+<li>Redundant copies of data are stored in replica set</li>
+<li>JSON is stored as BSON internally in MongoDB</li>
+</ul>
+<pre><code class="language-bash"># FOR BSON, use dump (backup) and restore (restore backup)
+
+mongodump --uri &quot;mongodb+srv://&lt;your username&gt;:&lt;your password&gt;@&lt;your cluster&gt;.mongodb.net/&lt;database name&gt;&quot;
+
+# drop will delete the stuff already in and create the new object from restore
+
+mongorestore --uri &quot;mongodb+srv://&lt;your username&gt;:&lt;your password&gt;@&lt;your cluster&gt;.mongodb.net/&lt;database name&gt;&quot;  --drop dump
+
+# FOR JSON, use export (backup) and import (import backup)
+
+# collection to specify which collection
+# out to specify the file name to export to
+
+mongoexport --uri=&quot;mongodb+srv://&lt;your username&gt;:&lt;your password&gt;@&lt;your cluster&gt;.mongodb.net/&lt;database name&gt;&quot; --collection=sales --out=sales.json
+
+mongoimport --uri=&quot;mongodb+srv://&lt;your username&gt;:&lt;your password&gt;@&lt;your cluster&gt;.mongodb.net/&lt;database name&gt;&quot; --drop sales.json
+</code></pre>
+<pre><code class="language-bash"># to look at all databases available
+show dbs
+
+# to connect to a database
+use sample_training
+
+# to look at collections inside a database
+show collections
+</code></pre>
+<h2 id="queries">Queries</h2>
+<h3 id="find">Find</h3>
+<pre><code class="language-bash">db.zips.find({&quot;state&quot;: &quot;NY&quot;})
+
+# Use 'it' : iterates through a cursor
+# cursor : A pointer to a result set of query
+# pointer : A direct address of memory location
+
+db.zips.find({&quot;state&quot;: &quot;NY&quot;}).count()
+
+db.zips.find({&quot;state&quot;: &quot;NY&quot;, &quot;city&quot;: &quot;ALBANY&quot;})
+
+db.zips.find({&quot;state&quot;: &quot;NY&quot;, &quot;city&quot;: &quot;ALBANY&quot;}).pretty()
+
+# get random one
+db.inspections.findOne()
+</code></pre>
+<ul>
+<li>Each Document has a unique object <code>_id</code> which is set by default if not specfied</li>
+</ul>
+<h3 id="insert">Insert</h3>
+<pre><code class="language-bash">db.inspections.insert({
+      &quot;_id&quot; : ObjectId(&quot;56d61033a378eccde8a8354f&quot;),
+      &quot;id&quot; : &quot;10021-2015-ENFO&quot;,
+      &quot;certificate_number&quot; : 9278806,
+      &quot;business_name&quot; : &quot;ATLIXCO DELI GROCERY INC.&quot;,
+      &quot;date&quot; : &quot;Feb 20 2015&quot;,
+      &quot;result&quot; : &quot;No Violation Issued&quot;,
+      &quot;sector&quot; : &quot;Cigarette Retail Dealer - 127&quot;,
+      &quot;address&quot; : {
+              &quot;city&quot; : &quot;RIDGEWOOD&quot;,
+              &quot;zip&quot; : 11385,
+              &quot;street&quot; : &quot;MENAHAN ST&quot;,
+              &quot;number&quot; : 1712
+         }
+  })
+
+db.inspections.insert({
+      &quot;id&quot; : &quot;10021-2015-ENFO&quot;,
+      &quot;certificate_number&quot; : 9278806,
+      &quot;business_name&quot; : &quot;ATLIXCO DELI GROCERY INC.&quot;,
+      &quot;date&quot; : &quot;Feb 20 2015&quot;,
+      &quot;result&quot; : &quot;No Violation Issued&quot;,
+      &quot;sector&quot; : &quot;Cigarette Retail Dealer - 127&quot;,
+      &quot;address&quot; : {
+              &quot;city&quot; : &quot;RIDGEWOOD&quot;,
+              &quot;zip&quot; : 11385,
+              &quot;street&quot; : &quot;MENAHAN ST&quot;,
+              &quot;number&quot; : 1712
+         }
+  })
+
+db.inspections.find(
+      {&quot;id&quot; : &quot;10021-2015-ENFO&quot;, &quot;certificate_number&quot; : 9278806}
+).pretty()
+</code></pre>
+<h3 id="insert-conflicts">Insert conflicts</h3>
+<pre><code class="language-bash"># Insert three test documents
+db.inspections.insert([ { &quot;test&quot;: 1 }, { &quot;test&quot;: 2 }, { &quot;test&quot;: 3 } ])
+
+# Insert three test documents but specify the _id values
+# Error in 2 docs
+# Insert operation halts when an error is in-countered
+db.inspections.insert([{ &quot;_id&quot;: 1, &quot;test&quot;: 1 },{ &quot;_id&quot;: 1, &quot;test&quot;: 2 },
+                       { &quot;_id&quot;: 3, &quot;test&quot;: 3 }])
+
+# Find the documents with _id: 1
+db.inspections.find({ &quot;_id&quot;: 1 })
+
+# Insert multiple documents specifying the _id values, 
+# and using the &quot;ordered&quot;: false option
+# Ordered False will allow to insert all docs where id doesnt match, 
+# and give errors for those which failed
+db.inspections.insert([{ &quot;_id&quot;: 1, &quot;test&quot;: 1 },{ &quot;_id&quot;: 1, &quot;test&quot;: 2 },
+                       { &quot;_id&quot;: 3, &quot;test&quot;: 3 }],{ &quot;ordered&quot;: false })
+
+# Insert multiple documents with _id: 1 with the default &quot;ordered&quot;: true setting
+db.inspection.insert([{ &quot;_id&quot;: 1, &quot;test&quot;: 1 },{ &quot;_id&quot;: 3, &quot;test&quot;: 3 }])
+</code></pre>
+<h3 id="updates">Updates</h3>
+<p><a href="https://docs.mongodb.com/manual/reference/operator/update/#id1">https://docs.mongodb.com/manual/reference/operator/update/#id1</a></p>
+<pre><code class="language-bash"># Find all documents in the zips collection 
+# where the zip field is equal to &quot;12434&quot;.
+
+db.zips.find({ &quot;zip&quot;: &quot;12534&quot; }).pretty()
+
+# Find all documents in the zips collection 
+# where the city field is equal to &quot;HUDSON&quot;.
+
+db.zips.find({ &quot;city&quot;: &quot;HUDSON&quot; }).pretty()
+
+# Update all documents in the zips collection 
+# where the city field is equal to &quot;HUDSON&quot; 
+# by adding 10 to the current value of the &quot;pop&quot; field.
+# Increment Operation
+
+db.zips.updateMany({ &quot;city&quot;: &quot;HUDSON&quot; }, { &quot;$inc&quot;: { &quot;pop&quot;: 10 } })
+
+# Update a single document in the zips 
+# collection where the zip field is 
+# equal to &quot;12534&quot; by setting the value 
+# of the &quot;pop&quot; field to 17630.
+# Update / Set operation
+
+db.zips.updateOne({ &quot;zip&quot;: &quot;12534&quot; }, { &quot;$set&quot;: { &quot;pop&quot;: 17630 } })
+
+# Update a single document in the zips 
+# collection where the zip field is equal 
+# to &quot;12534&quot; by setting the value of 
+# the &quot;popupation&quot; field to 17630.
+# Update / Set operation
+
+db.zips.updateOne({ &quot;zip&quot;: &quot;12534&quot; }, { &quot;$set&quot;: { &quot;population&quot;: 17630 } })
+
+# Find all documents in the grades 
+# collection where the student_id 
+# field is 151 , and the class_id field is 339.
+
+db.grades.find({ &quot;student_id&quot;: 151, &quot;class_id&quot;: 339 }).pretty()
+
+# Update one document in the grades 
+# collection where the student_id is 
+# `250` *, and the class_id field is 339, 
+# by adding a document element to the &quot;scores&quot; array.
+
+db.grades.updateOne({ &quot;student_id&quot;: 250, &quot;class_id&quot;: 339 },
+                    { &quot;$push&quot;: { &quot;scores&quot;: { &quot;type&quot;: &quot;extra credit&quot;,
+                                             &quot;score&quot;: 100 }
+                                }
+                     })
+
+db.grades.find({ &quot;student_id&quot;: 250, &quot;class_id&quot;: 339 })
+</code></pre>
+<h3 id="upsert">Upsert</h3>
+<pre><code class="language-bash">db.iot.updateOne({ &quot;sensor&quot;: r.sensor, &quot;date&quot;: r.date,
+                   &quot;valcount&quot;: { &quot;$lt&quot;: 48 } },
+                         { &quot;$push&quot;: { &quot;readings&quot;: { &quot;v&quot;: r.value, &quot;t&quot;: r.time } },
+                        &quot;$inc&quot;: { &quot;valcount&quot;: 1, &quot;total&quot;: r.value } },
+                 { &quot;upsert&quot;: true })
+</code></pre>
+<h3 id="delete">Delete</h3>
+<pre><code class="language-bash"># Look at all the docs that have test field equal to 1.
+db.inspections.find({ &quot;test&quot;: 1 }).pretty()
+
+# Delete all the documents that have test field equal to 1.
+db.inspections.deleteMany({ &quot;test&quot;: 1 })
+
+# Delete one document that has test field equal to 3.
+db.inspections.deleteOne({ &quot;test&quot;: 3 })
+
+# Inspect what is left of the inspection collection.
+db.inspection.find().pretty()
+# View what collections are present in the sample_training collection.
+show collections
+
+# Drop the inspection collection.
+db.inspection.drop()
+</code></pre>
+<h3 id="operators">Operators</h3>
+<pre><code class="language-bash"># Find all documents where the tripduration 
+# was less than or equal to 70 seconds and 
+# the usertype was not Subscriber:
+# LESS THAN EQUAL
+# NOT EQUAL
+
+db.trips.find({ &quot;tripduration&quot;: { &quot;$lte&quot; : 70 },
+                &quot;usertype&quot;: { &quot;$ne&quot;: &quot;Subscriber&quot; } }).pretty()
+
+# Find all documents where the tripduration
+# was less than or equal to 70 seconds and 
+# the usertype was Customer using a redundant equality operator:
+# LESS THAN EQUAL
+# EQUAL
+
+db.trips.find({ &quot;tripduration&quot;: { &quot;$lte&quot; : 70 },
+                &quot;usertype&quot;: { &quot;$eq&quot;: &quot;Customer&quot; }}).pretty()
+
+# Find all documents where the tripduration
+# was less than or equal to 70 seconds and 
+# the usertype was Customer using the implicit equality operator:
+# LESS THAN EQUAL
+
+db.trips.find({ &quot;tripduration&quot;: { &quot;$lte&quot; : 70 },
+                &quot;usertype&quot;: &quot;Customer&quot; }).pretty()
+
+# Find all documents where airplanes CR2 or A81 
+# left or landed in the KZN airport:
+
+# AND, OR operator
+
+db.routes.find({ &quot;$and&quot;: [ { &quot;$or&quot; :[ { &quot;dst_airport&quot;: &quot;KZN&quot; },
+                                    { &quot;src_airport&quot;: &quot;KZN&quot; }
+                                  ] },
+                          { &quot;$or&quot; :[ { &quot;airplane&quot;: &quot;CR2&quot; },
+                                     { &quot;airplane&quot;: &quot;A81&quot; } ] }
+                         ]}).pretty()
+</code></pre>
+<ul>
+<li>AND operator is present in your qureies when not specified</li>
+</ul>
+<h3 id="expr">EXPR</h3>
+<pre><code class="language-bash"># Find all documents where the trip started
+# and ended at the same station:
+# here $ denotes the value of the field specified
+
+db.trips.find(
+    { &quot;$expr&quot;: { &quot;$eq&quot;: [ &quot;$end station id&quot;, &quot;$start station id&quot;] }
+}).count()
+
+# replacing id with name
+
+db.trips.find(
+    { &quot;$expr&quot;: { &quot;$eq&quot;: [ &quot;$end station name&quot;, &quot;$start station name&quot;]}
+}).count()
+
+
+# Find all documents where the trip lasted 
+# longer than 1200 seconds, and started 
+# and ended at the same station:
+
+db.trips.find({ &quot;$expr&quot;: { &quot;$and&quot;: [ { &quot;$gt&quot;: [ &quot;$tripduration&quot;, 1200 ]},
+                         { &quot;$eq&quot;: [ &quot;$end station id&quot;, &quot;$start station id&quot; ]}
+                       ]}}).count()
+</code></pre>
+<h2 id="array">Array</h2>
+<pre><code class="language-bash"># using ALL operator
+
+db.listingsAndReviews.find(
+    { &quot;amenities&quot;: 
+        {
+          &quot;$size&quot;: 20,
+          &quot;$all&quot;: [ &quot;Internet&quot;, &quot;Wifi&quot;,  &quot;Kitchen&quot;,
+                   &quot;Heating&quot;, &quot;Family/kid friendly&quot;,
+                   &quot;Washer&quot;, &quot;Dryer&quot;, &quot;Essentials&quot;,
+                   &quot;Shampoo&quot;, &quot;Hangers&quot;,
+                   &quot;Hair dryer&quot;, &quot;Iron&quot;,
+                   &quot;Laptop friendly workspace&quot; ]
+        }
+    }).pretty()
+</code></pre>
+<h3 id="array-operators-and-projection">Array operators and Projection</h3>
+<pre><code class="language-bash"># Find all documents with exactly 20 amenities which include 
+# all the amenities listed in the query array, 
+# and display their price and address:
+
+db.listingsAndReviews.find({ &quot;amenities&quot;:
+        { &quot;$size&quot;: 20, &quot;$all&quot;: [ &quot;Internet&quot;, &quot;Wifi&quot;,  &quot;Kitchen&quot;, &quot;Heating&quot;,
+                                 &quot;Family/kid friendly&quot;, &quot;Washer&quot;, &quot;Dryer&quot;,
+                                 &quot;Essentials&quot;, &quot;Shampoo&quot;, &quot;Hangers&quot;,
+                                 &quot;Hair dryer&quot;, &quot;Iron&quot;,
+                                 &quot;Laptop friendly workspace&quot; ] } },
+                            {&quot;price&quot;: 1, &quot;address&quot;: 1}).pretty()
+
+# Find all documents that have Wifi as one of the amenities 
+# only include price and address in the resulting cursor:
+
+db.listingsAndReviews.find({ &quot;amenities&quot;: &quot;Wifi&quot; },
+                           { &quot;price&quot;: 1, &quot;address&quot;: 1, &quot;_id&quot;: 0 }).pretty()
+
+# Find all documents that have Wifi as one of the amenities 
+# only include price and address in the resulting cursor, 
+# also exclude ``&quot;maximum_nights&quot;``. **This will be an error:*
+
+db.listingsAndReviews.find({ &quot;amenities&quot;: &quot;Wifi&quot; },
+                           { &quot;price&quot;: 1, &quot;address&quot;: 1,
+                             &quot;_id&quot;: 0, &quot;maximum_nights&quot;:0 }).pretty()
+
+# nested projection
+
+db.listingsAndReviews.find({ &quot;amenities&quot;: &quot;Wifi&quot; }, { &quot;price&quot;: 1, &quot;address&quot;: { &quot;country&quot; : 1 }, &quot;_id&quot;: 0 }).pretty()
+
+
+# Switch to this database:
+use sample_training
+
+# Get one document from the collection:
+db.grades.findOne()
+
+# Elematch Example
+
+# Find all documents where the student in class 431 received 
+# a grade higher than 85 for any type of assignment:
+
+db.grades.find({ &quot;class_id&quot;: 431 },
+               { &quot;scores&quot;: { &quot;$elemMatch&quot;: { &quot;score&quot;: { &quot;$gt&quot;: 85 } } }
+             }).pretty()
+
+# Find all documents where the student had an extra credit score:
+
+db.grades.find({ &quot;scores&quot;: { &quot;$elemMatch&quot;: { &quot;type&quot;: &quot;extra credit&quot; } }
+               }).pretty()
+</code></pre>
+<ul>
+<li><code>Elematch</code> : matches documents that contains an array field with at least one element that matches the specified query creteria</li>
+<li><code>Elematch</code> : Projects only the array elements with at least one element that matches the specified criteria</li>
+</ul>
+<h3 id="array-operators-and-sub-documents">Array Operators and Sub-Documents</h3>
+<pre><code class="language-bash">use sample_training
+
+db.trips.findOne({ &quot;start station location.type&quot;: &quot;Point&quot; })
+
+db.companies.find({ &quot;relationships.0.person.last_name&quot;: &quot;Zuckerberg&quot; },
+                  { &quot;name&quot;: 1 }).pretty()
+
+db.companies.find({ &quot;relationships.0.person.first_name&quot;: &quot;Mark&quot;,
+                    &quot;relationships.0.title&quot;: { &quot;$regex&quot;: &quot;CEO&quot; } },
+                  { &quot;name&quot;: 1 }).count()
+
+
+db.companies.find({ &quot;relationships.0.person.first_name&quot;: &quot;Mark&quot;,
+                    &quot;relationships.0.title&quot;: {&quot;$regex&quot;: &quot;CEO&quot; } },
+                  { &quot;name&quot;: 1 }).pretty()
+
+db.companies.find({ &quot;relationships&quot;:
+                      { &quot;$elemMatch&quot;: { &quot;is_past&quot;: true,
+                                        &quot;person.first_name&quot;: &quot;Mark&quot; } } },
+                  { &quot;name&quot;: 1 }).pretty()
+
+db.companies.find({ &quot;relationships&quot;:
+                      { &quot;$elemMatch&quot;: { &quot;is_past&quot;: true,
+                                        &quot;person.first_name&quot;: &quot;Mark&quot; } } },
+                  { &quot;name&quot;: 1 }).count()
+</code></pre>
+<h2 id="sort-and-limit">Sort and Limit</h2>
+<ul>
+<li>Use sort before limit always</li>
+</ul>
+<pre><code class="language-bash">db.zips.find().sort({ &quot;pop&quot;: 1 }).limit(1)
+
+db.zips.find({ &quot;pop&quot;: 0 }).count()
+
+db.zips.find().sort({ &quot;pop&quot;: -1 }).limit(1)
+
+db.zips.find().sort({ &quot;pop&quot;: -1 }).limit(10)
+
+db.zips.find().sort({ &quot;pop&quot;: 1, &quot;city&quot;: -1 })
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../redis/redis/" class="btn btn-neutral float-right" title="Redis">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../mongodb/" class="btn btn-neutral" title="MongoDB"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../mongodb/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../redis/redis/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
