@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../../img/favicon.ico" />
+    <title>More on Triggers - Learning Datbases</title>
+    <link rel="stylesheet" href="../../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "More on Triggers";
+        var mkdocs_page_input_path = "sql/functions/triggers/more-on-triggers.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../../.." class="icon icon-home"> Learning Datbases
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../..">Table of contents</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Cassandra</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../cassandra/cql/">CQL</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../cassandra/data-modelling/">Data Modelling</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mongodb</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../mongodb/mongo-administration/">Mongo Administration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../mongodb/mongodb/">MongoDB</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../mongodb/mql/">MQL</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Redis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../../redis/redis/">Redis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sql</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../../order-of-sql-execution/">Order of SQL Execution</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Advance tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../advance-tables/internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../advance-tables/managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../advance-tables/paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../advance-tables/pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Data types</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../data-types/">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../data-types/arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../data-types/date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../data-types/json/">JSON</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../data-types/miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../data-types/sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../data-types/user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Functions</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../../">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Triggers</a>
+    <ul class="current">
+                <li class="toctree-l3"><a class="reference internal" href="../">Triggers</a>
+                </li>
+                <li class="toctree-l3 current"><a class="reference internal current" href="./">More on Triggers</a>
+    <ul class="current">
+    <li class="toctree-l4"><a class="reference internal" href="#getting-internal-information">Getting Internal Information</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#disallow-delete-on-table">Disallow DELETE on table</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#disallow-truncating">Disallow truncating</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#creating-audit-trigger">Creating Audit Trigger</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#creating-conditional-triggers">Creating Conditional Triggers</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#disallow-updating-primary-key-of-table">Disallow updating Primary Key of table</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#event-triggers">Event Triggers</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#dont-allow-anyone-to-create-table-between-time">Dont allow anyone to create table between time</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#dropping-event-trigger">Dropping event trigger</a>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../summarization/window/">Window</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../tables/where/">WHERE Clause</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../../working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../../working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../..">Learning Datbases</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Sql &raquo;</li>
+          <li>Functions &raquo;</li>
+          <li>Triggers &raquo;</li>
+      <li>More on Triggers</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="more-on-triggers">More on Triggers</h1>
+<h2 id="getting-internal-information">Getting Internal Information</h2>
+<pre><code class="language-sql">
+CREATE OR REPLACE FUNCTION fn_trigger_variables_display()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS
+$$
+
+    BEGIN
+
+        RAISE NOTICE 'TG_NAME: %', TG_NAME;
+        RAISE NOTICE 'TG_RELNAME: %', TG_RELNAME;
+        RAISE NOTICE 'TG_TABLE_SCHEMA: %', TG_TABLE_SCHEMA;
+        RAISE NOTICE 'TG_WHEN: %', TG_WHEN;
+        RAISE NOTICE 'TG_LEVEL: %', TG_LEVEL;
+        RAISE NOTICE 'TG_OP: %', TG_OP;
+        RAISE NOTICE 'TG_NARGS: %', TG_NARGS;
+        RAISE NOTICE 'TG_ARGV: %', TG_NAME;
+
+        RETURN NEW;
+    END;
+$$
+
+CREATE TRIGGER trg_trigger_variables_display
+    AFTER INSERT
+    ON t_temperature_log
+    FOR EACH ROW
+    EXECUTE PROCEDURE fn_trigger_variables_display();
+
+INSERT INTO t_temperature_log  ( add_date, temperature ) values ('2020-02-02', -40);
+</code></pre>
+<h2 id="disallow-delete-on-table">Disallow DELETE on table</h2>
+<pre><code class="language-sql">
+-- create sample table
+
+create table test_delete (
+    id int
+);
+
+insert into test_delete (id ) values (1),(2),(3);
+
+select * from test_delete;
+
+-- creating function
+
+create or replace function fn_generic_cancel_op()
+returns trigger
+language plpgsql
+as
+$$
+    begin
+
+    if TG_WHEN = 'AFTER' THEN
+        raise exception 'you are not allowed to % rows in %.%', tg_op,tg_table_schema,tg_table_name;
+    end if;
+
+    raise notice '% on rows in %.% wont happen', tg_op, tg_table_schema, tg_table_name;
+    return null; 
+
+    end;
+$$
+
+-- creating trigger : AFTER
+
+CREATE TRIGGER trg_disallow_delete
+AFTER DELETE
+ON test_delete
+FOR EACH ROW
+EXECUTE PROCEDURE fn_generic_cancel_op();
+
+delete from test_delete where id = 1;
+
+-- creating trigger : BEFORE
+
+CREATE TRIGGER trg_disallow_delete_before
+BEFORE DELETE
+ON test_delete
+FOR EACH ROW
+EXECUTE PROCEDURE fn_generic_cancel_op();
+
+delete from test_delete where id = 1;
+
+-- checking
+
+select * from test_delete;
+</code></pre>
+<h2 id="disallow-truncating">Disallow truncating</h2>
+<pre><code class="language-sql">CREATE TRIGGER trg_disallow_truncate_after
+AFTER TRUNCATE
+ON test_delete
+FOR EACH STATEMENT
+EXECUTE PROCEDURE fn_generic_cancel_op();
+
+
+CREATE TRIGGER trg_disallow_truncate_beforE
+BEFORE TRUNCATE
+ON test_delete
+FOR EACH STATEMENT
+EXECUTE PROCEDURE fn_generic_cancel_op();
+</code></pre>
+<h2 id="creating-audit-trigger">Creating Audit Trigger</h2>
+<ul>
+<li>To log data changes to tables in a consistent and transparent manner.</li>
+</ul>
+<pre><code class="language-sql">CREATE TABLE  audit (
+    id INT
+);
+
+CREATE TABLE audit_log (
+    username TEXT,
+    add_time TIMESTAMP,
+    table_name TEXT,
+    operation TEXT,
+    row_before JSON,
+    row_after JSON
+);
+</code></pre>
+<ul>
+<li>Please not that new OLD are not null for DELETE and INSERT triggers.</li>
+</ul>
+<pre><code class="language-sql">CREATE OR REPLACE FUNCTION fn_audit_trigger()
+RETURNS TRIGGER 
+LANGUAGE PLPGSQL
+AS
+$$
+BEGIN
+
+    DECLARE
+        old_row json = NULL;
+        new_row json = NULL;
+
+    BEGIN
+
+        IF TG_OP IN ('UPDATE','DELETE') THEN
+
+            old_row = row_to_json(OLD);
+
+
+        END IF;
+
+        IF TG_OP IN ('INSERT','UPDATE') THEN
+
+            new_row = row_to_json(NEW);
+
+        END IF;
+
+        INSERT INTO audit_log 
+            ( username, add_time, table_name, operation, row_before, row_after )
+        values
+            (
+                session_user,
+                NOW(),
+                TG_TABLE_SCHEMA || '.' || TG_TABLE_NAME,
+                TG_OP,
+                old_row,
+                new_row
+            );
+
+        RETURN NEW;
+    END;    
+
+END;
+$$
+
+-- bind trigger
+
+CREATE TRIGGER trg_audit_trigger
+AFTER INSERT OR UPDATE OR DELETE
+ON audit
+FOR EACH ROW
+EXECUTE PROCEDURE fn_audit_trigger();
+
+-- Queries
+
+insert into audit(id) values (1),(2),(3);
+
+update audit
+set id = '100'
+where id = 1;
+
+delete from audit
+where id = 2;
+
+select * from audit;
+select * from audit_log;
+
+</code></pre>
+<h2 id="creating-conditional-triggers">Creating Conditional Triggers</h2>
+<ul>
+<li>Created by using generic WHEN clause.</li>
+<li>With a WHEN clause, you can write some conditions except a subquery</li>
+</ul>
+<pre><code class="language-sql">
+-- sample table
+
+CREATE TABLE mytask (
+    task_id SERIAL PRIMARY KEY,
+    task text
+);
+
+-- trigger function
+
+CREATE OR REPLACE FUNCTION fn_cancel_with_message()
+RETURNS TRIGGER 
+LANGUAGE PLPGSQL
+AS
+$$
+BEGIN
+
+    RAISE EXCEPTION '%', TG_ARGV[0];
+
+    RETURN NULL;
+
+END;
+$$
+
+-- function binding to trigger
+
+CREATE TRIGGER trg_no_update 
+BEFORE INSERT OR UPDATE OR DELETE OR TRUNCATE
+ON mytask
+FOR EACH STATEMENT
+WHEN 
+(
+    EXTRACT ('DOW' FROM CURRENT_TIMESTAMP) = 5
+    -- 5 means friday
+    AND CURRENT_TIME &gt; '12:00'
+)
+EXECUTE PROCEDURE fn_cancel_with_message('NO UPDATE ARE ALLOWED');
+
+-- Queries
+
+INSERT INTO mytask (task) values ('task 1'), ('task 2'), ('task 3');
+</code></pre>
+<h2 id="disallow-updating-primary-key-of-table">Disallow updating Primary Key of table</h2>
+<pre><code class="language-sql">create table pg_table(
+    id serial primary key,
+    t text
+);
+
+insert into pg_table(t) values ('t1'),('t2');
+
+create trigger disallow_pk_change
+after update of id
+on pg_table
+for each row
+execute procedure fn_generic_cancel_op();
+
+update pg_table 
+set id = 10
+where id = 1;
+</code></pre>
+<h2 id="event-triggers">Event Triggers</h2>
+<ul>
+<li>Event triggers are data-specific and not bind or attached to a table</li>
+<li>Unlike regular triggers they capture system level DLL events</li>
+<li>Event triggers can be BEFORE or AFTER triggers</li>
+<li>Trigger function can be written in any language except SQL</li>
+<li>Event triggers are disabled in the single user mode and can only be created by a superuser</li>
+<li>
+<p>Syntax : <code>CREATE EVENT TRIGGER trg_name</code></p>
+</li>
+<li>
+<p>Before creating an event trigger, we must have a function that the trigger will execute</p>
+</li>
+<li>The function must return a specifi type called <code>EVENT_TRIGGER</code></li>
+<li>
+<p>This function need not (and may not) return a valuel the return type serivces merely as s signal that the function is to be invoked as an event trigger.</p>
+</li>
+<li>
+<p>Can we create conditional event trigger ? Yes, using the when clause</p>
+</li>
+<li>Event trigger cannot be executed in an aborted transaction</li>
+</ul>
+<h3 id="event-trigger-events">Event trigger events</h3>
+<table>
+<thead>
+<tr>
+<th>when</th>
+<th>explaination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ddl_command_start</td>
+<td>This event occurs jsut BEFORE a CREATE, ALTER, or DROP DLL command is executed</td>
+</tr>
+<tr>
+<td>ddl_command_end</td>
+<td>This event occurs just AFTER a create, alter, or drop command has finished executing</td>
+</tr>
+<tr>
+<td>table_rewrite</td>
+<td>This event occurs just before a table is re written by some action of the commands <code>ALTER TABLE</code> and <code>ALTER TYPE</code>.</td>
+</tr>
+<tr>
+<td>sql_drop</td>
+<td>This evetn occurs just before the ddl_command_end eevent for the commands that frop database objects</td>
+</tr>
+</tbody>
+</table>
+<h3 id="event-trigger-variables">Event trigger variables</h3>
+<ul>
+<li><code>TG_TAG</code> :  this variable contains the 'TAG' or the command for which the trigger is executed.</li>
+<li><code>TG_EVENT</code> : This variable contains the event name, which can be ddl_command_start, ddl_comman_end, and sql_drop.</li>
+</ul>
+<h3 id="creating-an-auditing-event-trigger">Creating an auditing event trigger</h3>
+<pre><code class="language-sql">CREATE TABLE audit_dll (
+    audit_ddl_id SERIAL PRIMARY KEY,
+    username TEXT,
+    ddl_event TEXT,
+    ddl_command TEXT,
+    ddl_add_time TIMESTAMPTZ
+);
+
+CREATE OR REPLACE FUNCTION fn_event_audit_ddl()
+RETURNS EVENT_TRIGGER
+LANGUAGE PLPGSQL
+SECURITY DEFINER 
+AS
+$$
+    BEGIN
+
+        INSERT INTO public.audit_dll
+        (username, ddl_event, ddl_command, ddl_add_time)
+        VALUES 
+        (session_user, TG_EVENT, TG_TAG, NOW());        
+
+        RAISE NOTICE 'DDL activity is created';
+
+    END;
+$$
+
+-- without condition
+create event trigger trg_event_audit_ddl_no_cond
+on ddl_command_start
+execute procedure fn_event_audit_ddl();
+
+-- with condition
+
+create event trigger trg_event_audit_ddl
+on ddl_command_start
+when
+ TAG IN ('CREATE TABLE')
+execute procedure fn_event_audit_ddl();
+</code></pre>
+<h2 id="dont-allow-anyone-to-create-table-between-time">Dont allow anyone to create table between time</h2>
+<pre><code class="language-sql">CREATE OR REPLACE FUNCTION fn_event_abort_create_table_func()
+RETURNS EVENT_TRIGGER
+LANGUAGE PLPGSQL
+SECURITY DEFINER
+AS
+$$
+    DECLARE
+        current_hour int = EXTRACT ('HOUR' FROM NOW());
+    BEGIN
+        IF current_hour between 4 and 16 then
+            RAISE EXCEPTION 'tables are not allowed to be created during 9-4';
+        END IF;
+    END;
+$$
+
+CREATE EVENT TRIGGER trg_event_create_table_function
+ON ddl_command_start 
+WHEN
+    TAG IN ('CREATE TABLE')
+EXECUTE PROCEDURE fn_event_abort_create_table_func();
+</code></pre>
+<h2 id="dropping-event-trigger">Dropping event trigger</h2>
+<pre><code class="language-sql">drop event trigger trg_name;
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../" class="btn btn-neutral float-left" title="Triggers"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../../getting-started/" class="btn btn-neutral float-right" title="Getting Started">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../../getting-started/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../../..';</script>
+    <script src="../../../../js/theme_extra.js" defer></script>
+    <script src="../../../../js/theme.js" defer></script>
+      <script src="../../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

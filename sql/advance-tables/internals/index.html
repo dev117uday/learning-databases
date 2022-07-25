@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Advance Tables - Learning Datbases</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Advance Tables";
+        var mkdocs_page_input_path = "sql/advance-tables/internals.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Learning Datbases
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Table of contents</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Cassandra</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cql/">CQL</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/data-modelling/">Data Modelling</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mongodb</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongo-administration/">Mongo Administration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb/">MongoDB</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mql/">MQL</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Redis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../redis/redis/">Redis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sql</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../order-of-sql-execution/">Order of SQL Execution</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Advance tables</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Advance Tables</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#generated-columns">Generated Columns</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Data types</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/json/">JSON</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/window/">Window</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/where/">WHERE Clause</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Learning Datbases</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Sql &raquo;</li>
+          <li>Advance tables &raquo;</li>
+      <li>Advance Tables</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="advance-tables">Advance Tables</h1>
+<h3 id="generated-columns">Generated Columns</h3>
+<ul>
+<li>faster than triggers</li>
+</ul>
+<pre><code class="language-sql">create table if not exists area (
+    w real,
+    h real,
+    area real GENERATED ALWAYS AS ( w*h ) STORED
+);
+
+INSERT INTO area (w, h) values (2,3),(4,7);
+
+select * from area;
+
+update area
+set w = 10
+where w = 4
+
+select * from area;
+
+</code></pre>
+<h1 id="internals">Internals</h1>
+<pre><code class="language-sql">-- size of database 
+SELECT 
+    datname as db_name,
+    pg_size_pretty(pg_database_size(datname)) 
+        as database_size
+FROM
+    pg_database
+ORDER BY
+    pg_database_size(datname) DESC;
+
+-- list all databases and schema
+SELECT 
+    catalog_name as &quot;Database Name&quot;
+FROM 
+    information_schema.information_schema_catalog_name;
+
+-- list all schemas
+SELECT 
+    catalog_name, schema_name, schema_owner
+FROM 
+    information_schema.schemata;
+
+-- list all schema starting with pg_...
+SELECT *
+FROM information_schema.schemata
+WHERE schema_name LIKE 'pg%';
+
+-- list all tables
+SELECT * 
+FROM  information_schema.tables
+WHERE table_schema = 'public'
+
+-- list all views
+SELECT * 
+FROM  information_schema.views
+WHERE table_schema = 'public'
+
+-- views from information_schema
+SELECT * 
+FROM  information_schema.views
+WHERE table_schema = 'information_schema'
+
+-- list all columns
+SELECT *
+FROM information_schema.columns
+WHERE table_name = 'orders'
+
+-- look at system metadata
+SELECT 
+    CURRENT_CATALOG,
+    CURRENT_DATABASE(),
+    CURRENT_SCHEMA,
+    CURRENT_USER,
+    SESSION_USER;
+
+-- LOOK AT DATABASE VERSION
+SELECT VERSION();
+
+SELECT
+    has_database_privilege('learning','CREATE')
+    has_schema_privilege('public','USAGE'),
+    has_table_privilege('orders','INSERT'),
+    has_any_column_privilege('orders','SELECT');
+
+SELECT  current_setting('timezone');
+
+-- show all running queries
+SELECT  
+    pid,
+    age(clock_timestamp(),query_start),
+    usename as run_by_user_name,
+    query as running
+FROM pg_stat_activity
+WHERE query != '&lt;IDLE&gt;'
+    AND query NOT ILIKE '%pg_stat_activity%'
+ORDER BY query_start DESC;
+
+-- show all idle query
+SELECT  
+    pid,
+    age(clock_timestamp(),query_start),
+    usename as run_by_user_name,
+    query as running
+FROM pg_stat_activity
+WHERE query = '&lt;IDLE&gt;'
+ORDER BY query_start DESC;
+
+-- KILL running query
+SELECT pg_cancel_backend(pid);
+
+-- get live and dead rows in table
+SELECT
+    relname,
+    n_live_tup,
+    n_dead_tup
+FROM pg_stat_user_tables;
+
+-- show location of postgres data directory
+show data_directory;
+
+-- show files of a table is located
+SELECT pg_relation_filepath('orders');
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../order-of-sql-execution/" class="btn btn-neutral float-left" title="Order of SQL Execution"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../managing-tables/" class="btn btn-neutral float-right" title="Managing Tables">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../order-of-sql-execution/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../managing-tables/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Constraints - Learning Datbases</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Constraints";
+        var mkdocs_page_input_path = "sql/tables/constraints.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Learning Datbases
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Table of contents</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Cassandra</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cql/">CQL</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/data-modelling/">Data Modelling</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mongodb</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongo-administration/">Mongo Administration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb/">MongoDB</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mql/">MQL</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Redis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../redis/redis/">Redis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sql</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../order-of-sql-execution/">Order of SQL Execution</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Advance tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Data types</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/json/">JSON</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../data-types/user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/window/">Window</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Tables</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Constraints</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#types-of-constraints">Types of Constraints</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#not-null">NOT NULL</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#unique">UNIQUE</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#adding-unique-constraint-on-column">Adding Unique Constraint on column</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#default-constraint">DEFAULT CONSTRAINT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#primary-key">Primary Key</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#composite-primary-key">Composite Primary Key</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#foreign-key">Foreign Key</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#check-constraint">CHECK Constraint</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#example">Example</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../where/">WHERE Clause</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Learning Datbases</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Sql &raquo;</li>
+          <li>Tables &raquo;</li>
+      <li>Constraints</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="constraints">Constraints</h1>
+<ul>
+<li>Constraints are like Gate Keepers. Control the type of data that goes into the table. These are used to prevent invalid data.</li>
+<li>Constraints can be added on</li>
+<li>Table </li>
+<li>Column</li>
+</ul>
+<h2 id="types-of-constraints">Types of Constraints</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Type</th>
+<th align="left">Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">NOT NULL</td>
+<td align="left">Field must have values</td>
+</tr>
+<tr>
+<td align="left">UNIQUE</td>
+<td align="left">Only unique value are allowed</td>
+</tr>
+<tr>
+<td align="left">DEFAULT</td>
+<td align="left">Ability to SET default</td>
+</tr>
+<tr>
+<td align="left">PRIMARY KEY</td>
+<td align="left">Uniquely identifies each row/record</td>
+</tr>
+<tr>
+<td align="left">FOREIGN KEY</td>
+<td align="left">Constraint based on Column in other table</td>
+</tr>
+<tr>
+<td align="left">CHECK</td>
+<td align="left">Check all values must meet specific criteria</td>
+</tr>
+</tbody>
+</table>
+<h2 id="not-null">NOT NULL</h2>
+<pre><code class="language-sql">CREATE TABLE table_nn (
+    id SERIAL PRIMARY KEY,
+    tag text NOT NULL
+);
+
+INSERT INTO table_nn ( tag ) 
+    VALUES ('TAG 1'), ('TAG 2'), ('TAG 3'), ('');
+
+-- NULL value wont be accepted
+INSERT INTO table_nn ( tag ) VALUES (NULL);
+
+-- empty string aren't NULL values
+INSERT INTO table_nn ( tag ) VALUES ('');
+
+-- adding another column TEXT;
+ALTER TABLE table_nn 
+ADD COLUMN is_enable TEXT;
+
+-- Updating values in new column to '' 
+-- so that NULL constrain can be added
+UPDATE table_nn
+SET is_enable = '' WHERE is_enable IS NULL;
+
+-- adding null constraint on table
+ALTER TABLE public.table_nn
+    ALTER COLUMN is_enable SET NOT NULL;
+</code></pre>
+<h2 id="unique">UNIQUE</h2>
+<pre><code class="language-sql">CREATE TABLE table_unique (
+    id SERIAL PRIMARY KEY,
+    emails TEXT UNIQUE
+);
+
+INSERT INTO table_unique ( emailS ) 
+    VALUES ('A@B.COM'),('C@D.COM');
+
+INSERT INTO table_unique ( emailS ) 
+    VALUES ('A@B.COM');
+-- error
+</code></pre>
+<h3 id="adding-unique-constraint-on-column">Adding Unique Constraint on column</h3>
+<pre><code class="language-sql">ALTER TABLE public.table_unique
+    ADD COLUMN is_enable text;
+
+ALTER TABLE table_unique
+    ADD CONSTRAINT unique_is_enable UNIQUE (is_enable);
+
+
+ALTER TABLE public.table_unique
+    ADD COLUMN code text,
+    ADD COLUMN code_key text;
+
+ALTER TABLE table_unique
+    ADD CONSTRAINT unique_code_key 
+        UNIQUE (code,code_key);
+</code></pre>
+<h2 id="default-constraint">DEFAULT CONSTRAINT</h2>
+<pre><code class="language-sql">CREATE TABLE table_default (
+    id SERIAL PRIMARY KEY,
+    is_enable TEXT DEFAULT 'Y'
+);
+
+INSERT INTO table_default ( id ) VALUES (1),(2);
+
+select * from table_default;
+
+ id | is_enable 
+----+-----------
+  1 | Y
+  2 | Y
+
+ALTER TABLE public.table_default
+    ADD COLUMN tag text;
+
+ALTER TABLE public.table_default
+    ALTER COLUMN tag SET DEFAULT 'N';
+
+INSERT INTO table_default ( id ) VALUES (5);
+
+select * from table_default;
+
+ id | is_enable | tag 
+----+-----------+-----
+  1 | Y         | 
+  2 | Y         | 
+  5 | Y         | N
+
+
+ALTER TABLE public.table_default
+    ALTER COLUMN tag DROP DEFAULT;
+
+                              Table &quot;public.table_default&quot;
+  Column   |  Type   | Collation | Nullable |                  Default                  
+-----------+---------+-----------+----------+-------------------------------------------
+ id        | integer |           | not null | nextval('table_default_id_seq'::regclass)
+ is_enable | text    |           |          | 'Y'::text
+ tag       | text    |           |          | 
+Indexes:
+    &quot;table_default_pkey&quot; PRIMARY KEY, btree (id)
+
+</code></pre>
+<h2 id="primary-key">Primary Key</h2>
+<ol>
+<li>Uniquely identifies each record in a database table</li>
+<li>There can be more than one UNIQUE, but only one primary key</li>
+<li>A primary key is a field in a table, which uniquely identifies each row/column in a database table</li>
+<li>When multiple fields are used as a primary key, which may consist of single or multiple fields, also known</li>
+</ol>
+<p>as composite key.</p>
+<pre><code class="language-sql">CREATE TABLE table_item (
+    item_id INTEGER PRIMARY KEY,
+    item_name varchar(20) NOT NULL    
+);
+
+INSERT INTO table_item ( item_id,item_name ) 
+    VALUES (1, 'pencil'), (2, 'pen' ), (3, 'box' );
+
+INSERT INTO table_item ( item_id,item_name ) 
+    VALUES (1, 'mobile');
+
+-- ERROR:  duplicate key value violates unique constraint &quot;table_item_pkey&quot;
+-- DETAIL:  Key (item_id)=(1) already exists.
+-- SQL state: 23505
+
+ALTER TABLE table_item
+DROP CONSTRAINT table_item_pkey;
+
+ALTER TABLE public.table_item
+    ADD PRIMARY KEY (item_id);
+</code></pre>
+<h2 id="composite-primary-key">Composite Primary Key</h2>
+<pre><code class="language-sql">CREATE TABLE table_cpk (
+    id VARCHAR(20) NOT NULL,
+    another_id VARCHAR(20) NOT NULL,
+    grade_id VARCHAR(20) NOT NULL
+);
+
+INSERT INTO table_cpk ( id, another_id, grade_id ) 
+    VALUES 
+        ('1','11','12'), 
+        ('2','21','22'), 
+        ('3','31','32');
+
+SELECT * FROM table_cpk;
+
+-- composite key = id + another_id;
+
+ALTER TABLE public.table_cpk
+    ADD CONSTRAINT cpk_comp_pkey PRIMARY KEY (id, another_id)
+</code></pre>
+<h2 id="foreign-key">Foreign Key</h2>
+<pre><code class="language-sql">CREATE TABLE t_suppliers (
+    s_id SERIAL PRIMARY KEY,
+    s_name VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE t_products (
+    p_id SERIAL PRIMARY KEY,
+    p_name  VARCHAR(10) NOT NULL,
+    s_id INT NOT NULL,
+    FOREIGN KEY (s_id) REFERENCES t_suppliers (s_id)
+);
+
+INSERT INTO t_suppliers ( s_name ) 
+    VALUES ('SUP 1'),('SUP 2'),('SUP 3'),('SUP 4');
+
+INSERT INTO t_products ( P_NAME, S_ID ) 
+    VALUES ('PRO 1',1),('PRO 2',2);
+
+INSERT INTO t_products ( P_NAME, S_ID ) 
+    VALUES ('PRO 1',9);
+
+-- ERROR:  insert or update on table &quot;t_products&quot; 
+-- violates foreign key constraint &quot;t_products_s_id_fkey&quot;
+-- DETAIL:  Key (s_id)=(9) is not present in table &quot;t_suppliers&quot;.
+-- SQL state: 23503
+</code></pre>
+<h2 id="check-constraint">CHECK Constraint</h2>
+<pre><code class="language-sql">CREATE TABLE table_constr (
+    id SERIAL PRIMARY KEY,
+    birth_date DATE CHECK ( birth_date &gt; '1900-01-01' ),
+    joined_date DATE CHECK ( joined_date &gt; birth_date ),
+    salary NUMERIC CHECK ( salary &gt; 0 )
+);
+
+select * from table_constr;
+
+insert into table_constr (birth_date, joined_date, salary) 
+values 
+    ('2001-02-02','2019-01-10',100000);
+
+insert into table_constr (birth_date, joined_date, salary) 
+values 
+    ('2001-02-02','2000-01-10',100000);
+
+insert into table_constr (birth_date, joined_date, salary) 
+values 
+    ('2001-02-02','2000-01-10',-100000);
+
+ALTER TABLE public.table_constr
+    ADD COLUMN prices int;
+
+ALTER TABLE table_constr
+ADD CONSTRAINT price_check 
+CHECK (
+    prices &gt; 0
+    AND salary &gt; prices
+);
+</code></pre>
+<h2 id="example">Example</h2>
+<pre><code class="language-sql">CREATE TABLE web_links (
+    link_id SERIAL PRIMARY KEY,
+    link_url VARCHAR(255) NOT NULL,
+    link_target VARCHAR(20)
+);
+
+SELECT * FROM web_links;
+
+ALTER TABLE web_links
+ADD CONSTRAINT unique_web_url UNIQUE (link_url);
+
+INSERT INTO web_links (link_url,link_target) 
+    VALUES ('https://www.google.com/','_blank');
+
+ALTER TABLE web_links
+ADD COLUMN is_enable VARCHAR(2);
+
+INSERT INTO web_links (link_url,link_target,is_enable) 
+    VALUES ('https://www.amazon.com/','_blank','Y');
+
+ALTER TABLE web_links
+ADD CHECK ( is_enable IN ('Y','N') );
+
+INSERT INTO web_links (link_url,link_target,is_enable) 
+    VALUES ('https://www.NETFLIX.com/','_blank','N');
+
+SELECT * FROM web_links;
+
+UPDATE web_links
+SET is_enable = 'Y'
+WHERE link_id = 1
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../combining-tables/" class="btn btn-neutral float-left" title="Combining Tables"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../cte/" class="btn btn-neutral float-right" title="Common Table Expression">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../combining-tables/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../cte/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

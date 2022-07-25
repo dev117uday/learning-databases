@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Internal Functions - Learning Datbases</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Internal Functions";
+        var mkdocs_page_input_path = "sql/data-types/miscellaneous-1.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> Learning Datbases
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Table of contents</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Cassandra</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/cql/">CQL</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../cassandra/data-modelling/">Data Modelling</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mongodb</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongo-administration/">Mongo Administration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mongodb/">MongoDB</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../mongodb/mql/">MQL</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Redis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../redis/redis/">Redis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sql</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../order-of-sql-execution/">Order of SQL Execution</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Advance tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../advance-tables/pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Data types</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../json/">JSON</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Internal Functions</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#concatenation-operator">Concatenation Operator</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#type-conversion">Type Conversion</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#casting">Casting</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#formatting-functions">Formatting Functions</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#to_char">to_char()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#to_number">to_number()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#to_date">to_date()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#to_timestamp">to_timestamp()</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#string-functions">String Functions</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/">Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../functions/stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../functions/triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../summarization/window/">Window</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../tables/where/">WHERE Clause</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">Learning Datbases</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Sql &raquo;</li>
+          <li>Data types &raquo;</li>
+      <li>Internal Functions</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="internal-functions">Internal Functions</h1>
+<p><strong>Order of execution of SQL statements</strong></p>
+<ol>
+<li>FROM</li>
+<li>WHERE</li>
+<li>SELECT</li>
+<li>ORDER BY</li>
+</ol>
+<h2 id="concatenation-operator">Concatenation Operator</h2>
+<pre><code class="language-sql">select concat(first_name,last_name) as full_name 
+    from directors limit 10;
+
+   full_name    
+----------------
+ TomasAlfredson
+ PaulAnderson
+ WesAnderson
+
+select concat_ws(' ',first_name,last_name) as full_name 
+    from directors limit 3;
+
+    full_name    
+-----------------
+ Tomas Alfredson
+ Paul Anderson
+ Wes Anderson
+</code></pre>
+<ul>
+<li>if you can have a <strong>null</strong> <strong>value</strong> in column, always use <code>concat_ws</code> because it will place nothing in that and and also not place the spacer like <strong>|</strong> or a space</li>
+</ul>
+<h2 id="type-conversion">Type Conversion</h2>
+<table>
+<thead>
+<tr>
+<th>Type of Conversion</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Implicit</td>
+<td>data conversion is done AUTOMATICALLY</td>
+</tr>
+<tr>
+<td>Explicit</td>
+<td>data conversion is done via 'conversion functions' eg. <code>CAST</code> or <code>::</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql">SELECT * FROM movies;
+
+-- exact datatype match : no conversion
+SELECT * FROM movies WHERE movie_id = 1;
+
+-- Implicit conversion : conversion
+SELECT * FROM movies WHERE movie_id = '1';
+
+-- Explicit conversion : conversion
+SELECT * FROM movies WHERE movie_id = integer '1';
+
+-- Output of all queries above
+ movie_id |     movie_name     | movie_length | movie_lang | release_date | age_certificate | director_id 
+----------+--------------------+--------------+------------+--------------+-----------------+-------------
+        1 | A Clockwork Orange |          112 | English    | 1972-02-02   | 18              |          13
+</code></pre>
+<h2 id="casting">Casting</h2>
+<pre><code class="language-sql">-- CAST function
+-- Syntax : CAST ( expression as target_data_type );
+
+SELECT CAST ( '10' AS INTEGER );
+
+ int4 
+------
+   10
+
+SELECT 
+    CAST ('2020-02-02' AS DATE), 
+    CAST('01-FEB-2001' AS DATE);
+
+    date    |    date    
+------------+------------
+ 2020-02-02 | 2001-02-01
+
+SELECT 
+    CAST ( 'true' AS BOOLEAN ), 
+    CAST ( '1' AS BOOLEAN ), 
+    CAST ( '0' AS BOOLEAN );
+
+ bool | bool | bool 
+------+------+------
+ t    | t    | f
+
+SELECT CAST ( '14.87789' AS DOUBLE PRECISION );
+
+  float8  
+----------
+ 14.87789
+
+SELECT '2020-02-02'::DATE , '01-FEB-2001'::DATE;
+
+    date    |    date    
+------------+------------
+ 2020-02-02 | 2001-02-01
+
+SELECT '2020-02-02 10:20:10.23'::TIMESTAMP;
+
+       timestamp        
+------------------------
+ 2020-02-02 10:20:10.23
+
+SELECT '2020-02-02 10:20:10.23 +05:30'::TIMESTAMPTZ;
+
+        timestamptz        
+---------------------------
+ 2020-02-02 04:50:10.23+00
+
+SELECT 
+    '10 minute'::interval, 
+    '10 hour'::interval, 
+    '10 day'::interval, 
+    '10 week'::interval, 
+    '10 month'::interval;
+
+ interval | interval | interval | interval | interval 
+----------+----------+----------+----------+----------
+ 00:10:00 | 10:00:00 | 10 days  | 70 days  | 10 mons
+
+SELECT 
+    20! AS &quot;result 1&quot; , 
+    CAST( 20 AS bigint ) ! AS &quot;result 2&quot;;
+
+      result 1       |      result 2       
+---------------------+---------------------
+ 2432902008176640000 | 2432902008176640000
+
+SELECT 
+    ROUND(10,4) AS &quot;result 1&quot;, 
+    ROUND ( CAST (10 AS NUMERIC) ) AS &quot;result 2&quot;, 
+    ROUND ( CAST (10 AS NUMERIC) , 4 ) AS &quot;result 3&quot;;
+
+ result 1 | result 2 | result 3 
+----------+----------+----------
+  10.0000 |       10 |  10.0000
+
+SELECT 
+    SUBSTR('12345',2) AS &quot;RESULT 1&quot;, 
+    SUBSTR( CAST('12345' AS TEXT) ,2) AS &quot;RESULT 2&quot;;
+
+ RESULT 1 | RESULT 2 
+----------+----------
+ 2345     | 2345
+</code></pre>
+<pre><code class="language-sql">CREATE TABLE ratings (
+    rating_id SERIAL PRIMARY KEY,
+    rating VARCHAR(2) NOT NULL
+);
+
+INSERT INTO ratings ( rating ) 
+VALUES ('A'), ('B'), ('C'), ('D'), (1), (2), (3), (4);
+
+SELECT 
+    rating_id,
+    CASE 
+        WHEN rating~E'^\\d+$' THEN
+            CAST ( rating as INTEGER )
+        ELSE
+            0
+        END AS rating
+FROM
+    ratings;
+
+ rating_id | rating 
+-----------+--------
+         1 |      0
+         2 |      0
+         3 |      0
+         4 |      0
+         5 |      1
+         6 |      2
+         7 |      3
+         8 |      4
+</code></pre>
+<h2 id="formatting-functions">Formatting Functions</h2>
+<p><a href="https://www.postgresql.org/docs/12/functions-formatting.html">https://www.postgresql.org/docs/12/functions-formatting.html</a></p>
+<h3 id="to_char">to_char()</h3>
+<p>Refer to the documentation</p>
+<ul>
+<li>https://www.postgresqltutorial.com/postgresql-to_char/</li>
+</ul>
+<pre><code class="language-sql">SELECT TO_CHAR (
+    100870,
+    '9,999999'
+);    
+
+  to_char  
+-----------
+    100870
+
+SELECT 
+    release_date, 
+    TO_CHAR(release_date,'DD-MM-YYYY'),
+    TO_CHAR(release_date,'Dy, MM, YYYY') 
+FROM 
+    movies LIMIT 3;
+
+ release_date |  to_char   |    to_char    
+--------------+------------+---------------
+ 1972-02-02   | 02-02-1972 | Wed, 02, 1972
+ 1979-08-15   | 15-08-1979 | Wed, 08, 1979
+ 2001-01-04   | 04-01-2001 | Thu, 01, 2001
+
+SELECT 
+    TO_CHAR ( 
+        TIMESTAMP '2020-01-01 13:32:30', 
+        'HH24:MI:SS' 
+    );
+
+ to_char  
+----------
+ 13:32:30
+</code></pre>
+<h3 id="to_number">to_number()</h3>
+<ul>
+<li>https://www.postgresqltutorial.com/postgresql-to_number/</li>
+</ul>
+<pre><code class="language-sql">SELECT TO_NUMBER(
+    '1420.89', '9999.'
+);
+
+ to_number 
+-----------
+      1420
+
+SELECT TO_NUMBER(
+    '10,625.78-', '99G999D99S'
+);
+
+ to_number 
+-----------
+ -10625.78
+
+SELECT TO_NUMBER(
+    '$1,625.78+', '99G999D99S'
+);
+
+ to_number 
+-----------
+   1625.78
+
+SELECT to_number(
+    '$1,420.65' , 'L9G999D99'
+);
+
+ to_number 
+-----------
+   1420.65
+
+SELECT to_number(
+    '21,420.65' , '99G999D99'
+);
+
+ to_number 
+-----------
+  21420.65
+</code></pre>
+<h3 id="to_date">to_date()</h3>
+<ul>
+<li>https://www.postgresqltutorial.com/postgresql-to_date/</li>
+</ul>
+<pre><code class="language-sql">SELECT TO_DATE( '2020/10/22' , 'YYYY/MM/DD' );
+
+  to_date   
+------------
+ 2020-10-22
+
+SELECT to_date( '022199' , 'MMDDYY' );
+
+  to_date   
+------------
+ 1999-02-21
+
+SELECT to_date( 'March 07, 2019' , 'Month DD, YYYY' );
+
+    to_date   
+------------
+ 2019-03-07
+</code></pre>
+<h3 id="to_timestamp">to_timestamp()</h3>
+<ul>
+<li>https://www.postgresqltutorial.com/postgresql-to_timestamp/</li>
+</ul>
+<pre><code class="language-sql">SELECT TO_TIMESTAMP(
+    '2017-03-31 9:30:20',
+    'YYYY-MM-DD HH:MI:SS'
+);
+
+      to_timestamp      
+------------------------
+ 2017-03-31 09:30:20+00
+
+SELECT
+    TO_TIMESTAMP('2017     Aug','YYYY MON');
+
+      to_timestamp      
+------------------------
+ 2017-08-01 00:00:00+00
+</code></pre>
+<h2 id="string-functions">String Functions</h2>
+<ul>
+<li><code>Upper(string)</code>&#x20;</li>
+<li><code>Lower(string)</code></li>
+<li><code>INITCAP(string)</code></li>
+<li><code>REVERSE(string)</code></li>
+<li><code>LPAD(string)</code></li>
+<li><code>RPAD(string)</code></li>
+<li><code>LENGTH(string)</code></li>
+<li><code>CHAR_LENGTH(string) : Same as Length</code></li>
+<li><code>POSITION( string in string )</code></li>
+<li><code>STRPOS ( , &lt; substring &gt; )</code></li>
+<li><code>SUBSTRING (string , length)</code></li>
+<li><code>REPLACE (string, from_string, to_string)</code></li>
+</ul>
+<pre><code class="language-sql">SELECT INITCAP(first_name) as FirstName,
+       INITCAP(last_name)  as LastName
+FROM directors
+LIMIT 3;
+
+ firstname | lastname
+-----------+-----------
+ Tomas     | Alfredson
+ Paul      | Anderson
+ Wes       | Anderson
+
+SELECT LEFT('Uday', 3), RIGHT('Uday', 3);
+
+ left | right
+------+-------
+ Uda  | day
+
+SELECT LEFT('Uday', -3), RIGHT('Uday', -3);
+
+ left | right
+------+-------
+ U    | y
+
+SELECT REVERSE('UDAY YADAV');
+
+  reverse
+------------
+ VADAY YADU
+
+SELECT SPLIT_PART('1,2,3,4', ',', 1), 
+       SPLIT_PART('1|2|3|4', '|', 2);
+
+ split_part | split_part
+------------+------------
+ 1          | 2
+
+SELECT TRIM(LEADING FROM '  Amazing PostgreSQL'),
+       TRIM(TRAILING FROM 'Amazing PostgreSQL  '),
+       TRIM('  Amazing PostgreSQL  ');
+
+       ltrim        |       rtrim        |       btrim
+--------------------+--------------------+--------------------
+ Amazing PostgreSQL | Amazing PostgreSQL | Amazing PostgreSQL
+
+
+SELECT TRIM(LEADING '0' FROM CAST(0001245 AS TEXT));
+
+ ltrim
+-------
+ 1245
+
+
+SELECT LTRIM('yummy', 'y'),
+       RTRIM('yummy', 'y'),
+       BTRIM('yummy', 'y');
+
+ ltrim | rtrim | btrim
+-------+-------+-------
+ ummy  | yumm  | umm
+
+
+SELECT upper('uday yadav'),  initcap('uday yadav');
+
+   upper    |  initcap
+------------+------------
+ UDAY YADAV | Uday Yadav
+
+SELECT INITCAP(first_name) as FirstName,
+       INITCAP(last_name)  as LastName
+FROM directors LIMIT 3;
+
+ firstname | lastname
+-----------+-----------
+ Tomas     | Alfredson
+ Paul      | Anderson
+ Wes       | Anderson
+
+SELECT LEFT('Uday', 3), RIGHT('Uday', 3);
+ left | right
+------+-------
+ Uda  | day
+
+SELECT LEFT('Uday', -3), RIGHT('Uday', -3);
+ left | right
+------+-------
+ U    | y
+
+
+SELECT LPAD('Database', 15, '*'),
+       RPAD('Database', 15, '*');
+
+      lpad       |      rpad
+-----------------+-----------------
+ *******Database | Database*******
+
+SELECT LENGTH('Uday Yadav');
+
+ length
+--------
+     10
+
+SELECT LENGTH(CAST(10013 AS TEXT));
+ length
+--------
+      5
+
+
+SELECT char_length(''),
+       char_length('  '),
+       char_length(NULL);
+
+ char_length | char_length | char_length
+-------------+-------------+-------------
+           0 |           2 |
+
+SELECT first_name || ' ' || last_name as FullName,
+       LENGTH(first_name || ' ' || last_name)
+                                      as FullNameLength
+FROM Directors
+ORDER BY 2 DESC LIMIT 2;
+
+             fullname              | fullnamelength
+-----------------------------------+----------------
+ Florian  Henckel von Donnersmarck |             33
+ Francis Ford Coppola              |             20
+
+SELECT POSITION('Amazing' IN 'Amazing PostgreSQL'),
+       POSITION('is' IN 'This is a computer');
+ position | position
+----------+----------
+        1 |        3
+
+SELECT STRPOS('World Bank', 'Bank');
+ strpos
+--------
+      7
+
+SELECT first_name,
+       last_name
+FROM directors
+WHERE strpos(last_name, 'on') &gt; 0 LIMIT 3;
+
+ first_name | last_name
+------------+-----------
+ Tomas      | Alfredson
+ Paul       | Anderson
+ Wes        | Anderson
+
+SELECT substring('What a wonderful world' from 1 for 10);
+
+ substring
+------------
+ What a won
+
+SELECT repeat('A', 4), repeat(' ', 9), repeat('.', 8);
+ repeat |  repeat   |  repeat
+--------+-----------+----------
+ AAAA   |           | ........
+
+SELECT REPLACE('ABC XYZ', 'XY', 'Z');
+ replace 
+---------
+ ABC ZZ
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../json/" class="btn btn-neutral float-left" title="JSON"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../sequences/" class="btn btn-neutral float-right" title="Sequences">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../json/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../sequences/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

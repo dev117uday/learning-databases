@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Functions - Learning Datbases</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Functions";
+        var mkdocs_page_input_path = "sql/functions/README.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Learning Datbases
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Table of contents</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Cassandra</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../cassandra/cassandra-scylla/">Cassandra : Scylla</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../cassandra/cql/">CQL</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../cassandra/data-modelling/">Data Modelling</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Mongodb</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mongodb/mongo-administration/">Mongo Administration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mongodb/mongodb-aggregation/">MongoDB Aggregation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mongodb/mongodb/">MongoDB</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../mongodb/mql/">MQL</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Redis</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../redis/redis/">Redis</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sql</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../order-of-sql-execution/">Order of SQL Execution</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Advance tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../advance-tables/internals/">Advance Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../advance-tables/managing-tables/">Managing Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../advance-tables/paritioning-tables/">Partitioning Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../advance-tables/pivotal-or-crosstab-tables/">Pivotal or Crosstab Tables</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Data types</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../data-types/">Data Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../data-types/arrays/">Arrays</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../data-types/date-time-stamps/">Date/Time/Stamps</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../data-types/json/">JSON</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../data-types/miscellaneous-1/">Internal Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../data-types/sequences/">Sequences</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../data-types/user-defined-data-types/">User Defined Data Types</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Functions</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">Functions</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#basic-functions">Basic Functions</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#syntax">Syntax</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#some-examples">Some Examples</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#functions-with-dml">Functions with DML</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#function-with-dql">Function with DQL</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#returning-table-from-function">Returning table from function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#function-with-defualt-parameters">Function with Defualt parameters</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dropping-function">Dropping Function</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="cursors/">Cursors</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="pl-pgsql/">PL/PGSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="stored-procedures/">Stored Procedures</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="#">Triggers</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="triggers/">Triggers</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="triggers/more-on-triggers/">More on Triggers</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Getting started</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../getting-started/">Getting Started</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../getting-started/administration-task/">PgAdmin Tool</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Indexing</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../indexing/">Indexing</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../indexing/custom-indexes/">Custom Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../indexing/gin-index/">GIN Index</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../indexing/indexes/">Indexes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../indexing/sql/">SQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../indexing/unique-index/">Unique Index</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Joins</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../joins/cross-join/">Cross & Natural Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../joins/full-multiple-and-self-joins/">Full, Multiple & Self Joins</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../joins/inner-join/">Inner Join</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../joins/left-and-right-join/">Left and Right JOIN</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Summarization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../summarization/">Summarization</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../summarization/subqueries/">SubQueries</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../summarization/window/">Window</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Tables</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/">Table</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/aggregation/">Aggregation</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/coalesce/">Usefull Functions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/combining-tables/">Combining Tables</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/constraints/">Constraints</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/cte/">Common Table Expression</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/group-by-and-having/">GROUP BY and HAVING</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/miscellaneous/">OPERATORS</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/order-by/">ORDER BY and DISTINCT</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/views/">Views</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../tables/where/">WHERE Clause</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Working with database</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../working-with-database/">Database</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../working-with-database/schema/">Schema</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Learning Datbases</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Sql &raquo;</li>
+          <li>Functions &raquo;</li>
+      <li>Functions</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="functions">Functions</h1>
+<h2 id="basic-functions">Basic Functions</h2>
+<h3 id="syntax">Syntax</h3>
+<pre><code class="language-sql">CREATE OR REPLACE FUNCTION function_name() RETURNS return_type as 
+'
+    -- SQL COMMAND 
+' LANGUAGE SQL;
+</code></pre>
+<h2 id="some-examples">Some Examples</h2>
+<pre><code class="language-sql">-- Function to Add
+
+CREATE OR REPLACE FUNCTION fn_my_sum( int, int ) RETURNS int as 
+'
+    SELECT $1 + $2;
+' LANGUAGE SQL;
+
+-- function call
+
+SELECT fn_my_sum(1,2);
+
+-- output
+
+ fn_my_sum 
+-----------
+         3
+(1 row)
+
+--------------------------------
+
+-- Function to printer
+
+CREATE OR REPLACE FUNCTION fn_printer( text ) RETURNS text as 
+$$
+    SELECT 'Hello ' || $1 ;
+$$ LANGUAGE SQL;
+
+--function call
+
+SELECT fn_printer( 'Uday' );
+
+-- output
+
+ fn_printer 
+------------
+ Hello Uday
+(1 row)
+
+-- Another syntax
+
+CREATE OR REPLACE FUNCTION fn_printer( text ) RETURNS text as 
+$body$
+    SELECT 'Hello ' || $1 ;
+$body$ 
+LANGUAGE SQL;
+
+-- function call
+
+SELECT fn_printer( 'Uday' );
+
+-- output
+ fn_printer 
+------------
+ Hello Uday
+(1 row)
+</code></pre>
+<h2 id="functions-with-dml">Functions with DML</h2>
+<pre><code class="language-sql">-- function
+
+CREATE OR REPLACE FUNCTION fn_employee_update_country () returns void AS
+$$
+
+    update employees 
+    set country = 'n/a'
+    where country is NULL
+$$ 
+LANGUAGE SQL
+
+SELECT fn_employee_update_country();
+</code></pre>
+<h2 id="function-with-dql">Function with DQL</h2>
+<pre><code class="language-sql">CREATE OR REPLACE FUNCTION fn_api_order_latest() RETURNS orders AS
+$$
+
+    select *
+    from orders
+    order by order_date DESC
+    limit 1
+
+$$
+LANGUAGE SQL;
+
+select (fn_api_order_latest()).*;
+
+select (fn_api_order_latest()).order_date;
+
+select order_date(fn_api_order_latest())
+
+-----------------------------
+
+CREATE OR REPLACE FUNCTION fn_employee_hire_bydate( p_year integer ) returns setof employees as 
+$$
+
+    select * from employees
+    where extract('YEAR' from hire_date) = p_year
+
+$$
+LANGUAGE SQL
+
+SELECT (fn_employee_hire_bydate('1992')).*;
+</code></pre>
+<h2 id="returning-table-from-function">Returning table from function</h2>
+<pre><code class="language-sql">
+CREATE OR REPLACE FUNCTION fn_orders()
+    returns table
+            (
+                order_id SMALLINT,
+                employee_id SMALLINT
+            )
+    as
+    $$
+
+    select order_id, employee_id
+    from orders;
+
+    $$
+LANGUAGE SQL;
+
+SELECT (fn_orders()).*;
+</code></pre>
+<h2 id="function-with-defualt-parameters">Function with Defualt parameters</h2>
+<pre><code class="language-sql">CREATE OR REPLACE FUNCTION function_name 
+    ( x int default 0, y int DEFAULT 10 ) returns int as
+    $$ 
+
+    select x+y;
+
+    $$
+LANGUAGE SQL;
+
+SELECT function_name();
+</code></pre>
+<h2 id="dropping-function">Dropping Function</h2>
+<pre><code class="language-sql">DROP FUNCTION [ IF EXISTS ] function_name 
+    ( argument_list ) ( cascade | restrict );
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../data-types/user-defined-data-types/" class="btn btn-neutral float-left" title="User Defined Data Types"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="cursors/" class="btn btn-neutral float-right" title="Cursors">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../data-types/user-defined-data-types/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="cursors/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
