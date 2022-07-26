@@ -2,7 +2,7 @@
 
 ## Full Join
 
-![[image (1).png]]
+![image](../../.gitbook/assets/full-join.png)
 
 ```sql
 select *

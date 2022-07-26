@@ -2,7 +2,7 @@
 
 ## Basic
 
-![[image (1) 1.png]]
+![image](../../.gitbook/assets/inner-join.png)
 
 **Remember : All common column defined at ON must match values on both tables**
 

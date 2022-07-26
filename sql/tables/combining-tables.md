@@ -95,7 +95,7 @@ Like the [UNION](https://www.postgresqltutorial.com/postgresql-union/) and [EXCE
 
 The `INTERSECT` operator returns any rows that are available in both result sets.
 
-![[image.png]]
+![image](../../.gitbook/assets/intersect.png)
 
 ```sql
 SELECT *

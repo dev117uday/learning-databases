@@ -135,5 +135,4 @@ Download the sample data file from here
 
 - https://drive.google.com/file/d/1vsFVuybjNDacNaV5LmaSI__a6dCpEdmT/view?usp=sharing
 
-
-![[output (3).gif]]
+![image](../../.gitbook/assets/load-data.gif)

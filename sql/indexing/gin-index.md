@@ -15,8 +15,7 @@ where body @> '{"first_name":"John"}';
 explain select * from contacts_docs
 where body @> '{"first_name":"John"}';
 ```
-
-![[image (17).png]]
+![image](../../.gitbook/assets/gin-seq-scan.png)
 
 ## Creating a GIN Index
 
@@ -24,7 +23,7 @@ where body @> '{"first_name":"John"}';
 create index idx_gin_contacts_docs_body on contacts_docs USING GIN(body);
 ```
 
-![[image (16).png]]
+![image](../../.gitbook/assets/gin-index-scan.png)
 
 ## Get Size of Index
 
@@ -33,7 +32,7 @@ select pg_size_pretty((pg_relation_size('idx_gin_contacts_docs_body'::regclass))
     as index_name;
 ```
 
-![[image (11).png]]
+![image](../../.gitbook/assets/gin-index-size.png)
 
 ## Using JSONB\_PATH\_OPS \( better \)
 
@@ -42,7 +41,7 @@ create index idx_gin_contacts_docs_body_cool
     on contacts_docs USING GIN(body jsonb_path_ops);
 ```
 
-![[image (8).png]]
+![image](../../.gitbook/assets/gin-json-scan.png)
 
 ### Size with jsonb\__path\_ops_
 
@@ -51,14 +50,14 @@ select pg_size_pretty((pg_relation_size('idx_gin_contacts_docs_body_cool'::regcl
     as index_name;
 ```
 
-![[image (14).png]]
+![image](../../.gitbook/assets/gin-jsonb-size.png)
 
-## On Specific column  for smaller size \( not working \)
+## On Specific column for smaller size \( not working \)
 
 ```sql
 select pg_size_pretty((pg_relation_size('idx_gin_contacts_docs_body_fname'::regclass))) 
     as index_name;
 ```
 
-![[image (9).png]]
+![image](../../.gitbook/assets/gin-col-size.png)
 

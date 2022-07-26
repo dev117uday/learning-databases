@@ -2,11 +2,11 @@
 
 ## Creating a database
 
-![[create-database.gif]]
+![image](../../.gitbook/assets/create-database.gif)
 
 ## Dropping Database
 
-![[dropping database.gif]]
+![image](../../.gitbook/assets/dropping-database.gif)
 
 ## Commands
 

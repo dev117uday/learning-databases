@@ -235,7 +235,9 @@ WHERE grade[1] < 80;
 
 ## Ranges
 
-![[array range.png]]
+
+
+![image](../../.gitbook/assets/array-range.png)
 
 ```sql
 SELECT INT4RANGE(1, 6)                                                   AS "DEFAULT [(",

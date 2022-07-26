@@ -2,7 +2,8 @@
 
 ## Creating New User
 
-![[create_user.gif]]
+
+![image](../../.gitbook/assets/create_user.gif)
 
 
 ### **Options**
@@ -21,8 +22,8 @@
 
 ## Query Editor
 
-![[query-editor.gif]]
+![image](../../.gitbook/assets/query-editor.gif)
 
 ## Load Data using pgAdmin4
 
-![[output.gif]]
+![image](../../.gitbook/assets/load-data.gif)

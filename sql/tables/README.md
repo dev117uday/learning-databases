@@ -2,11 +2,15 @@
 
 ## Creating Table
 
-![[output (1) (1) (2).gif]]
+![image](../../.gitbook/assets/create-table.gif)
 
 ## Altering Table
 
-![[output (2).gif]]
+![image](../../.gitbook/assets/alter-table.gif)
+
+## Add Column
+
+![image](../../.gitbook/assets/add-col.gif)
 
 ```sql
 -- adding column to table

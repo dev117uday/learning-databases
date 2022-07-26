@@ -3,7 +3,7 @@
 
 ## Left Join
 
-![[image (4).png]]
+![image](../../.gitbook/assets/left-join.png)
 
 ### Basic
 
@@ -97,7 +97,7 @@ where mv.movie_lang in ('English', 'Chinese');
 
 ## Right Join
 
-![[image (5).png]]
+![image](../../.gitbook/assets/outer-join.png)
 
 ### Syntax
 

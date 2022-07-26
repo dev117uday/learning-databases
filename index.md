@@ -3,7 +3,7 @@
 ## SQL
 
 * [Getting Started](sql/getting-started/README.md)
-* [PgAdmin Tool](administration-task.md)
+* [PgAdmin Tool](sql/getting-started/administration-task.md)
 * [Database](sql/working-with-database/README.md)
   * [Schema](sql/working-with-database/schema.md)
 * [Data Types](sql/data-types/README.md)
