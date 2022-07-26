@@ -2,9 +2,7 @@
 
 ## Creating New User
 
-
-![image](../../.gitbook/assets/create_user.gif)
-
+![image](../../.gitbook/assets/create\_user.gif)
 
 ### **Options**
 
@@ -18,7 +16,7 @@
 
 **Refer to documentation for more details**
 
-- https://www.pgadmin.org/docs/pgadmin4/development/role_dialog.html
+* https://www.pgadmin.org/docs/pgadmin4/development/role\_dialog.html
 
 ## Query Editor
 
@@ -26,4 +24,4 @@
 
 ## Load Data using pgAdmin4
 
-![image](../../.gitbook/assets/load-data.gif)
+![image](<../../.gitbook/assets/load-data (1).gif>)

@@ -1,6 +1,6 @@
 # Getting Started
 
-## Starting Database with Docker
+### Starting Database with Docker
 
 ```bash
 docker run --name <docker_name> 
@@ -12,15 +12,15 @@ docker exec -it <docker_name> bash
 psql -U postgres
 ```
 
-## Installing PostgreSQL on windows
+### Installing PostgreSQL on windows
 
-- https://www.postgresql.org/download/windows/
+* https://www.postgresql.org/download/windows/
 
-## Installing PostgreSQL on MacOS
+### Installing PostgreSQL on MacOS
 
 [https://www.postgresql.org/download/macosx/](https://www.postgresql.org/download/macosx/)
 
-## Setup and Basics : using apt
+### Setup and Basics : using apt
 
 **Installation**
 
@@ -36,13 +36,13 @@ service postgresql
 
 **Switch to default user**
 
-```text
+```
 sudo su postgres
 ```
 
-## Getting Started
+### Getting Started
 
-### Connect to a database
+#### Connect to a database
 
 ```bash
 Connection options:
@@ -68,7 +68,7 @@ Connection options:
 \c db_name user_name
 ```
 
-## Commands
+### Commands
 
 ```sql
 -- to list all tables
@@ -129,10 +129,10 @@ Connection options:
 \timing
 ```
 
-# Load Data
+## Load Data
 
 Download the sample data file from here
 
-- https://drive.google.com/file/d/1vsFVuybjNDacNaV5LmaSI__a6dCpEdmT/view?usp=sharing
+* https://drive.google.com/file/d/1vsFVuybjNDacNaV5LmaSI\_\_a6dCpEdmT/view?usp=sharing
 
-![image](../../.gitbook/assets/load-data.gif)
+![image](<../../.gitbook/assets/load-data (1).gif>)

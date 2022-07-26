@@ -68,7 +68,6 @@ SELECT * FROM most_popular_films;
  An American Pickle       |         2020
 -- The Godfather          |         1972
  Greyhound                |         2020
-
 ```
 
 ### UNION with ORDER BY
@@ -95,7 +94,7 @@ Like the [UNION](https://www.postgresqltutorial.com/postgresql-union/) and [EXCE
 
 The `INTERSECT` operator returns any rows that are available in both result sets.
 
-![image](../../.gitbook/assets/intersect.png)
+![image](<../../.gitbook/assets/intersect (1).png>)
 
 ```sql
 SELECT *
@@ -111,8 +110,7 @@ FROM top_rated_films;
 
 ## Except
 
-The `EXCEPT` operator returns distinct rows from the first (left) query that are not in the output of the second (right) query.\
-
+The `EXCEPT` operator returns distinct rows from the first (left) query that are not in the output of the second (right) query.\\
 
 ```sql
 SELECT * FROM top_rated_films

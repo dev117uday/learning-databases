@@ -1,4 +1,4 @@
-# PL/PGSQL
+# PL/pgSQL
 
 ## Declaring Variables
 
@@ -23,7 +23,6 @@ $$
 ## Parameters to Function
 
 ```sql
-
 
 CREATE OR REPLACE FUNCTION function_name 
     (INT, INT) RETURNS INT as
@@ -132,6 +131,7 @@ SELECT * FROM fn_order_by_date_pro();
 ```
 
 ## Conditional Statement inside functions
+
 ## Default Parameters
 
 ```sql
@@ -240,7 +240,6 @@ $$ LANGUAGE PLPGSQL
 ## Loop with Exit condition
 
 ```sql
-
 DO
 $$
     DECLARE 
@@ -280,7 +279,6 @@ $$ LANGUAGE PLPGSQL;
 ## While Loop in PLPGSQL
 
 ```sql
-
 CREATE OR REPLACE FUNCTION fn_while_loop_sum_all(x integer) 
     returns numeric as
 $$
@@ -318,9 +316,7 @@ $$ LANGUAGE PLPGSQL;
 SELECT * FROM fn_api_products_by_names('A%');
 ```
 
-
 ```sql
-
 CREATE OR REPLACE FUNCTION fn_all_orders_greater() RETURNS SETOF order_details as 
 $$
     DECLARE
@@ -338,7 +334,7 @@ $$ language plpgsql;
 select * from fn_all_orders_greater();
 ```
 
-## If data not found condition 
+## If data not found condition
 
 ```sql
 DO
@@ -403,4 +399,3 @@ $$ LANGUAGE PLPGSQL;
 
 SELECT fn_div_exception(5,0);
 ```
-
