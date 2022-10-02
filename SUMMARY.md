@@ -58,3 +58,4 @@
 * [Cassandra](cassandra/README.md)
   * [CQL](cassandra/cql.md)
   * [Data Modelling](cassandra/data-modelling.md)
+  * [Cassandra Administration](cassandra/cassandra-administration.md)

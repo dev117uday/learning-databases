@@ -7,9 +7,15 @@ description: SycllaDB to be precise
 ### Setup : Docker
 
 ```bash
-sudo docker run --name scyllaTest -d scylladb/scylla
-sudo docker exec -it scyllaTest nodetool status
-sudo docker exec -it scyllaTest cqlsh
+docker run --name Node_X -d scylladb/scylla:4.5.0 --overprovisioned 1 --smp 1
+
+docker run --name Node_Y -d scylladb/scylla:4.5.0  \ 
+    --seeds="$(docker inspect --format='{{ .NetworkSettings.IPAddress }}' Node_X)" \
+    --overprovisioned 1 --smp 1
+
+docker run --name Node_Z -d scylladb/scylla:4.5.0 \ 
+    --seeds="$(docker inspect --format='{{ .NetworkSettings.IPAddress }}' Node_X)" \ 
+    --overprovisioned 1 --smp 1
 ```
 
 Scylla runs nodes in a hash ring. All nodes are equal:
@@ -60,11 +66,17 @@ A Table is how Scylla stores data and can be thought of as a set of rows and col
 
 #### Keyspace
 
-A Keyspace is a collection of tables with attributes that define how data is replicated on nodes. It defines several options that apply to all the tables it contains, most prominently of which is the replication strategy used by the Keyspace. It is generally encouraged to use one Keyspace per application, and thus a Cluster may define only one Keyspace.
+A Keyspace is a collection of tables with attributes that define how data is replicated on nodes. It defines several options that apply to all the tables it contains, most prominently of which is the replication strategy used by the Keyspace.&#x20;
 
 #### CQL
 
 A query language for interacting with the Scylla (or Cassandra) database.
+
+#### Partition Key
+
+One or more columns that are responsible for data distribution across the nodes. It determines in which nodes to store a given row
+
+<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption><p>partition key</p></figcaption></figure>
 
 #### CQL Shell
 
@@ -80,11 +92,11 @@ A configurable setting which dictates how many replicas in a Cluster must acknow
 
 #### Tunable Consistency
 
-The possibility for unique, per-query, Consistency Level settings. These are incremental and override fixed database settings intended to enforce data consistency. Such settings may be set directly from a CQL statement when response speed for a given query or operation is more important.
+The possibility for unique, per-query, Consistency Level settings. These are incremental and override fixed database settings intended to enforce data consistency.&#x20;
 
 #### Replication Factor
 
-The total number of replica Nodes across a given Cluster. A Replication Factor of 1 means that the data will only exist on a single Node in the Cluster and this setup will not have any fault tolerance. The Replication Factor is set for each Keyspace. All replicas share equal priority; there are no primary or master replicas.
+The total number of replica Nodes across a given Cluster. A Replication Factor of 1 means that the data will only exist on a single Node in the Cluster and this setup will not have any fault tolerance.&#x20;
 
 #### CAP Theorem
 
@@ -92,15 +104,19 @@ The CAP Theorem is a concept that states that a distributed database system can 
 
 #### Token Ranges
 
-Each [node](https://university.scylladb.com/topic/node/) in a ring is assigned a range. The [hash function](https://en.wikipedia.org/wiki/Hash\_function) computes a token for a given partition key. The hash function determines the placement of the data in the [cluster](https://university.scylladb.com/topic/cluster-node-ring/).
+Each node in a ring is assigned a range. The [hash function](https://en.wikipedia.org/wiki/Hash\_function) computes a token for a given partition key. The hash function determines the placement of the data in the cluster.
 
 Without using **Vnodes** or virtual nodes, each node could only support one token range. By using vnodes, each node can support multiple, non-contiguous token ranges. By doing this, we can think of each physical node as hosting many virtual nodes. By default, each node has 256 virtual nodes.
 
 #### Gossips
 
-Scylla, like Apache Cassandra, uses a type of inter-node communication protocol called Gossip.
+For nodes to exchange information with each other. Gossip is decentralized, and there is no single point of failure. It’s used for peer node discovery and metadata propagation. Gossip communication occurs periodically.
 
-For [nodes](https://university.scylladb.com/topic/node/) to exchange information with each other. Gossip is decentralized, and there is no single point of failure. It’s used for peer node discovery and metadata propagation. Gossip communication occurs periodically. Each node communicates with three other nodes. Eventually (within a few seconds), the information is propagated throughout the [cluster](https://university.scylladb.com/topic/cluster-node-ring/). To see whether a node is communicating using Gossip, we use the _**statusgossip**_ command:
+**Replication Strategy**
+
+Simple Strategy – Places the first replica on the node selected by the partitioner. Remaining replicas are placed in the clockwise direction on the node ring. This replication strategy **should not** be used in production environments.&#x20;
+
+Network Topology Strategy **–** Places replicas in a clockwise direction in the ring until it reaches the first node of a different rack. This is used for clusters deployed across multiple data centers. Using this strategy allows you to define the number of replicas for each DC
 
 ### Cluster Level Read/Write Interaction
 
@@ -114,3 +130,23 @@ Since each node is equal in Scylla, any node can receive a read/write request. T
 2. The node the client connected to is now designated as the Coordinator Node. The Coordinator Node, based on [hashing](https://en.wikipedia.org/wiki/Hash\_function) the data, using the partition key and on the [Replication Strategy](https://university.scylladb.com/topic/replication-strategy/), sends the request to the applicable nodes. Inter-node messages are sent through a messaging queue in an asynchronous way.
 3. The [Consistency Level](https://university.scylladb.com/topic/consistency-level-cl/) determines the number of nodes the coordinator needs to hear back from, in order for the request to be successful.
 4. The client is notified if the request was successful.
+
+### Core Principles of Cassandra
+
+The database is designed around several core principles:
+
+* **High Scalability** – the system must scale both horizontally (adding more [nodes](https://university.scylladb.com/topic/node/)) as well as vertically (make optimal use of modern multi-core, multi-CPU node architectures, and high-capacity storage devices).
+* **High Availability** – the system should have low latency and remain highly accessible for operations even if one or more nodes are in a failure state, or if there is a network failure.
+* **High performance** – the system should run as close to the hardware as possible to deliver low and consistent latency as well as very high throughput.
+* **Low Maintenance** – the system should include ease-of-use features, such as autonomous capabilities and automated facilities, for example, the ability to intelligently configure itself and tune its performance.
+
+### Replication Strategy
+
+* _SimpleStrategy_&#x20;
+
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption><p>simple strategy</p></figcaption></figure>
+
+* _NetworkTopologyStrategy_
+
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>network topology strategy</p></figcaption></figure>
+
