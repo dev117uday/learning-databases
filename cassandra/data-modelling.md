@@ -2,6 +2,16 @@
 
 In Scylla, as opposed to relational databases, the data model is based around the queries and not just around the domain entities. When creating the data model, we take into account both the conceptual data model and the application workflow: which queries will be performed by which users and how often.
 
+<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+
+
+
+| 1   | Query-based: Application -> Data -> Model | Entity-based: Data -> Model -> Application |
+| --- | ----------------------------------------- | ------------------------------------------ |
+| 4   | Denormalization                           | Support for foreign-keys, Joins            |
+| 5   | CAP Theorem, Eventual Consistency         | ACID Guarantee                             |
+| _6_ | Distributed Architecture                  | Mostly single point of failure             |
+
 ### Things to keep in mind when design Tables
 
 * **Even data distribution**: data should be evenly spread across the cluster so that every **node** holds roughly the same amount of data. Scylla determines which node should store the data based on hashing the partition key. Therefore, choosing a suitable partition key is crucial. More on this later on.
@@ -34,7 +44,7 @@ To query without the partition key, cluster would have to perform full scan whic
 
 #### Example:
 
-```
+```sql
 CREATE TABLE heartrate_v1 (
    pet_chip_id uuid,
    time timestamp,
@@ -84,7 +94,7 @@ This also eliminates the problem of storing just one value for a primary key. Pa
 
 **If we have multiple partition keys**
 
-```
+```sql
 CREATE TABLE heartrate_v3 (
    pet_chip_id uuid,
    time timestamp,
@@ -99,7 +109,7 @@ VALUES (123e4567-e89b-12d3-a456-426655440b23, '2019-03-04 07:01:10', 90, 'Duke')
 
 this query wont work, cuz we need both the partition keys
 
-```
+```sql
 SELECT * from heartrate_v3 
 WHERE pet_chip_id = 123e4567-e89b-12d3-a456-426655440b23;
 ```
@@ -108,7 +118,7 @@ WHERE pet_chip_id = 123e4567-e89b-12d3-a456-426655440b23;
 
 it is possible to define (do this):
 
-```
+```sql
 CREATE TABLE heartrate_v4 (
    pet_chip_id uuid,
    time timestamp,
@@ -124,7 +134,7 @@ CREATE TABLE heartrate_v4 (
 
 It **fails**, as `pet_name` comes before `heart_rate` sin the clustering key.
 
-```
+```sql
 SELECT * from heartrate_v4 
 WHERE pet_chip_id = 123e4567-e89b-12d3-a456-426655440b23 
 AND heart_rate = 100;
@@ -134,7 +144,7 @@ By default, sorting is based on the natural (ASC) order of the clustering column
 
 In order to get query in DESC order, we would need to define the table in the same way
 
-```
+```sql
 CREATE TABLE heartrate_v5 (
    pet_chip_id uuid,
    time timestamp,
@@ -143,3 +153,17 @@ CREATE TABLE heartrate_v5 (
 ) WITH CLUSTERING ORDER BY (time DESC);
 ```
 
+### Creating Partitions
+
+We don't need partitions size to grow too big, so we can break them by using composite partition key. For example&#x20;
+
+```
+CREATE TABLE heartrate_v2 (
+    pet_chip_id  uuid,
+    date text,
+    time timestamp,
+    heart_rate int,
+    PRIMARY KEY ((pet_chip_id,date), time));
+```
+
+In this case, we would be able to query by pet\_chip, for a given day, without having large partitions. The partition size will be limited by the day. Every day, a new partition will be created for each pet.

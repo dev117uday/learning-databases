@@ -59,3 +59,4 @@
   * [CQL](cassandra/cql.md)
   * [Data Modelling](cassandra/data-modelling.md)
   * [Cassandra Administration](cassandra/cassandra-administration.md)
+  * [Cassandra Features](cassandra/cassandra-features.md)

@@ -57,3 +57,50 @@ WHERE
 
 All inserts in Scylla DB (and Cassandra) are actually upserts (insert/update). There can be only one set of values for each unique primary key. If we insert again with the same primary key, the values will be updated.
 
+### Data Modelling
+
+{% embed url="https://docs.scylladb.com/stable/cql/types.html" %}
+
+#### Map
+
+```sql
+CREATE TABLE pets_v1 (
+    pet_chip_id text PRIMARY KEY,
+    pet_name text,
+    favorite_things map<text, text> // A map of text keys, and text values
+);
+
+INSERT INTO pets_v1 (pet_chip_id, pet_name, favorite_things)
+           VALUES ('123e4567-e89b-12d3-a456-426655440b23', 
+           'Rocky', { 'food' : 'Turkey', 'toy' : 'Tennis Ball' });
+```
+
+#### Set
+
+```sql
+CREATE TABLE pets_v2 (
+    pet_name text PRIMARY KEY,
+    address text,
+    vaccinations set<text> 
+);
+```
+
+```sql
+INSERT INTO pets_v2 (pet_name, address, vaccinations)
+            VALUES ('Rocky', '11 Columbia ave, New York NY', 
+            { 'Heartworm', 'Canine Hepatitis' });
+```
+
+#### List
+
+```sql
+CREATE TABLE pets_v3 (
+    pet_name text PRIMARY KEY,
+    address text,
+    vaccinations list<text>
+);
+
+INSERT INTO pets_v3 (pet_name, address, vaccinations)
+            VALUES ('Rocky', '11 Columbia ave, New York NY',  
+            ['Heartworm', 'Canine Hepatitis', 'Heartworm']);
+```
