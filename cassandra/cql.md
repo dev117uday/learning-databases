@@ -55,3 +55,5 @@ WHERE
 
 ```
 
+All inserts in Scylla DB (and Cassandra) are actually upserts (insert/update). There can be only one set of values for each unique primary key. If we insert again with the same primary key, the values will be updated.
+
