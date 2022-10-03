@@ -57,6 +57,7 @@
 * [Redis](redis.md)
 * [Cassandra](cassandra/README.md)
   * [CQL](cassandra/cql.md)
-  * [Data Modelling](cassandra/data-modelling.md)
+  * [Data Modelling](cassandra/data-modelling/README.md)
+    * [Advance Data Modelling](cassandra/data-modelling/advance-data-modelling.md)
   * [Cassandra Administration](cassandra/cassandra-administration.md)
   * [Cassandra Features](cassandra/cassandra-features.md)

@@ -65,5 +65,5 @@
 ## Cassandra
 
 * [Cassandra : Scylla](broken-reference)
-* [Data Modelling](cassandra/data-modelling.md)
+* [Data Modelling](cassandra/data-modelling/)
 * [CQL](cassandra/cql.md)
