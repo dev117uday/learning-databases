@@ -133,6 +133,6 @@ Connection options:
 
 Download the sample data file from here
 
-* https://drive.google.com/file/d/1vsFVuybjNDacNaV5LmaSI\_\_a6dCpEdmT/view?usp=sharing
+* [https://drive.google.com/file/d/1vsFVuybjNDacNaV5LmaSI\_\_a6dCpEdmT/view?usp=sharing](https://drive.google.com/file/d/1lssFN3I74qG2e7DuYMw8GeYCoVRo9Wtl/view?usp=drive\_link)
 
 ![image](<../../.gitbook/assets/load-data (1).gif>)
